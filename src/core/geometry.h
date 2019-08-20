@@ -653,24 +653,24 @@ class Bounds2 {
  public:
   // Bounds2 Public Methods
   Bounds2() {
-    T minNum = std::numeric_limits<T>::lowest();
-    T maxNum = std::numeric_limits<T>::max();
-    pMin = Point2<T>(maxNum, maxNum);
-    pMax = Point2<T>(minNum, minNum);
+    T min_num = std::numeric_limits<T>::lowest();
+    T max_num = std::numeric_limits<T>::max();
+    p_min = Point2<T>(max_num, max_num);
+    p_max = Point2<T>(min_num, min_num);
   }
-  explicit Bounds2(const Point2<T> &p) : pMin(p), pMax(p) {}
+  explicit Bounds2(const Point2<T> &p) : p_min(p), p_max(p) {}
   Bounds2(const Point2<T> &p1, const Point2<T> &p2) {
-    pMin = Point2<T>(std::min(p1.x, p2.x), std::min(p1.y, p2.y));
-    pMax = Point2<T>(std::max(p1.x, p2.x), std::max(p1.y, p2.y));
+    p_min = Point2<T>(std::min(p1.x, p2.x), std::min(p1.y, p2.y));
+    p_max = Point2<T>(std::max(p1.x, p2.x), std::max(p1.y, p2.y));
   }
   template <typename U>
   explicit operator Bounds2<U>() const {
-    return Bounds2<U>((Point2<U>)pMin, (Point2<U>)pMax);
+    return Bounds2<U>((Point2<U>)p_min, (Point2<U>)p_max);
   }
 
-  Vector2<T> Diagonal() const { return pMax - pMin; }
+  Vector2<T> Diagonal() const { return p_max - p_min; }
   T Area() const {
-    Vector2<T> d = pMax - pMin;
+    Vector2<T> d = p_max - p_min;
     return (d.x * d.y);
   }
   int MaximumExtent() const {
@@ -682,39 +682,39 @@ class Bounds2 {
   }
   inline const Point2<T> &operator[](int i) const {
     DCHECK(i == 0 || i == 1);
-    return (i == 0) ? pMin : pMax;
+    return (i == 0) ? p_min : p_max;
   }
   inline Point2<T> &operator[](int i) {
     DCHECK(i == 0 || i == 1);
-    return (i == 0) ? pMin : pMax;
+    return (i == 0) ? p_min : p_max;
   }
   bool operator==(const Bounds2<T> &b) const {
-    return b.pMin == pMin && b.pMax == pMax;
+    return b.p_min == p_min && b.p_max == p_max;
   }
   bool operator!=(const Bounds2<T> &b) const {
-    return b.pMin != pMin || b.pMax != pMax;
+    return b.p_min != p_min || b.p_max != p_max;
   }
   Point2<T> Lerp(const Point2f &t) const {
-    return Point2<T>(chihaya::Lerp(t.x, pMin.x, pMax.x),
-                     chihaya::Lerp(t.y, pMin.y, pMax.y));
+    return Point2<T>(chihaya::Lerp(t.x, p_min.x, p_max.x),
+                     chihaya::Lerp(t.y, p_min.y, p_max.y));
   }
   Vector2<T> Offset(const Point2<T> &p) const {
-    Vector2<T> o = p - pMin;
-    if (pMax.x > pMin.x) o.x /= pMax.x - pMin.x;
-    if (pMax.y > pMin.y) o.y /= pMax.y - pMin.y;
+    Vector2<T> o = p - p_min;
+    if (p_max.x > p_min.x) o.x /= p_max.x - p_min.x;
+    if (p_max.y > p_min.y) o.y /= p_max.y - p_min.y;
     return o;
   }
   void BoundingSphere(Point2<T> *c, Float *rad) const {
-    *c = (pMin + pMax) / 2;
-    *rad = Inside(*c, *this) ? Distance(*c, pMax) : 0;
+    *c = (p_min + p_max) / 2;
+    *rad = Inside(*c, *this) ? Distance(*c, p_max) : 0;
   }
   friend std::ostream &operator<<(std::ostream &os, const Bounds2<T> &b) {
-    os << "[ " << b.pMin << " - " << b.pMax << " ]";
+    os << "[ " << b.p_min << " - " << b.p_max << " ]";
     return os;
   }
 
   // Bounds2 Public Data
-  Point2<T> pMin, pMax;
+  Point2<T> p_min, p_max;
 };
 
 template <typename T>
@@ -722,24 +722,24 @@ class Bounds3 {
  public:
   // Bounds3 Public Methods
   Bounds3() {
-    T minNum = std::numeric_limits<T>::lowest();
-    T maxNum = std::numeric_limits<T>::max();
-    pMin = Point3<T>(maxNum, maxNum, maxNum);
-    pMax = Point3<T>(minNum, minNum, minNum);
+    T min_num = std::numeric_limits<T>::lowest();
+    T max_num = std::numeric_limits<T>::max();
+    p_min = Point3<T>(max_num, max_num, max_num);
+    p_max = Point3<T>(min_num, min_num, min_num);
   }
-  explicit Bounds3(const Point3<T> &p) : pMin(p), pMax(p) {}
+  explicit Bounds3(const Point3<T> &p) : p_min(p), p_max(p) {}
   Bounds3(const Point3<T> &p1, const Point3<T> &p2)
-      : pMin(std::min(p1.x, p2.x), std::min(p1.y, p2.y),
+      : p_min(std::min(p1.x, p2.x), std::min(p1.y, p2.y),
              std::min(p1.z, p2.z)),
-        pMax(std::max(p1.x, p2.x), std::max(p1.y, p2.y),
+        p_max(std::max(p1.x, p2.x), std::max(p1.y, p2.y),
              std::max(p1.z, p2.z)) {}
   const Point3<T> &operator[](int i) const;
   Point3<T> &operator[](int i);
   bool operator==(const Bounds3<T> &b) const {
-    return b.pMin == pMin && b.pMax == pMax;
+    return b.p_min == p_min && b.p_max == p_max;
   }
   bool operator!=(const Bounds3<T> &b) const {
-    return b.pMin != pMin || b.pMax != pMax;
+    return b.p_min != p_min || b.p_max != p_max;
   }
   Point3<T> Corner(int corner) const {
     DCHECK(corner >= 0 && corner < 8);
@@ -747,7 +747,7 @@ class Bounds3 {
                      (*this)[(corner & 2) ? 1 : 0].y,
                      (*this)[(corner & 4) ? 1 : 0].z);
   }
-  Vector3<T> Diagonal() const { return pMax - pMin; }
+  Vector3<T> Diagonal() const { return p_max - p_min; }
   T SurfaceArea() const {
     Vector3<T> d = Diagonal();
     return 2 * (d.x * d.y + d.x * d.z + d.y * d.z);
@@ -766,36 +766,36 @@ class Bounds3 {
       return 2;
   }
   Point3<T> Lerp(const Point3f &t) const {
-    return Point3<T>(chihaya::Lerp(t.x, pMin.x, pMax.x),
-                     chihaya::Lerp(t.y, pMin.y, pMax.y),
-                     chihaya::Lerp(t.z, pMin.z, pMax.z));
+    return Point3<T>(chihaya::Lerp(t.x, p_min.x, p_max.x),
+                     chihaya::Lerp(t.y, p_min.y, p_max.y),
+                     chihaya::Lerp(t.z, p_min.z, p_max.z));
   }
   Vector3<T> Offset(const Point3<T> &p) const {
-    Vector3<T> o = p - pMin;
-    if (pMax.x > pMin.x) o.x /= pMax.x - pMin.x;
-    if (pMax.y > pMin.y) o.y /= pMax.y - pMin.y;
-    if (pMax.z > pMin.z) o.z /= pMax.z - pMin.z;
+    Vector3<T> o = p - p_min;
+    if (p_max.x > p_min.x) o.x /= p_max.x - p_min.x;
+    if (p_max.y > p_min.y) o.y /= p_max.y - p_min.y;
+    if (p_max.z > p_min.z) o.z /= p_max.z - p_min.z;
     return o;
   }
   void BoundingSphere(Point3<T> *center, Float *radius) const {
-    *center = (pMin + pMax) / 2;
-    *radius = Inside(*center, *this) ? Distance(*center, pMax) : 0;
+    *center = (p_min + p_max) / 2;
+    *radius = Inside(*center, *this) ? Distance(*center, p_max) : 0;
   }
   template <typename U>
   explicit operator Bounds3<U>() const {
-    return Bounds3<U>((Point3<U>)pMin, (Point3<U>)pMax);
+    return Bounds3<U>((Point3<U>)p_min, (Point3<U>)p_max);
   }
   bool IntersectP(const Ray &ray, Float *hitt0 = nullptr,
                   Float *hitt1 = nullptr) const;
   inline bool IntersectP(const Ray &ray, const Vector3f &invDir,
                          const int dirIsNeg[3]) const;
   friend std::ostream &operator<<(std::ostream &os, const Bounds3<T> &b) {
-    os << "[ " << b.pMin << " - " << b.pMax << " ]";
+    os << "[ " << b.p_min << " - " << b.p_max << " ]";
     return os;
   }
 
   // Bounds3 Public Data
-  Point3<T> pMin, pMax;
+  Point3<T> p_min, p_max;
 };
 
 typedef Bounds2<Float> Bounds2f;
@@ -828,8 +828,8 @@ class Bounds2iIterator : public std::forward_iterator_tag {
  private:
   void advance() {
     ++p.x;
-    if (p.x == bounds->pMax.x) {
-      p.x = bounds->pMin.x;
+    if (p.x == bounds->p_max.x) {
+      p.x = bounds->p_min.x;
       ++p.y;
     }
   }
@@ -841,14 +841,14 @@ class Bounds2iIterator : public std::forward_iterator_tag {
 class Ray {
  public:
   // Ray Public Methods
-  Ray() : tMax(Infinity), time(0.f), medium(nullptr) {}
-  Ray(const Point3f &o, const Vector3f &d, Float tMax = Infinity,
+  Ray() : t_max(Infinity), time(0.f), medium(nullptr) {}
+  Ray(const Point3f &o, const Vector3f &d, Float t_max = Infinity,
       Float time = 0.f, const Medium *medium = nullptr)
-      : o(o), d(d), tMax(tMax), time(time), medium(medium) {}
+      : o(o), d(d), t_max(t_max), time(time), medium(medium) {}
   Point3f operator()(Float t) const { return o + d * t; }
-  bool HasNaNs() const { return (o.HasNaNs() || d.HasNaNs() || isNaN(tMax)); }
+  bool HasNaNs() const { return (o.HasNaNs() || d.HasNaNs() || isNaN(t_max)); }
   friend std::ostream &operator<<(std::ostream &os, const Ray &r) {
-    os << "[o=" << r.o << ", d=" << r.d << ", tMax=" << r.tMax
+    os << "[o=" << r.o << ", d=" << r.d << ", t_max=" << r.t_max
        << ", time=" << r.time << "]";
     return os;
   }
@@ -856,7 +856,7 @@ class Ray {
   // Ray Public Data
   Point3f o;
   Vector3f d;
-  mutable Float tMax;
+  mutable Float t_max;
   Float time;
   const Medium *medium;
 };
@@ -865,9 +865,9 @@ class RayDifferential : public Ray {
  public:
   // RayDifferential Public Methods
   RayDifferential() { hasDifferentials = false; }
-  RayDifferential(const Point3f &o, const Vector3f &d, Float tMax = Infinity,
+  RayDifferential(const Point3f &o, const Vector3f &d, Float t_max = Infinity,
                   Float time = 0.f, const Medium *medium = nullptr)
-      : Ray(o, d, tMax, time, medium) {
+      : Ray(o, d, t_max, time, medium) {
     hasDifferentials = false;
   }
   RayDifferential(const Ray &ray) : Ray(ray) { hasDifferentials = false; }
@@ -1209,76 +1209,76 @@ Normal3<T> Abs(const Normal3<T> &v) {
 template <typename T>
 inline const Point3<T> &Bounds3<T>::operator[](int i) const {
   DCHECK(i == 0 || i == 1);
-  return (i == 0) ? pMin : pMax;
+  return (i == 0) ? p_min : p_max;
 }
 
 template <typename T>
 inline Point3<T> &Bounds3<T>::operator[](int i) {
   DCHECK(i == 0 || i == 1);
-  return (i == 0) ? pMin : pMax;
+  return (i == 0) ? p_min : p_max;
 }
 
 template <typename T>
 Bounds3<T> Union(const Bounds3<T> &b, const Point3<T> &p) {
   Bounds3<T> ret;
-  ret.pMin = Min(b.pMin, p);
-  ret.pMax = Max(b.pMax, p);
+  ret.p_min = Min(b.p_min, p);
+  ret.p_max = Max(b.p_max, p);
   return ret;
 }
 
 template <typename T>
 Bounds3<T> Union(const Bounds3<T> &b1, const Bounds3<T> &b2) {
   Bounds3<T> ret;
-  ret.pMin = Min(b1.pMin, b2.pMin);
-  ret.pMax = Max(b1.pMax, b2.pMax);
+  ret.p_min = Min(b1.p_min, b2.p_min);
+  ret.p_max = Max(b1.p_max, b2.p_max);
   return ret;
 }
 
 template <typename T>
 Bounds3<T> Intersect(const Bounds3<T> &b1, const Bounds3<T> &b2) {
-  // Important: assign to pMin/pMax directly and don't run the Bounds2()
+  // Important: assign to p_min/p_max directly and don't run the Bounds2()
   // constructor, since it takes min/max of the points passed to it.  In
   // turn, that breaks returning an invalid bound for the case where we
   // intersect non-overlapping bounds (as we'd like to happen).
   Bounds3<T> ret;
-  ret.pMin = Max(b1.pMin, b2.pMin);
-  ret.pMax = Min(b1.pMax, b2.pMax);
+  ret.p_min = Max(b1.p_min, b2.p_min);
+  ret.p_max = Min(b1.p_max, b2.p_max);
   return ret;
 }
 
 template <typename T>
 bool Overlaps(const Bounds3<T> &b1, const Bounds3<T> &b2) {
-  bool x = (b1.pMax.x >= b2.pMin.x) && (b1.pMin.x <= b2.pMax.x);
-  bool y = (b1.pMax.y >= b2.pMin.y) && (b1.pMin.y <= b2.pMax.y);
-  bool z = (b1.pMax.z >= b2.pMin.z) && (b1.pMin.z <= b2.pMax.z);
+  bool x = (b1.p_max.x >= b2.p_min.x) && (b1.p_min.x <= b2.p_max.x);
+  bool y = (b1.p_max.y >= b2.p_min.y) && (b1.p_min.y <= b2.p_max.y);
+  bool z = (b1.p_max.z >= b2.p_min.z) && (b1.p_min.z <= b2.p_max.z);
   return (x && y && z);
 }
 
 template <typename T>
 bool Inside(const Point3<T> &p, const Bounds3<T> &b) {
-  return (p.x >= b.pMin.x && p.x <= b.pMax.x && p.y >= b.pMin.y &&
-      p.y <= b.pMax.y && p.z >= b.pMin.z && p.z <= b.pMax.z);
+  return (p.x >= b.p_min.x && p.x <= b.p_max.x && p.y >= b.p_min.y &&
+      p.y <= b.p_max.y && p.z >= b.p_min.z && p.z <= b.p_max.z);
 }
 
 template <typename T>
 bool InsideExclusive(const Point3<T> &p, const Bounds3<T> &b) {
-  return (p.x >= b.pMin.x && p.x < b.pMax.x && p.y >= b.pMin.y &&
-      p.y < b.pMax.y && p.z >= b.pMin.z && p.z < b.pMax.z);
+  return (p.x >= b.p_min.x && p.x < b.p_max.x && p.y >= b.p_min.y &&
+      p.y < b.p_max.y && p.z >= b.p_min.z && p.z < b.p_max.z);
 }
 
 template <typename T, typename U>
 inline Bounds3<T> Expand(const Bounds3<T> &b, U delta) {
-  return Bounds3<T>(b.pMin - Vector3<T>(delta, delta, delta),
-                    b.pMax + Vector3<T>(delta, delta, delta));
+  return Bounds3<T>(b.p_min - Vector3<T>(delta, delta, delta),
+                    b.p_max + Vector3<T>(delta, delta, delta));
 }
 
 // Minimum squared distance from point to box; returns zero if point is
 // inside.
 template <typename T, typename U>
 inline Float DistanceSquared(const Point3<T> &p, const Bounds3<U> &b) {
-  Float dx = std::max({Float(0), b.pMin.x - p.x, p.x - b.pMax.x});
-  Float dy = std::max({Float(0), b.pMin.y - p.y, p.y - b.pMax.y});
-  Float dz = std::max({Float(0), b.pMin.z - p.z, p.z - b.pMax.z});
+  Float dx = std::max({Float(0), b.p_min.x - p.x, p.x - b.p_max.x});
+  Float dy = std::max({Float(0), b.p_min.y - p.y, p.y - b.p_max.y});
+  Float dz = std::max({Float(0), b.p_min.z - p.z, p.z - b.p_max.z});
   return dx * dx + dy * dy + dz * dz;
 }
 
@@ -1288,91 +1288,91 @@ inline Float Distance(const Point3<T> &p, const Bounds3<U> &b) {
 }
 
 inline Bounds2iIterator begin(const Bounds2i &b) {
-  return Bounds2iIterator(b, b.pMin);
+  return Bounds2iIterator(b, b.p_min);
 }
 
 inline Bounds2iIterator end(const Bounds2i &b) {
   // Normally, the ending point is at the minimum x value and one past
   // the last valid y value.
-  Point2i pEnd(b.pMin.x, b.pMax.y);
+  Point2i pEnd(b.p_min.x, b.p_max.y);
   // However, if the bounds are degenerate, override the end point to
   // equal the start point so that any attempt to iterate over the bounds
   // exits out immediately.
-  if (b.pMin.x >= b.pMax.x || b.pMin.y >= b.pMax.y)
-    pEnd = b.pMin;
+  if (b.p_min.x >= b.p_max.x || b.p_min.y >= b.p_max.y)
+    pEnd = b.p_min;
   return Bounds2iIterator(b, pEnd);
 }
 
 template <typename T>
 Bounds2<T> Union(const Bounds2<T> &b, const Point2<T> &p) {
   Bounds2<T> ret;
-  ret.pMin = Min(b.pMin, p);
-  ret.pMax = Max(b.pMax, p);
+  ret.p_min = Min(b.p_min, p);
+  ret.p_max = Max(b.p_max, p);
   return ret;
 }
 
 template <typename T>
 Bounds2<T> Union(const Bounds2<T> &b, const Bounds2<T> &b2) {
   Bounds2<T> ret;
-  ret.pMin = Min(b.pMin, b2.pMin);
-  ret.pMax = Max(b.pMax, b2.pMax);
+  ret.p_min = Min(b.p_min, b2.p_min);
+  ret.p_max = Max(b.p_max, b2.p_max);
   return ret;
 }
 
 template <typename T>
 Bounds2<T> Intersect(const Bounds2<T> &b1, const Bounds2<T> &b2) {
-  // Important: assign to pMin/pMax directly and don't run the Bounds2()
+  // Important: assign to p_min/p_max directly and don't run the Bounds2()
   // constructor, since it takes min/max of the points passed to it.  In
   // turn, that breaks returning an invalid bound for the case where we
   // intersect non-overlapping bounds (as we'd like to happen).
   Bounds2<T> ret;
-  ret.pMin = Max(b1.pMin, b2.pMin);
-  ret.pMax = Min(b1.pMax, b2.pMax);
+  ret.p_min = Max(b1.p_min, b2.p_min);
+  ret.p_max = Min(b1.p_max, b2.p_max);
   return ret;
 }
 
 template <typename T>
 bool Overlaps(const Bounds2<T> &ba, const Bounds2<T> &bb) {
-  bool x = (ba.pMax.x >= bb.pMin.x) && (ba.pMin.x <= bb.pMax.x);
-  bool y = (ba.pMax.y >= bb.pMin.y) && (ba.pMin.y <= bb.pMax.y);
+  bool x = (ba.p_max.x >= bb.p_min.x) && (ba.p_min.x <= bb.p_max.x);
+  bool y = (ba.p_max.y >= bb.p_min.y) && (ba.p_min.y <= bb.p_max.y);
   return (x && y);
 }
 
 template <typename T>
 bool Inside(const Point2<T> &pt, const Bounds2<T> &b) {
-  return (pt.x >= b.pMin.x && pt.x <= b.pMax.x && pt.y >= b.pMin.y &&
-      pt.y <= b.pMax.y);
+  return (pt.x >= b.p_min.x && pt.x <= b.p_max.x && pt.y >= b.p_min.y &&
+      pt.y <= b.p_max.y);
 }
 
 template <typename T>
 bool InsideExclusive(const Point2<T> &pt, const Bounds2<T> &b) {
-  return (pt.x >= b.pMin.x && pt.x < b.pMax.x && pt.y >= b.pMin.y &&
-      pt.y < b.pMax.y);
+  return (pt.x >= b.p_min.x && pt.x < b.p_max.x && pt.y >= b.p_min.y &&
+      pt.y < b.p_max.y);
 }
 
 template <typename T, typename U>
 Bounds2<T> Expand(const Bounds2<T> &b, U delta) {
-  return Bounds2<T>(b.pMin - Vector2<T>(delta, delta),
-                    b.pMax + Vector2<T>(delta, delta));
+  return Bounds2<T>(b.p_min - Vector2<T>(delta, delta),
+                    b.p_max + Vector2<T>(delta, delta));
 }
 
 template <typename T>
 inline bool Bounds3<T>::IntersectP(const Ray &ray, Float *hitt0,
                                    Float *hitt1) const {
-  Float t0 = 0, t1 = ray.tMax;
+  Float t0 = 0, t1 = ray.t_max;
   for (int i = 0; i < 3; ++i) {
     // Update interval for _i_th bounding box slab
-    Float invRayDir = 1 / ray.d[i];
-    Float tNear = (pMin[i] - ray.o[i]) * invRayDir;
-    Float tFar = (pMax[i] - ray.o[i]) * invRayDir;
+    Float inv_ray_dir = 1 / ray.d[i];
+    Float t_near = (p_min[i] - ray.o[i]) * inv_ray_dir;
+    Float t_far = (p_max[i] - ray.o[i]) * inv_ray_dir;
 
     // Update parametric interval from slab intersection $t$ values
-    if (tNear > tFar) std::swap(tNear, tFar);
+    if (t_near > t_far) std::swap(t_near, t_far);
 
-    // Update _tFar_ to ensure robust ray--bounds intersection
-    tFar *= 1 + 2 * gamma(3);
-    t0 = tNear > t0 ? tNear : t0;
-    t1 = tFar < t1 ? tFar : t1;
+    // Update _t_far_ to ensure robust ray--bounds intersection
+    t_far *= 1 + 2 * gamma(3);
+    t0 = t_near > t0 ? t_near : t0;
+    t1 = t_far < t1 ? t_far : t1;
     if (t0 > t1) return false;
   }
   if (hitt0) *hitt0 = t0;
@@ -1382,37 +1382,37 @@ inline bool Bounds3<T>::IntersectP(const Ray &ray, Float *hitt0,
 
 template <typename T>
 inline bool Bounds3<T>::IntersectP(const Ray &ray, const Vector3f &invDir,
-                                   const int dirIsNeg[3]) const {
+                                   const int dir_is_neg[3]) const {
   const Bounds3f &bounds = *this;
   // Check for ray intersection against $x$ and $y$ slabs
-  Float tMin = (bounds[dirIsNeg[0]].x - ray.o.x) * invDir.x;
-  Float tMax = (bounds[1 - dirIsNeg[0]].x - ray.o.x) * invDir.x;
-  Float tyMin = (bounds[dirIsNeg[1]].y - ray.o.y) * invDir.y;
-  Float tyMax = (bounds[1 - dirIsNeg[1]].y - ray.o.y) * invDir.y;
+  Float t_min = (bounds[dir_is_neg[0]].x - ray.o.x) * invDir.x;
+  Float t_max = (bounds[1 - dir_is_neg[0]].x - ray.o.x) * invDir.x;
+  Float ty_min = (bounds[dir_is_neg[1]].y - ray.o.y) * invDir.y;
+  Float ty_max = (bounds[1 - dir_is_neg[1]].y - ray.o.y) * invDir.y;
 
-  // Update _tMax_ and _tyMax_ to ensure robust bounds intersection
-  tMax *= 1 + 2 * gamma(3);
-  tyMax *= 1 + 2 * gamma(3);
-  if (tMin > tyMax || tyMin > tMax) return false;
-  if (tyMin > tMin) tMin = tyMin;
-  if (tyMax < tMax) tMax = tyMax;
+  // Update _t_max_ and _ty_max_ to ensure robust bounds intersection
+  t_max *= 1 + 2 * gamma(3);
+  ty_max *= 1 + 2 * gamma(3);
+  if (t_min > ty_max || ty_min > t_max) return false;
+  if (ty_min > t_min) t_min = ty_min;
+  if (ty_max < t_max) t_max = ty_max;
 
   // Check for ray intersection against $z$ slab
-  Float tzMin = (bounds[dirIsNeg[2]].z - ray.o.z) * invDir.z;
-  Float tzMax = (bounds[1 - dirIsNeg[2]].z - ray.o.z) * invDir.z;
+  Float tz_min = (bounds[dir_is_neg[2]].z - ray.o.z) * invDir.z;
+  Float tz_max = (bounds[1 - dir_is_neg[2]].z - ray.o.z) * invDir.z;
 
-  // Update _tzMax_ to ensure robust bounds intersection
-  tzMax *= 1 + 2 * gamma(3);
-  if (tMin > tzMax || tzMin > tMax) return false;
-  if (tzMin > tMin) tMin = tzMin;
-  if (tzMax < tMax) tMax = tzMax;
-  return (tMin < ray.tMax) && (tMax > 0);
+  // Update _tz_max_ to ensure robust bounds intersection
+  tz_max *= 1 + 2 * gamma(3);
+  if (t_min > tz_max || tz_min > t_max) return false;
+  if (tz_min > t_min) t_min = tz_min;
+  if (tz_max < t_max) t_max = tz_max;
+  return (t_min < ray.t_max) && (t_max > 0);
 }
 
-inline Point3f OffsetRayOrigin(const Point3f &p, const Vector3f &pError,
+inline Point3f OffsetRayOrigin(const Point3f &p, const Vector3f &p_error,
                                const Normal3f &n, const Vector3f &w) {
-  Float d = Dot(Abs(n), pError);
-#ifdef PBRT_FLOAT_AS_DOUBLE
+  Float d = Dot(Abs(n), p_error);
+#ifdef CHIHAYA_FLOAT_AS_DOUBLE
   // We have tons of precision; for now bump up the offset a bunch just
     // to be extra sure that we start on the right side of the surface
     // (In case of any bugs in the epsilons code...)
@@ -1431,16 +1431,16 @@ inline Point3f OffsetRayOrigin(const Point3f &p, const Vector3f &pError,
   return po;
 }
 
-inline Vector3f SphericalDirection(Float sinTheta, Float cosTheta, Float phi) {
-  return Vector3f(sinTheta * std::cos(phi), sinTheta * std::sin(phi),
-                  cosTheta);
+inline Vector3f SphericalDirection(Float sin_theta, Float cos_theta, Float phi) {
+  return Vector3f(sin_theta * std::cos(phi), sin_theta * std::sin(phi),
+                  cos_theta);
 }
 
-inline Vector3f SphericalDirection(Float sinTheta, Float cosTheta, Float phi,
+inline Vector3f SphericalDirection(Float sin_theta, Float cos_theta, Float phi,
                                    const Vector3f &x, const Vector3f &y,
                                    const Vector3f &z) {
-  return sinTheta * std::cos(phi) * x + sinTheta * std::sin(phi) * y +
-      cosTheta * z;
+  return sin_theta * std::cos(phi) * x + sin_theta * std::sin(phi) * y +
+      cos_theta * z;
 }
 
 inline Float SphericalTheta(const Vector3f &v) {
