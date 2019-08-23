@@ -60,6 +60,12 @@ class Vector3 {
     z += v.z;
     return *this;
   }
+
+  Vector3<T> operator*(const Vector3<T> &v) const {
+    DCHECK(!v.HasNaNs());
+    return Vector3(x * v.x, y * v.y, z * v.z);
+  }
+
   Vector3<T> operator-(const Vector3<T> &v) const {
     DCHECK(!v.HasNaNs());
     return Vector3(x - v.x, y - v.y, z - v.z);

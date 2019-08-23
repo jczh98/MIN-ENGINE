@@ -21,6 +21,7 @@ bool Sphere::hit(const chihaya::Ray &ray, chihaya::Float t_min, chihaya::Float t
       rec.t = temp;
       rec.p = ray(rec.t);
       rec.normal = (rec.p - center) / radius;
+      rec.mat_ptr = mat_ptr;
       return true;
     }
     temp = (-b + sqrt(discriminant)) / a;
@@ -28,6 +29,7 @@ bool Sphere::hit(const chihaya::Ray &ray, chihaya::Float t_min, chihaya::Float t
       rec.t = temp;
       rec.p = ray(rec.t);
       rec.normal = (rec.p - center) / radius;
+      rec.mat_ptr = mat_ptr;
       return true;
     }
   }

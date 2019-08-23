@@ -13,10 +13,13 @@
 
 CHIHAYA_NAMESPACE_BEGIN
 
+class Material;
+
 struct HitRecord {
   Float t;
   Vector3f p;
   Vector3f normal;
+  Material *mat_ptr;
 };
 
 class Hitable {

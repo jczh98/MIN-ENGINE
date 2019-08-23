@@ -9,18 +9,25 @@
 #include "core/sphere.h"
 #include "core/hitable_list.h"
 #include "core/camera.h"
+#include "core/material.h"
 
 using namespace chihaya;
-Vector3f color(const Ray &r, Hitable *world) {
+
+Vector3f color(const Ray &r, Hitable *world, int depth) {
   HitRecord rec;
-  if (world->hit(r, 0.0, MAXFLOAT, rec)) {
-    return Vector3f(rec.normal.x + 1, rec.normal.y + 1, rec.normal.z + 1) * 0.5;
+  if (world->hit(r, 0.001, MAXFLOAT, rec)) {
+    Ray scattered;
+    Vector3f attenuation;
+    if (depth < 50 && rec.mat_ptr->Scatter(r, rec, attenuation, scattered)) {
+      return attenuation * color(scattered, world, depth + 1);
+    } else {
+      return Vector3f(0, 0, 0);
+    }
   } else {
     Vector3f unit = Normalize(r.d);
     Float t = 0.5 * (unit.y + 1.0);
     return Vector3f(1, 1, 1) * (1.0 - t) + Vector3f(0.5, 0.7, 1.0) * t;
   }
-
 }
 
 int main(int argc, char *argv[]) {
@@ -28,14 +35,12 @@ int main(int argc, char *argv[]) {
   int ny = 100;
   int ns = 100;
   chihaya::Image image(nx, ny, 3);
-  Vector3f lower_left_corner(-2.0, -1.0, -1.0);
-  Vector3f horizontal(4.0, 0.0, 0.0);
-  Vector3f vertical(0.0, 2.0, 0.0);
-  Vector3f origin(0.0, 0.0, 0.0);
-  Hitable *list[2];
-  list[0] = new Sphere(Vector3f(0, 0, -1), 0.5);
-  list[1] = new Sphere(Vector3f(0, -100.5, -1), 100);
-  Hitable *world = new HitableList(list, 2);
+  Hitable *list[4];
+  list[0] = new Sphere(Vector3f(0, 0, -1), 0.5, new Lambertian(Vector3f(0.8, 0.3, 0.3)));
+  list[1] = new Sphere(Vector3f(0, -100.5, -1), 100, new Lambertian(Vector3f(0.8, 0.8, 0.0)));
+  list[2] = new Sphere(Vector3f(1, 0, -1), 0.5, new Metal(Vector3f(0.8, 0.6, 0.2), 0.3));
+  list[3] = new Sphere(Vector3f(-1, 0, -1), 0.5, new Metal(Vector3f(0.8, 0.8, 0.8), 1.0));
+  Hitable *world = new HitableList(list, 4);
   Camera camera;
   for (int j = ny - 1; j >= 0; --j) {
     for (int i = 0; i < nx; ++i) {
@@ -45,9 +50,10 @@ int main(int argc, char *argv[]) {
         Float v = Float(j + drand48()) / Float(ny);
         Ray r = camera.GetRay(u, v);
         Vector3f p = r(2);
-        col += color(r, world);
+        col += color(r, world, 0);
       }
       col /= ns;
+      col = Vector3f(sqrt(col.x), sqrt(col.y), sqrt(col.z));
       int ir = int(255.99 * col.x);
       int ig = int(255.99 * col.y);
       int ib = int(255.99 * col.z);
