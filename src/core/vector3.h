@@ -134,6 +134,32 @@ inline Vector3<T> Normalize(const Vector3<T> &v) {
   return v / v.Length();
 }
 
+template <typename T>
+Vector3<T> Abs(const Vector3<T> &v) {
+  return Vector3<T>(std::abs(v.x), std::abs(v.y), std::abs(v.z));
+}
+
+template <typename T>
+inline T Dot(const Vector3<T> &v1, const Vector3<T> &v2) {
+  DCHECK(!v1.HasNaNs() && !v2.HasNaNs());
+  return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
+}
+
+template <typename T>
+inline T AbsDot(const Vector3<T> &v1, const Vector3<T> &v2) {
+  DCHECK(!v1.HasNaNs() && !v2.HasNaNs());
+  return std::abs(Dot(v1, v2));
+}
+
+template <typename T>
+inline Vector3<T> Cross(const Vector3<T> &v1, const Vector3<T> &v2) {
+  DCHECK(!v1.HasNaNs() && !v2.HasNaNs());
+  double v1x = v1.x, v1y = v1.y, v1z = v1.z;
+  double v2x = v2.x, v2y = v2.y, v2z = v2.z;
+  return Vector3<T>((v1y * v2z) - (v1z * v2y), (v1z * v2x) - (v1x * v2z),
+                    (v1x * v2y) - (v1y * v2x));
+}
+
 CHIHAYA_NAMESPACE_END
 
 #endif //CHIHAYA_SRC_CORE_VECTOR3_H_
