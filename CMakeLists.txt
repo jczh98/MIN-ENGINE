@@ -5,13 +5,17 @@ set(CMAKE_CXX_STANDARD 17)
 
 # glog
 add_subdirectory(external/glog)
+add_subdirectory(external/fmt)
+include_directories(external/stb)
 include_directories(external/glog/src)
 
 file(GLOB coreSrc
-        src/core/*.cc)
+        src/core/*.cc
+        src/core/*.h)
 
 set(CHIHAYA_LIBS
-        glog)
+        glog
+        fmt)
 
 add_executable(chihaya src/main.cpp
         ${coreSrc})
