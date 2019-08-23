@@ -8,6 +8,7 @@
 #include "core/ray.h"
 #include "core/sphere.h"
 #include "core/hitable_list.h"
+#include "core/camera.h"
 
 using namespace chihaya;
 Vector3f color(const Ray &r, Hitable *world) {
@@ -25,6 +26,7 @@ Vector3f color(const Ray &r, Hitable *world) {
 int main(int argc, char *argv[]) {
   int nx = 200;
   int ny = 100;
+  int ns = 100;
   chihaya::Image image(nx, ny, 3);
   Vector3f lower_left_corner(-2.0, -1.0, -1.0);
   Vector3f horizontal(4.0, 0.0, 0.0);
@@ -34,13 +36,18 @@ int main(int argc, char *argv[]) {
   list[0] = new Sphere(Vector3f(0, 0, -1), 0.5);
   list[1] = new Sphere(Vector3f(0, -100.5, -1), 100);
   Hitable *world = new HitableList(list, 2);
+  Camera camera;
   for (int j = ny - 1; j >= 0; --j) {
     for (int i = 0; i < nx; ++i) {
-      float u = float(i) / float(nx);
-      float v = float(j) / float(ny);
-      Ray ray(origin, lower_left_corner + horizontal * u + vertical * v);
-      Vector3f p = ray(2.0);
-      Vector3f col = color(ray, world);
+      Vector3f col(0, 0, 0);
+      for (int s = 0; s < ns; ++s) {
+        Float u = Float(i + drand48()) / Float(nx);
+        Float v = Float(j + drand48()) / Float(ny);
+        Ray r = camera.GetRay(u, v);
+        Vector3f p = r(2);
+        col += color(r, world);
+      }
+      col /= ns;
       int ir = int(255.99 * col.x);
       int ig = int(255.99 * col.y);
       int ib = int(255.99 * col.z);
