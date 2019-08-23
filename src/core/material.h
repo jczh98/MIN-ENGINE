@@ -25,15 +25,14 @@ Vector3f Reflect(const Vector3f &v, const Vector3f &n) {
   return v - n * 2 * Dot(v, n);
 }
 
-bool Refract(const Vector3f& v, const Vector3f& n, float ni_over_nt, Vector3f& refracted) {
+bool Refract(const Vector3f &v, const Vector3f &n, float ni_over_nt, Vector3f &refracted) {
   Vector3f uv = Normalize(v);
   Float dt = Dot(uv, n);
-  Float discriminant = 1.0 - ni_over_nt*ni_over_nt*(1-dt*dt);
+  Float discriminant = 1.0 - ni_over_nt * ni_over_nt * (1 - dt * dt);
   if (discriminant > 0) {
-    refracted = (uv - n*dt) * ni_over_nt - n*sqrt(discriminant);
+    refracted = (uv - n * dt) * ni_over_nt - n * sqrt(discriminant);
     return true;
-  }
-  else
+  } else
     return false;
 }
 
@@ -48,7 +47,7 @@ class Material {
   virtual bool Scatter(const Ray &ray, const HitRecord &rec, Vector3f &attenuation, Ray &scattered) const = 0;
 };
 
-class Lambertian: public Material {
+class Lambertian : public Material {
  public:
   Lambertian(const Vector3f &a) : albedo{a} {}
 
@@ -62,14 +61,14 @@ class Lambertian: public Material {
   Vector3f albedo;
 };
 
-class Metal: public Material {
+class Metal : public Material {
  public:
   Metal(const Vector3f &a, Float f) : albedo{a} {
     if (f < 1) fuzz = f;
     else fuzz = 1;
   }
 
-  virtual bool Scatter(const Ray &ray, const HitRecord &rec, Vector3f &attenuation, Ray &scattered) const{
+  virtual bool Scatter(const Ray &ray, const HitRecord &rec, Vector3f &attenuation, Ray &scattered) const {
     Vector3f reflected = Reflect(Normalize(ray.d), rec.normal);
     scattered = Ray(rec.p, reflected + RandomInUnitSphere() * fuzz);
     attenuation = albedo;

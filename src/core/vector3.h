@@ -135,6 +135,12 @@ typedef Vector3<Float> Vector3f;
 typedef Vector3<int> Vector3i;
 
 // Inline functions
+
+template <typename T, typename U>
+inline Vector3<T> operator*(U s, const Vector3<T> &v) {
+  return v * s;
+}
+
 template <typename T>
 inline Vector3<T> Normalize(const Vector3<T> &v) {
   return v / v.Length();

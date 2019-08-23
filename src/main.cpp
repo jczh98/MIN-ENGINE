@@ -42,7 +42,11 @@ int main(int argc, char *argv[]) {
   list[3] = new Sphere(Vector3f(-1, 0, -1), 0.5, new Dielectric(1.5));
   list[4] = new Sphere(Vector3f(-1, 0, -1), -0.45, new Dielectric(1.5));
   Hitable *world = new HitableList(list, 5);
-  Camera camera;
+  Vector3f lookfrom(3, 3, 2);
+  Vector3f lookat(0, 0, -1);
+  Float dist_to_focus = (lookfrom - lookat).Length();
+  Float aperture = 2.0;
+  Camera camera(lookfrom, lookat, Vector3f(0, 1, 0), 20, Float(nx)/Float(ny), aperture, dist_to_focus);
   for (int j = ny - 1; j >= 0; --j) {
     for (int i = 0; i < nx; ++i) {
       Vector3f col(0, 0, 0);
