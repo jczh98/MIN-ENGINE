@@ -4,7 +4,7 @@
  * This software is licensed under the terms of the MIT License.
  * See COPYING for further information.
  */
-
+#pragma once
 #ifndef MIN_INCLUDE_MIN_MIN_H_
 #define MIN_INCLUDE_MIN_MIN_H_
 
@@ -36,7 +36,7 @@
 #endif
 
 #if defined(_WIN32) && !defined(_WIN64)
-static_assert(false, "32-bit Windows systems are not supported")
+static_assert(false, "32-bit Windows systems are not supported");
 #endif
 
 // Linux

@@ -4,9 +4,8 @@
  * This software is licensed under the terms of the MIT License.
  * See COPYING for further information.
  */
-
-#ifndef MIN_INCLUDE_MIN_MATH_VECTOR3D_H_
-#define MIN_INCLUDE_MIN_MATH_VECTOR3D_H_
+#ifndef MIN_INCLUDE_MIN_MATH_VECTOR_3D_H_
+#define MIN_INCLUDE_MIN_MATH_VECTOR_3D_H_
 
 #include "vector_fwd.h"
 
@@ -154,7 +153,7 @@ FORCE_INLINE Vector3D<T> Abs(const Vector3D<T> &v) {
 }
 
 template <typename T>
-FORCE_INLINE T Dot(const Vector3D<T> &v1, const Vector3<T> &v2) {
+FORCE_INLINE T Dot(const Vector3D<T> &v1, const Vector3D<T> &v2) {
   DCHECK(!v1.HasNaNs() && !v2.HasNaNs());
   return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
 }
@@ -176,4 +175,4 @@ FORCE_INLINE Vector3D<T> Cross(const Vector3D<T> &v1, const Vector3D<T> &v2) {
 
 MIN_NAMESPACE_END
 
-#endif //MIN_INCLUDE_MIN_MATH_VECTOR3D_H_
+#endif //MIN_INCLUDE_MIN_MATH_VECTOR_3D_H_
