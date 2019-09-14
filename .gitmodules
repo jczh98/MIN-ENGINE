@@ -7,6 +7,3 @@
 [submodule "external/stb"]
 	path = external/stb
 	url = https://github.com/nothings/stb.git
-[submodule "external/eigen"]
-	path = external/eigen
-	url = https://github.com/eigenteam/eigen-git-mirror.git
