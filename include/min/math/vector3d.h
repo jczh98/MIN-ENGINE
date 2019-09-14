@@ -5,12 +5,12 @@
  * See COPYING for further information.
  */
 
-#ifndef CHIHAYA_INCLUDE_CHIHAYA_MATH_VECTOR3D_H_
-#define CHIHAYA_INCLUDE_CHIHAYA_MATH_VECTOR3D_H_
+#ifndef MIN_INCLUDE_MIN_MATH_VECTOR3D_H_
+#define MIN_INCLUDE_MIN_MATH_VECTOR3D_H_
 
-#include "vector.h"
+#include "vector_fwd.h"
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 template<typename T>
 class VectorND<3, T> {
@@ -136,7 +136,7 @@ class VectorND<3, T> {
 };
 
 template <typename T>
-using Vector3D = VectorND<3, T>
+using Vector3D = VectorND<3, T>;
 
 template <typename T, typename U>
 FORCE_INLINE Vector3D<T> operator*(U s, const Vector3D<T> &v) {
@@ -174,6 +174,6 @@ FORCE_INLINE Vector3D<T> Cross(const Vector3D<T> &v1, const Vector3D<T> &v2) {
                   (v1x * v2y) - (v1y * v2x));
 }
 
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END
 
-#endif //CHIHAYA_INCLUDE_CHIHAYA_MATH_VECTOR3D_H_
+#endif //MIN_INCLUDE_MIN_MATH_VECTOR3D_H_

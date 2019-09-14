@@ -5,12 +5,12 @@
  * See COPYING for further information.
  */
 
-#ifndef CHIHAYA_INCLUDE_CHIHAYA_MATH_VECTOR_H_
-#define CHIHAYA_INCLUDE_CHIHAYA_MATH_VECTOR_H_
+#ifndef MIN_INCLUDE_MIN_MATH_VECTOR_H_
+#define MIN_INCLUDE_MIN_MATH_VECTOR_H_
 
-#include <chihaya/chihaya.h>
+#include <min/min.h>
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 template <int dim, typename T>
 class VectorND;
@@ -24,6 +24,6 @@ inline bool isNaN(const int x) {
   return false;
 }
 
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END
 
-#endif //CHIHAYA_INCLUDE_CHIHAYA_MATH_VECTOR_H_
+#endif //MIN_INCLUDE_MIN_MATH_VECTOR_H_

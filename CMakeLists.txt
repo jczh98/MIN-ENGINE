@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(chihaya)
+project(min)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -15,17 +15,17 @@ include_directories(external/eigen)
 include_directories(include)
 
 file(GLOB coreSrc
-        include/chihaya/*.h
-        include/chihaya/math/*.h
+        include/min/*.h
+        include/min/math/*.h
         src/core/*.cc
         src/math/*.cc)
 
-set(CHIHAYA_LIBS
+set(MIN_LIBS
         glog
         fmt)
 
 
-add_executable(chihaya src/main.cpp
+add_executable(min src/main.cpp
         ${coreSrc})
 
-target_link_libraries(chihaya ${CHIHAYA_LIBS})
+target_link_libraries(min ${MIN_LIBS})

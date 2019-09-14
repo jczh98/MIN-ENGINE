@@ -11,7 +11,7 @@
 #include "common.h"
 #include "vector3.h"
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 // Ray Declarations
 class Ray {
@@ -36,6 +36,6 @@ class Ray {
   Float time;
 };
 
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END
 
 #endif //CHIHAYA_SRC_CORE_RAY_H_

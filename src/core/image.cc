@@ -11,7 +11,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 Image::Image(int width, int height, int channel) :
     data_{nullptr} {
@@ -62,4 +62,4 @@ Image::~Image() noexcept {
   Free();
 }
 
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END

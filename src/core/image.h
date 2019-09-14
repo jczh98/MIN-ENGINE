@@ -10,7 +10,7 @@
 
 #include "common.h"
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 class Image {
  public:
@@ -26,6 +26,6 @@ class Image {
   int width_, height_, channel_;
   std::string filename_;
 };
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END
 
 #endif //CHIHAYA_SRC_CORE_IMAGE_H_

@@ -11,7 +11,7 @@
 #include "common.h"
 #include "hitable.h"
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 Vector3f RandomInUnitSphere() {
   Vector3f p;
@@ -115,6 +115,6 @@ class Dielectric : public Material {
   }
   Float ref_idx;
 };
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END
 
 #endif //CHIHAYA_SRC_CORE_MATERIAL_H_

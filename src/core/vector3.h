@@ -10,7 +10,7 @@
 
 #include "common.h"
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 template<typename T>
 class Vector3 {
@@ -172,6 +172,6 @@ inline Vector3<T> Cross(const Vector3<T> &v1, const Vector3<T> &v2) {
                     (v1x * v2y) - (v1y * v2x));
 }
 
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END
 
 #endif //CHIHAYA_SRC_CORE_VECTOR3_H_

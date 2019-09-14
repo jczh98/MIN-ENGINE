@@ -7,7 +7,7 @@
 
 #include "sphere.h"
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 bool Sphere::hit(const chihaya::Ray &ray, chihaya::Float t_min, chihaya::Float t_max, chihaya::HitRecord &rec) const {
   Vector3f oc = ray.o - center;
@@ -36,4 +36,4 @@ bool Sphere::hit(const chihaya::Ray &ray, chihaya::Float t_min, chihaya::Float t
   return false;
 }
 
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END

@@ -11,7 +11,7 @@
 #include "common.h"
 #include "hitable.h"
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 class HitableList: public Hitable {
  public:
@@ -22,6 +22,6 @@ class HitableList: public Hitable {
   Hitable **list;
   int list_size;
 };
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END
 
 #endif //CHIHAYA_SRC_CORE_HITABLE_LIST_H_

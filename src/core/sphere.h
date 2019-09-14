@@ -11,7 +11,7 @@
 #include "common.h"
 #include "hitable.h"
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 class Sphere : public Hitable {
  public:
@@ -22,6 +22,6 @@ class Sphere : public Hitable {
   Material *mat_ptr;
 };
 
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END
 
 #endif //CHIHAYA_SRC_CORE_SPHERE_H_

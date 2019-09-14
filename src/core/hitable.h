@@ -11,7 +11,7 @@
 #include "common.h"
 #include "ray.h"
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 class Material;
 
@@ -27,6 +27,6 @@ class Hitable {
   virtual bool hit(const Ray &ray, Float t_min, Float t_max, HitRecord &rec) const = 0;
 };
 
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END
 
 #endif //CHIHAYA_SRC_CORE_HITABLE_H_

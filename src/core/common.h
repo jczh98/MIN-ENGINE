@@ -21,8 +21,8 @@ using Float = double ;
 
 #define Infinity std::numeric_limits<Float>::infinity()
 
-#define CHIHAYA_NAMESPACE_BEGIN namespace chihaya {
-#define CHIHAYA_NAMESPACE_END }
+#define MIN_NAMESPACE_BEGIN namespace chihaya {
+#define MIN_NAMESPACE_END }
 
 template <typename T>
 inline bool isNaN(const T x) {

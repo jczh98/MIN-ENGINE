@@ -7,7 +7,7 @@
 
 #include "hitable_list.h"
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 bool HitableList::hit(const chihaya::Ray &ray,
                       chihaya::Float t_min,
@@ -25,4 +25,4 @@ bool HitableList::hit(const chihaya::Ray &ray,
   }
   return hit;
 }
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END

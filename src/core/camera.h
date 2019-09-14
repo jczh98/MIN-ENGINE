@@ -11,7 +11,7 @@
 #include "common.h"
 #include "ray.h"
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 Vector3f RandomInUnitDisk() {
   Vector3f p;
@@ -57,6 +57,6 @@ class Camera {
   Float lens_radius;
 };
 
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END
 
 #endif //CHIHAYA_SRC_CORE_CAMERA_H_
