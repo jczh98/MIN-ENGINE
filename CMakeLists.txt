@@ -11,7 +11,6 @@ include_directories(external/glog/src)
 include_directories(external/fmt)
 include_directories(external/eigen)
 
-
 include_directories(include)
 
 file(GLOB coreSrc
