@@ -5,8 +5,8 @@
  * See COPYING for further information.
  */
 
-#ifndef CHIHAYA_INCLUDE_CHIHAYA_CHIHAYA_H_
-#define CHIHAYA_INCLUDE_CHIHAYA_CHIHAYA_H_
+#ifndef MIN_INCLUDE_MIN_MIN_H_
+#define MIN_INCLUDE_MIN_MIN_H_
 
 #include <iostream>
 #include <cmath>
@@ -77,19 +77,19 @@ static_assert(false, "32-bit Windows systems are not supported")
 #endif
 
 #if defined(COMPILER_MSVC)
-#define CHIHAYA_ALIGNED(x) __declspec(align(x))
+#define MIN_ALIGNED(x) __declspec(align(x))
 #else
-#define CHIHAYA_ALIGNED(x) __attribute__((aligned(x)))
+#define MIN_ALIGNED(x) __attribute__((aligned(x)))
 #endif
 
 #if __cplusplus >= 201703L
-#define CHIHAYA_CPP17
+#define MIN_CPP17
 #else
 #if defined(COMPILER_CLANG)
 static_assert(false, "For clang compilers, use -std=c++17");
 #endif
 static_assert(__cplusplus >= 201402L, "C++14 required.");
-#define CHIHAYA_CPP14
+#define MIN_CPP14
 #endif
 
 // Do not disable assert...
@@ -97,11 +97,11 @@ static_assert(__cplusplus >= 201402L, "C++14 required.");
 #undef NDEBUG
 #endif
 
-#define CHIHAYA_NAMESPACE_BEGIN namespace chihaya {
+#define MIN_NAMESPACE_BEGIN namespace chihaya {
 
-#define CHIHAYA_NAMESPACE_END }
+#define MIN_NAMESPACE_END }
 
-CHIHAYA_NAMESPACE_BEGIN
+MIN_NAMESPACE_BEGIN
 
 //******************************************************************************
 //                                 Types
@@ -125,6 +125,6 @@ using real = float64;
 using real = float32;
 #endif
 
-CHIHAYA_NAMESPACE_END
+MIN_NAMESPACE_END
 
-#endif //CHIHAYA_INCLUDE_CHIHAYA_CHIHAYA_H_
+#endif //MIN_INCLUDE_MIN_MIN_H_
