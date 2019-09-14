@@ -9,6 +9,8 @@ add_subdirectory(external/fmt)
 include_directories(external/stb)
 include_directories(external/glog/src)
 include_directories(external/fmt)
+include_directories(external/eigen)
+
 
 include_directories(include)
 
@@ -21,6 +23,7 @@ file(GLOB coreSrc
 set(CHIHAYA_LIBS
         glog
         fmt)
+
 
 add_executable(chihaya src/main.cpp
         ${coreSrc})
