@@ -20,6 +20,7 @@
 
 #include <fmt/format.h>
 #include <glog/logging.h>
+#include <Eigen/Core>
 
 //******************************************************************************
 //                                 System State
@@ -97,7 +98,7 @@ static_assert(__cplusplus >= 201402L, "C++14 required.");
 #undef NDEBUG
 #endif
 
-#define MIN_NAMESPACE_BEGIN namespace chihaya {
+#define MIN_NAMESPACE_BEGIN namespace min {
 
 #define MIN_NAMESPACE_END }
 
@@ -119,10 +120,28 @@ using uint = unsigned int;
 using float32 = float;
 using float64 = double;
 
+template <typename T>
+using Vector3 = Eigen::Vector3<T>;
+template <typename T>
+using Vector2 = Eigen::Vector2<T>;
+using Vector3f = Eigen::Vector3f;
+using Vector3i = Eigen::Vector3i;
+using Vector2f = Eigen::Vector2f;
+using Vector2i = Eigen::Vector2i;
+using Matrix4f = Eigen::Matrix4f;
+
 #ifdef USE_DOUBLE
 using real = float64;
 #else
 using real = float32;
+#endif
+
+#ifdef _MSC_VER
+#define MaxFloat std::numeric_limits<Float>::max()
+#define Infinity std::numeric_limits<Float>::infinity()
+#else
+static constexpr real MaxFloat = std::numeric_limits<real>::max();
+static constexpr real Infinity = std::numeric_limits<real>::infinity();
 #endif
 
 MIN_NAMESPACE_END

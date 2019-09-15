@@ -3,6 +3,7 @@ project(min)
 
 set(CMAKE_CXX_STANDARD 17)
 
+
 # glog
 add_subdirectory(external/glog)
 add_subdirectory(external/fmt)
@@ -15,6 +16,7 @@ include_directories(include)
 
 file(GLOB coreSrc
         include/min/*.h
+        include/min/core/*.h
         include/min/math/*.h
         src/core/*.cc
         src/math/*.cc)
