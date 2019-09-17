@@ -106,5 +106,8 @@ FORCE_INLINE Vector3<T> &Bounds3<T>::operator[](int i) {
   return i == 0 ? pMin : pMax;
 }
 
+using Bounds3f = Bounds3<real>;
+using Bounds3i = Bounds3<int>;
+
 MIN_NAMESPACE_END
 #endif //MIN_INCLUDE_MIN_CORE_BOX_H_
