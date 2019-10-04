@@ -12,6 +12,7 @@
 #include <algorithm>
 #include <vector>
 #include <memory>
+#include <limits>
 
 //******************************************************************************
 //                                 System State
@@ -173,6 +174,16 @@ float64 constexpr operator "" _fd(long double v) {
 float64 constexpr operator "" _fd(unsigned long long v) {
   return float64(v);
 }
+
+MIN_NAMESPACE_END
+
+//******************************************************************************
+//                               Constants
+//******************************************************************************
+
+MIN_NAMESPACE_BEGIN
+
+#define Infinity std::numeric_limits<real>::infinity()
 
 MIN_NAMESPACE_END
 

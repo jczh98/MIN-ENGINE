@@ -5,15 +5,19 @@
  * See COPYING for further information.
  */
 
-#ifndef MIN_INCLUDE_MIN_MATH_COMMON_H_
-#define MIN_INCLUDE_MIN_MATH_COMMON_H_
+#ifndef MIN_INCLUDE_MIN_MATH_MATH_H_
+#define MIN_INCLUDE_MIN_MATH_MATH_H_
 
-#include <min/min.h>
+#include <min/common/util.h>
+#include "linalg.h"
 
 MIN_NAMESPACE_BEGIN
 
-inline real Lerp(real t, real v1, real v2) { return (1 - t) * v1 + t * v2; }
+namespace math {
+
+
+}
 
 MIN_NAMESPACE_END
 
-#endif //MIN_INCLUDE_MIN_MATH_COMMON_H_
+#endif //MIN_INCLUDE_MIN_MATH_MATH_H_

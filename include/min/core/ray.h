@@ -20,12 +20,6 @@ class Ray {
 
   Vector3f operator()(real t) const { return o + d * t;}
 
-  friend std::ostream &operator<<(std::ostream &os, const Ray &r) {
-    os << "[o=" << r.o << ", d=" << r.d << ", tMax=" << r.tMax
-       << ", time=" << r.time << "]";
-    return os;
-  }
-
   Vector3f o, d;
   mutable real tMax;
   real time;

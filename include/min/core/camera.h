@@ -20,7 +20,7 @@ struct CameraSample {
 
 class Camera {
  public:
-  virtual ~Camera()
+  virtual ~Camera();
   virtual real GenerateRay(const CameraSample &sample, Ray *ray) const = 0;
 };
 
