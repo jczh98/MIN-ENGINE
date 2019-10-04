@@ -18,6 +18,7 @@ file(GLOB coreSrc
         include/min/*.h
         include/min/core/*.h
         include/min/math/*.h
+        include/min/common/*.h
         src/core/*.cc
         src/math/*.cc)
 
