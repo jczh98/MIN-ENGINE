@@ -9,11 +9,23 @@
 #define MIN_INCLUDE_MIN_CORE_INTERSECTION_H_
 
 #include <min/min.h>
+#include "frame.h"
+#include "mesh.h"
 
 MIN_NAMESPACE_BEGIN
 
 class Intersection {
  public:
+  Intersection() {}
+
+  Vector3 ToLocal(const Vector3 &d) const {
+    return shader_frame.ToLocal(d);
+  }
+
+  Vector3 ToWorld(const Vector3 &d) const {
+    return shader_frame.ToWorld(d);
+  }
+
   // Position of the surface intersection
   Vector3f p;
   // Unoccluded distance along the ray
@@ -21,6 +33,11 @@ class Intersection {
   // UV coordinates
   Vector2f uv;
 
+  Frame shader_frame;
+
+  Frame geo_frame;
+
+  const std::shared_ptr<Mesh> mesh;
 };
 MIN_NAMESPACE_END
 

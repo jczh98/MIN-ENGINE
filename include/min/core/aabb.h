@@ -17,7 +17,7 @@ class BoundingBox {
   BoundingBox(const Vector3 &lower, const Vector3 &upper)
       : lower_boundary(lower), upper_boundary(upper) {}
 
-  Vector3 center() const {
+  Vector3 Center() const {
     return (lower_boundary + upper_boundary)*(real) 0.5f;
   }
  public:
