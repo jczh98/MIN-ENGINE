@@ -22,16 +22,18 @@ class MinObject {
     kCamera,
     kIntegrator,
     kSampler,
-    kFilter
+    kFilter,
+
+    kClassTypeCount
   };
 
   virtual ~MinObject();
 
   virtual ClassType GetClassType() const = 0;
 
-  virtual void AddChild(std::shared_ptr<MinObject> child);
+  virtual void AddChild(MinObject *child);
 
-  virtual void SetParent(std::shared_ptr<MinObject> parent);
+  virtual void SetParent(MinObject *parent);
 
   virtual void Activate();
 
