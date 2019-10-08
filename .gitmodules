@@ -13,3 +13,6 @@
 [submodule "external/tbb"]
 	path = external/tbb
 	url = https://github.com/intel/tbb.git
+[submodule "external/pugixml"]
+	path = external/pugixml
+	url = https://github.com/zeux/pugixml.git
