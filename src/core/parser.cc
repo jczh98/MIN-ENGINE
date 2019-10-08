@@ -171,8 +171,12 @@ MinObject *LoadFromXML(const std::string &filename) {
         // This is a property
 
       }
+    } catch (const std::runtime_error &e){
+      throw std::runtime_error(fmt::format("Error while parsing \"%s\": %s (at %s)", filename,
+                                           e.what(), offset(node.offset_debug())));
     }
 
+    return result;
   };
 }
 
