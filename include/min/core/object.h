@@ -17,7 +17,7 @@ class MinObject {
  public:
   enum ClassType {
     kScene = 0,
-    kTMesh,
+    kMesh,
     kBSDF,
     kCamera,
     kIntegrator,
@@ -39,13 +39,13 @@ class MinObject {
 
   static std::string TypeName(ClassType type) {
     switch (type) {
-      case Scene: return "scene";
-      case Mesh: return "mesh";
-      case BSDF: return "bsdf";
-      case Camera: return "camera";
-      case Integrator: return "integrator";
-      case Sampler: return "sampler";
-      case Filter: return "filter";
+      case kScene: return "scene";
+      case kMesh: return "mesh";
+      case kBSDF: return "bsdf";
+      case kCamera: return "camera";
+      case kIntegrator: return "integrator";
+      case kSampler: return "sampler";
+      case kFilter: return "filter";
       default: return "unknown";
     }
   }

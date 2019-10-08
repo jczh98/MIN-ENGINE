@@ -13,7 +13,9 @@
 #include <vector>
 #include <memory>
 #include <limits>
+#include <boost/filesystem.hpp>
 #include "fmt/format.h"
+
 //******************************************************************************
 //                                 System State
 //******************************************************************************
@@ -103,6 +105,11 @@ MIN_NAMESPACE_BEGIN
 //                                 System State
 //******************************************************************************
 
+#ifdef MIN_PLATFORM_OSX
+namespace fs = boost::filesystem;
+#else
+namespace fs = std::filesystem;
+#endif
 
 //******************************************************************************
 //                                 Types
@@ -133,18 +140,18 @@ using float32 = float;
 using float64 = double;
 
 #ifdef MIN_USE_DOUBLE
-using real = float64;
+using Float = float64;
 #else
-using real = float32;
+using Float = float32;
 #endif
 
 // Float literal for both float32/64
 // (Learned from https://github.com/hi2p-perim/lightmetrica-v2)
-real constexpr operator "" _f(long double v) {
-  return real(v);
+Float constexpr operator "" _f(long double v) {
+  return Float(v);
 }
-real constexpr operator "" _f(unsigned long long v) {
-  return real(v);
+Float constexpr operator "" _f(unsigned long long v) {
+  return Float(v);
 }
 
 float32 constexpr operator "" _f32(long double v) {
@@ -183,7 +190,6 @@ MIN_NAMESPACE_END
 
 MIN_NAMESPACE_BEGIN
 
-#define Infinity std::numeric_limits<real>::infinity()
 
 MIN_NAMESPACE_END
 

@@ -1,2 +1,4 @@
 .idea
 cmake-build-*
+external/tbb/cmake/TBBConfig.cmake
+external/tbb/cmake/TBBConfigVersion.cmake

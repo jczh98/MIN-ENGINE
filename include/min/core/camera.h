@@ -17,7 +17,7 @@ MIN_NAMESPACE_BEGIN
 struct CameraSample {
   Vector2f pFilm;
   Vector2f pLens;
-  real time;
+  Float time;
 };
 
 class Camera {

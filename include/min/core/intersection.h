@@ -29,7 +29,7 @@ class Intersection {
   // Position of the surface intersection
   Vector3f p;
   // Unoccluded distance along the ray
-  real t;
+  Float t;
   // UV coordinates
   Vector2f uv;
 

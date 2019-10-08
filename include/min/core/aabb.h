@@ -20,7 +20,7 @@ class BoundingBox {
       : lower_boundary(std::move(lower)), upper_boundary(std::move(upper)) {}
 
   Vector3 Center() const {
-    return (lower_boundary + upper_boundary)*(real) 0.5f;
+    return (lower_boundary + upper_boundary)*(Float) 0.5f;
   }
  public:
   Vector3 lower_boundary;

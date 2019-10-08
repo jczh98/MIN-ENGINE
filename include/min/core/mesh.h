@@ -29,7 +29,7 @@ class Mesh : public MinObject {
   void SamplePosition(const Vector2 sample, Vector3 &p, Vector3 &n) const;
 
   // Return the surface area of the given triangle
-  real SurfaceArea(uint32_t index) const;
+  Float SurfaceArea(uint32_t index) const;
 
   const BoundingBox &bounding_box() const { return aabb_; }
 
@@ -37,7 +37,7 @@ class Mesh : public MinObject {
 
   Vector3 GetCentroid(uint32_t index) const;
 
-  bool RayIntersect(uint32_t index, const Ray &ray, real &u, real &v, real &t) const;
+  bool RayIntersect(uint32_t index, const Ray &ray, Float &u, Float &v, Float &t) const;
 
   MatrixXf vertex_positions() const { return v_; }
 

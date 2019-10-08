@@ -3,6 +3,9 @@ project(min)
 
 set(CMAKE_CXX_STANDARD 17)
 
+# boost
+set(boost_libs filesystem)
+find_package(Boost COMPONENTS ${boost_libs})
 
 # tbb
 include(external/tbb/cmake/TBBBuild.cmake)
@@ -23,16 +26,17 @@ file(GLOB coreSrc
         include/min/core/*.h
         include/min/math/*.h
         include/min/common/*.h
-        src/core/*.cc
-        src/math/*.cc)
+        include/min/io/*.h
+        src/core/*.cc)
 
 set(MIN_LIBS
         fmt
         ${TBB_IMPORTED_TARGETS}
+        ${Boost_LIBRARIES}
         pugixml)
 
 
-add_executable(min src/main.cpp
+add_executable(min src/main.cc
         ${coreSrc})
 
 target_link_libraries(min

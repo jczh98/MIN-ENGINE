@@ -39,10 +39,10 @@ class ImageBlock : public Eigen::Array<Color4f, Eigen::Dynamic, Eigen::Dynamic, 
   Vector2i offset, size;
   int border_size;
  private:
-  std::shared_ptr<min::real> filter_ = nullptr,
+  std::shared_ptr<min::Float> filter_ = nullptr,
       weights_x_ = nullptr,
       weights_y_ = nullptr;
-  min::real filter_radius_ = 0,
+  min::Float filter_radius_ = 0,
       lookup_factor_ = 0;
   mutable tbb::mutex mutex_;
 };

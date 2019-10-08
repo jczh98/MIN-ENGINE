@@ -18,13 +18,13 @@ class Sampler {
   virtual ~Sampler();
   Sampler(int64_t samples_per_pixel);
   virtual void StartPixel(const Vector2i &p);
-  virtual real Get1D() = 0;
+  virtual Float Get1D() = 0;
   virtual Vector2i Get2D() = 0;
   CameraSample GetCameraSample(const Vector2i &pRaster);
   void Request1DArray(int n);
   void Request2DArray(int n);
   virtual int RoundCount(int n) const { return n; }
-  const real *Get1DArray(int n);
+  const Float *Get1DArray(int n);
   const Vector2f *Get2DArray(int n);
   virtual bool StartNextSample();
   virtual std::unique_ptr<Sampler> Clone(int seed) = 0;

@@ -27,8 +27,8 @@ using std::min;
 using std::sin;
 using std::tan;
 
-const real pi{acosf(-1.0_f)};
-const real eps = 1e-6_f;
+const Float pi{acosf(-1.0_f)};
+const Float eps = 1e-6_f;
 
 template <int I, typename T>
 constexpr MIN_FORCE_INLINE T pow(T a) noexcept {

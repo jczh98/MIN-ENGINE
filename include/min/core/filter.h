@@ -15,15 +15,15 @@ MIN_NAMESPACE_BEGIN
 
 class Filter : public MinObject{
  public:
-  virtual real Evaluate(real x) const = 0;
-  real radius() const { return radius_; }
+  virtual Float Evaluate(Float x) const = 0;
+  Float radius() const { return radius_; }
 
   ClassType GetClassType() const override {
     return ClassType::kFilter;
   }
 
  private:
-  real radius_;
+  Float radius_;
 };
 
 MIN_NAMESPACE_END

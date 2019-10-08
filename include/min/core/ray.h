@@ -14,15 +14,15 @@ MIN_NAMESPACE_BEGIN
 
 class Ray {
  public:
-  Ray(): tMax(Infinity), time(0.f) {}
-  Ray(Vector3 &o, Vector3 &d, real tMax = Infinity,
-      real time = 0.f) : o(o), d(d), tMax(tMax), time(time) {}
+  Ray(): tMax(std::numeric_limits<Float>::infinity()), time(0.f) {}
+  Ray(Vector3 &o, Vector3 &d, Float tMax = std::numeric_limits<Float>::infinity(),
+      Float time = 0.f) : o(o), d(d), tMax(tMax), time(time) {}
 
-  Vector3 operator()(real t) const { return o + d * t;}
+  Vector3 operator()(Float t) const { return o + d * t;}
 
   Vector3 o, d;
-  mutable real tMax;
-  real time;
+  mutable Float tMax;
+  Float time;
 };
 
 MIN_NAMESPACE_END

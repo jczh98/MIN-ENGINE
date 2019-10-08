@@ -21,7 +21,7 @@ struct BSDFQueryRecord {
   // Outgoing direction
   Vector3 wo;
   // Relative refractive index in the sampled direction
-  real eta;
+  Float eta;
 };
 
 class BSDF {
@@ -31,7 +31,7 @@ class BSDF {
   virtual Vector3 Evaluate(const BSDFQueryRecord &record) const = 0;
 
   // Compute the probability density function
-  virtual real Pdf(const BSDFQueryRecord &record) const = 0;
+  virtual Float Pdf(const BSDFQueryRecord &record) const = 0;
 
   virtual bool IsDiffuse() const { return false; }
 };
