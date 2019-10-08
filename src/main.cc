@@ -11,7 +11,7 @@
 #include <min/io/resolver.h>
 #include <min/core/parser.h>
 
-namespace fs = boost::filesystem;
+using namespace min;
 
 int main(int argc, char **argv) {
   if (argc != 2) {
@@ -21,8 +21,8 @@ int main(int argc, char **argv) {
   fs::path path(argv[1]);
   try {
     if (path.extension() == "xml") {
-      min::GetFileResolver()->Append(path.parent_path());
-      std::unique_ptr<min::MinObject> root(min::LoadFromXML(argv[1]));
+      GetFileResolver()->Append(path.parent_path());
+      std::unique_ptr<min::MinObject> root(LoadFromXML(argv[1]));
     }
   } catch (const std::exception &e) {
     std::cerr << "Fatal error: " << e.what() << std::endl;
