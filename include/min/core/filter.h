@@ -9,13 +9,19 @@
 #define MIN_INCLUDE_MIN_CORE_FILTER_H_
 
 #include <min/min.h>
+#include "object.h"
 
 MIN_NAMESPACE_BEGIN
 
-class Filter {
+class Filter : public MinObject{
  public:
   virtual real Evaluate(real x) const = 0;
   real radius() const { return radius_; }
+
+  ClassType GetClassType() const override {
+    return ClassType::kFilter;
+  }
+
  private:
   real radius_;
 };

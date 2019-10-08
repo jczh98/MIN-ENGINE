@@ -10,6 +10,8 @@
 
 #include "mesh.h"
 #include "intersection.h"
+#include "aabb.h"
+#include "ray.h"
 
 MIN_NAMESPACE_BEGIN
 
@@ -24,7 +26,7 @@ class Accelerator {
   bool RayIntersect(const Ray &ray, Intersection &intersection, bool shadow) const;
  private:
   std::shared_ptr<Mesh> mesh_ = nullptr;
-  BoudingBox box_;
+  BoundingBox box_;
 };
 
 MIN_NAMESPACE_END

@@ -15,7 +15,7 @@ MIN_NAMESPACE_BEGIN
 class Ray {
  public:
   Ray(): tMax(Infinity), time(0.f) {}
-  Ray(Vector3 &o, Vector3 d, real tMax = Infinity,
+  Ray(Vector3 &o, Vector3 &d, real tMax = Infinity,
       real time = 0.f) : o(o), d(d), tMax(tMax), time(time) {}
 
   Vector3 operator()(real t) const { return o + d * t;}

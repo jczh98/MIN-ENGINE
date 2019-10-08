@@ -13,6 +13,7 @@
 #include <type_traits>
 #include <min/common/util.h>
 #include <immintrin.h>
+#include <Eigen/Core>
 #include "scalar.h"
 
 MIN_NAMESPACE_BEGIN
@@ -367,30 +368,29 @@ MIN_FORCE_INLINE VectorND<dim, T> operator/(const VectorND<dim, T> &v, T a) {
   return v / VectorND<dim, T>(a);
 }
 
-using Vector1 = VectorND<1, real>;
-using Vector2 = VectorND<2, real>;
-using Vector3 = VectorND<3, real>;
-using Vector4 = VectorND<4, real>;
+using Vector2 = Eigen::Vector2<real>;
+using Vector3 = Eigen::Vector3<real>;
+using Vector4 = Eigen::Vector4<real>;
 
-using Vector1f = VectorND<1, float32>;
-using Vector2f = VectorND<2, float32>;
-using Vector3f = VectorND<3, float32>;
-using Vector4f = VectorND<4, float32>;
+using Vector2f = Eigen::Vector2f;
+using Vector3f = Eigen::Vector3f;
+using Vector4f = Eigen::Vector4f;
 
-using Vector1d = VectorND<1, float64>;
-using Vector2d = VectorND<2, float64>;
-using Vector3d = VectorND<3, float64>;
-using Vector4d = VectorND<4, float64>;
+using Vector2d = Eigen::Vector2d;
+using Vector3d = Eigen::Vector3d;
+using Vector4d = Eigen::Vector4d;
 
-using Vector1i = VectorND<1, int>;
-using Vector2i = VectorND<2, int>;
-using Vector3i = VectorND<3, int>;
-using Vector4i = VectorND<4, int>;
+using Vector2i = Eigen::Vector2i;
+using Vector3i = Eigen::Vector3i;
+using Vector4i = Eigen::Vector4i;
 
 /////////////////////////////////////////////////////////////////
 /////              N dimensional Matrix
 /////////////////////////////////////////////////////////////////
 
+using MatrixX = Eigen::Matrix<real, Eigen::Dynamic, Eigen::Dynamic>;
+using MatrixXf = Eigen::Matrix<float32, Eigen::Dynamic, Eigen::Dynamic>;
+using MatrixXu = Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic>;
 
 MIN_NAMESPACE_END
 

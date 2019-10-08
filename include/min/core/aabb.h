@@ -10,12 +10,14 @@
 
 #include <min/min.h>
 
+#include <utility>
+
 MIN_NAMESPACE_BEGIN
 
 class BoundingBox {
 
-  BoundingBox(const Vector3 &lower, const Vector3 &upper)
-      : lower_boundary(lower), upper_boundary(upper) {}
+  BoundingBox(Vector3 lower, Vector3 upper)
+      : lower_boundary(std::move(lower)), upper_boundary(std::move(upper)) {}
 
   Vector3 Center() const {
     return (lower_boundary + upper_boundary)*(real) 0.5f;

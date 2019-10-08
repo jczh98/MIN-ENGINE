@@ -10,3 +10,6 @@
 [submodule "external/eigen"]
 	path = external/eigen
 	url = https://github.com/eigenteam/eigen-git-mirror.git
+[submodule "external/tbb"]
+	path = external/tbb
+	url = https://github.com/intel/tbb.git

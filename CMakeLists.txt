@@ -4,6 +4,10 @@ project(min)
 set(CMAKE_CXX_STANDARD 17)
 
 
+# tbb
+include(external/tbb/cmake/TBBBuild.cmake)
+find_package(TBB REQUIRED tbb)
+
 # glog
 add_subdirectory(external/glog)
 add_subdirectory(external/fmt)
@@ -11,7 +15,6 @@ include_directories(external/stb)
 include_directories(external/glog/src)
 include_directories(external/fmt)
 include_directories(external/eigen)
-
 include_directories(include)
 
 file(GLOB coreSrc
@@ -30,4 +33,6 @@ set(MIN_LIBS
 add_executable(min src/main.cpp
         ${coreSrc})
 
-target_link_libraries(min ${MIN_LIBS})
+target_link_libraries(min
+        ${MIN_LIBS}
+        TBB::tbb)

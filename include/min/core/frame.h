@@ -20,7 +20,7 @@ class Frame {
   }
 
   Vector3 ToWorld(const Vector3 &v) const {
-    return s * v.x + t * v.y + n * v.z;
+    return s * v.x() + t * v.y() + n * v.z();
   }
 
   Vector3 s;

@@ -9,10 +9,10 @@
 #define MIN_INCLUDE_MIN_CORE_INTEGRATOR_H_
 
 #include <min/min.h>
-#include "spectrum.h"
 #include "ray.h"
 #include "scene.h"
 #include "sampler.h"
+#include "color.h"
 
 MIN_NAMESPACE_BEGIN
 
@@ -27,7 +27,7 @@ class SamplerIntegrator : public Integrator {
   // Perform an optional preprocess operation
   virtual void PreProcess(const Scene &scene) = 0;
   // Sample the incident radiance along a ray
-  virtual Spectrum Li(const Scene &scene, Sampler &sampler, const Ray &ray) const = 0;
+  virtual Color3f Li(const Scene &scene, Sampler &sampler, const Ray &ray) const = 0;
 };
 
 MIN_NAMESPACE_END
