@@ -10,24 +10,21 @@
 
 #include <min/min.h>
 #include "ray.h"
-#include "scene.h"
 #include "sampler.h"
 #include "color.h"
 
 MIN_NAMESPACE_BEGIN
 
-class Integrator {
+class Scene;
+
+class Integrator : public MinObject{
  public:
   virtual ~Integrator();
-  virtual void Render(const Scene &scene) = 0;
-};
-
-class SamplerIntegrator : public Integrator {
- public:
   // Perform an optional preprocess operation
-  virtual void PreProcess(const Scene &scene) = 0;
+  virtual void Preprocess(const Scene &scene) = 0;
   // Sample the incident radiance along a ray
   virtual Color3f Li(const Scene &scene, Sampler &sampler, const Ray &ray) const = 0;
+  ClassType GetClassType() const { return kIntegrator; }
 };
 
 MIN_NAMESPACE_END

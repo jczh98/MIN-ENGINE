@@ -11,6 +11,7 @@
 #include <min/min.h>
 #include "ray.h"
 #include "filter.h"
+#include "color.h"
 
 MIN_NAMESPACE_BEGIN
 
@@ -22,14 +23,11 @@ struct CameraSample {
 
 class Camera {
  public:
-  virtual Vector3 SampleRay(Ray &ray,
+  virtual Color3f SampleRay(Ray &ray,
       const Vector2 &sample_position,
       const Vector2 &aperture_sample) const = 0;
-  const Vector2& output_size() const { return output_size_; }
-  std::shared_ptr<Filter> filter() const { return filter_; }
- private:
-  Vector2 output_size_;
-  std::shared_ptr<Filter> filter_;
+  Vector2& output_size;
+  std::shared_ptr<Filter> filter;
 };
 
 MIN_NAMESPACE_END

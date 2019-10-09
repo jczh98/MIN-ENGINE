@@ -14,6 +14,8 @@
 #include "filter.h"
 #include "bitmap.h"
 
+#define MIN_BLOCK_SIZE 32
+
 MIN_NAMESPACE_BEGIN
 
 class ImageBlock : public Eigen::Array<Color4f, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor> {
@@ -45,6 +47,22 @@ class ImageBlock : public Eigen::Array<Color4f, Eigen::Dynamic, Eigen::Dynamic, 
   min::Float filter_radius_ = 0,
       lookup_factor_ = 0;
   mutable tbb::mutex mutex_;
+};
+
+class BlockGenerator {
+ public:
+  BlockGenerator(const Vector2i &size, int block_size);
+
+  bool Next(ImageBlock &block);
+
+  int blocks_left;
+ private:
+  enum Direction {
+    kRight = 0, kDown, kLeft, kUp
+  };
+  Vector2i block_, num_blocks, size_;
+  int block_size_, num_steps_, step_left_, direction_;
+  tbb::mutex mutex_;
 };
 MIN_NAMESPACE_END
 

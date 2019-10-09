@@ -10,32 +10,26 @@
 
 #include <min/min.h>
 #include "camera.h"
+#include "block.h"
+#include "object.h"
 
 MIN_NAMESPACE_BEGIN
 
-class Sampler {
+class Sampler : public MinObject{
  public:
   virtual ~Sampler();
-  Sampler(int64_t samples_per_pixel);
-  virtual void StartPixel(const Vector2i &p);
-  virtual Float Get1D() = 0;
-  virtual Vector2i Get2D() = 0;
-  CameraSample GetCameraSample(const Vector2i &pRaster);
-  void Request1DArray(int n);
-  void Request2DArray(int n);
-  virtual int RoundCount(int n) const { return n; }
-  const Float *Get1DArray(int n);
-  const Vector2f *Get2DArray(int n);
-  virtual bool StartNextSample();
-  virtual std::unique_ptr<Sampler> Clone(int seed) = 0;
-  virtual bool SetSampleNumber(int64_t sampleNum);
+  virtual std::unique_ptr<Sampler> Clone() const = 0;
+  virtual void Prepare(const ImageBlock &block) = 0;
+  virtual void Generate() = 0;
+  // Next sample
+  virtual void Advance() = 0;
+  // Retrieve the next component value from current sample
+  virtual Float Next1D() = 0;
+  // Retrieve the next two component value from current sample
+  virtual Vector2 Next2D() = 0;
+  ClassType GetClassType() const { return kSampler; }
 
-  int64_t CurrentSampleNumber() const { return current_pixel_sample_index; }
-
-  const int64_t samples_per_pixel;
- protected:
-  Vector2i current_pixel;
-  int64_t current_pixel_sample_index;
+  size_t sample_count;
 };
 MIN_NAMESPACE_END
 
