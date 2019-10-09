@@ -19,15 +19,12 @@ include_directories(external/stb)
 include_directories(external/fmt)
 include_directories(external/eigen)
 include_directories(external/pugixml/src)
-
 include_directories(include)
+include_directories(include/min)
+
 file(GLOB coreSrc
-        include/min/*.h
-        include/min/core/*.h
-        include/min/math/*.h
-        include/min/common/*.h
-        include/min/io/*.h
-        src/core/*.cc)
+        src/core/*.cc
+        )
 
 set(MIN_LIBS
         fmt

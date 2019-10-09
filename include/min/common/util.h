@@ -13,7 +13,7 @@
 #include <vector>
 #include <memory>
 #include <limits>
-#include <boost/filesystem.hpp>
+#include <filesystem>
 #include "fmt/format.h"
 
 //******************************************************************************
@@ -105,11 +105,7 @@ MIN_NAMESPACE_BEGIN
 //                                 System State
 //******************************************************************************
 
-#ifdef MIN_PLATFORM_OSX
-namespace fs = boost::filesystem;
-#else
 namespace fs = std::filesystem;
-#endif
 
 //******************************************************************************
 //                                 Types
@@ -190,7 +186,6 @@ MIN_NAMESPACE_END
 
 MIN_NAMESPACE_BEGIN
 
-
 MIN_NAMESPACE_END
 
 MIN_NAMESPACE_BEGIN
@@ -199,16 +194,17 @@ MIN_NAMESPACE_BEGIN
 //                               String Utils
 //******************************************************************************
 
+
 inline std::vector<std::string> split_string(const std::string &s,
                                              const std::string &seperators) {
   std::vector<std::string> ret;
   bool is_seperator[256] = {false};
   for (auto &ch : seperators) {
-    is_seperator[(unsigned int)ch] = true;
+    is_seperator[(unsigned int) ch] = true;
   }
   int begin = 0;
-  for (int i = 0; i <= (int)s.size(); i++) {
-    if (is_seperator[(uint8)s[i]] || i == (int)s.size()) {
+  for (int i = 0; i <= (int) s.size(); i++) {
+    if (is_seperator[(uint8) s[i]] || i==(int) s.size()) {
       ret.emplace_back(std::string(s.begin() + begin, s.begin() + i));
       begin = i + 1;
     }

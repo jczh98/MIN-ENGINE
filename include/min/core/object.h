@@ -68,7 +68,7 @@ class MinObjectFactory {
   }
 
  private:
-  static std::shared_ptr<std::map<std::string, Constructor>> constructors_;
+  static std::map<std::string, Constructor> *constructors_;
 };
 
 #define MIN_REGISTER_CLASS(cls, name) \

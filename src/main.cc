@@ -5,9 +5,6 @@
  * See COPYING for further information.
  */
 
-#include <min/min.h>
-#include <boost/filesystem.hpp>
-#include <min/core/object.h>
 #include <min/io/resolver.h>
 #include <min/core/parser.h>
 
@@ -20,9 +17,10 @@ int main(int argc, char **argv) {
   }
   fs::path path(argv[1]);
   try {
-    if (path.extension() == "xml") {
+    if (path.extension() == ".xml") {
       GetFileResolver()->Append(path.parent_path());
       std::unique_ptr<min::MinObject> root(LoadFromXML(argv[1]));
+      std::cout << (root->GetClassType() == MinObject::kScene) << std::endl;
     }
   } catch (const std::exception &e) {
     std::cerr << "Fatal error: " << e.what() << std::endl;
