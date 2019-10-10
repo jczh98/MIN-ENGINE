@@ -22,7 +22,7 @@ void RenderBlock(const Scene &scene, Sampler &sampler, ImageBlock &block) {
   for (int y = 0; y < size.y(); y++) {
     for (int x = 0; x < size.x(); x++) {
       for (uint32_t i = 0; i < sampler.sample_count; i++) {
-        Vector2 current = Vector2(x + offset.x(), y + offset.y());
+        Vector2 current = Vector2((Float) (x + offset.x()), (Float) (y + offset.y()));
         Vector2 pixel_sample = Vector2(current + sampler.Next2D());
         Vector2 aperture_sample = sampler.Next2D();
         // Sample a ray from the camera
@@ -109,7 +109,7 @@ int main(int argc, char **argv) {
       GetFileResolver()->Append(path.parent_path());
       std::unique_ptr<min::MinObject> root(LoadFromXML(argv[1]));
       if (root->GetClassType() == MinObject::kScene) {
-        Render(static_cast<Scene *>(root.get()), argv[1]);
+        //Render(static_cast<Scene *>(root.get()), argv[1]);
       }
     }
   } catch (const std::exception &e) {

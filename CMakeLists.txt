@@ -29,7 +29,6 @@ file(GLOB coreSrc
 set(MIN_LIBS
         fmt
         ${TBB_IMPORTED_TARGETS}
-        ${Boost_LIBRARIES}
         pugixml)
 
 

@@ -26,7 +26,7 @@ class Camera {
   virtual Color3f SampleRay(Ray &ray,
       const Vector2 &sample_position,
       const Vector2 &aperture_sample) const = 0;
-  Vector2& output_size;
+  Vector2i& output_size;
   std::shared_ptr<Filter> filter;
 };
 

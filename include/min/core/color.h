@@ -36,12 +36,18 @@ class Color3f : public Eigen::Array3f {
   float32 &b() { return z(); }
   const float32 &b() const { return z(); }
 
+  bool valid() const;
+
   Color3f Clamp() const {
     return Color3f(
         std::max(r(), 0.0f),
         std::max(g(), 0.0f),
         std::max(b(), 0.0f)
     );
+  }
+
+  std::string string() const {
+    return fmt::format("[{}, {}, {}]", coeff(0), coeff(1), coeff(2));
   }
 };
 
@@ -71,6 +77,10 @@ class Color4f : public Eigen::Array4f {
       return Color3f(x() / w(), y() / w(), z() / w());
     else
       return Color3f(0.0f);
+  }
+
+  std::string string() const {
+    return fmt::format("[{}, {}, {}, {}]", coeff(0), coeff(1), coeff(2), coeff(3));
   }
 
 };

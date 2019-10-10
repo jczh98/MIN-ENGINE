@@ -11,6 +11,8 @@
 #include <min/min.h>
 #include "object.h"
 
+#define MIN_FILTER_RESOLUTION 32
+
 MIN_NAMESPACE_BEGIN
 
 class Filter : public MinObject{
