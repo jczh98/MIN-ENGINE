@@ -3,37 +3,51 @@ project(min)
 
 set(CMAKE_CXX_STANDARD 17)
 
-# boost
-set(boost_libs filesystem)
-find_package(Boost COMPONENTS ${boost_libs})
+find_package(pugixml CONFIG REQUIRED)
+find_package(Eigen3 CONFIG REQUIRED)
+find_package(fmt CONFIG REQUIRED)
+find_package(OpenGL REQUIRED)
+find_package(GLEW REQUIRED)
+find_package(glfw3 CONFIG REQUIRED)
 
-# tbb
-include(external/tbb/cmake/TBBBuild.cmake)
-tbb_build(TBB_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/external/tbb CONFIG_DIR TBB_DIR MAKE_ARGS tbb_cpf=1)
-find_package(TBB REQUIRED tbb_preview)
+# set up imgui
+include_directories(external/imgui)
+file(GLOB imguiSrc
+        external/imgui/*.h
+        external/imgui/*.cpp)
 
-
-add_subdirectory(external/fmt)
-add_subdirectory(external/pugixml)
-include_directories(external/stb)
-include_directories(external/fmt)
-include_directories(external/eigen)
-include_directories(external/pugixml/src)
+# set up min
 include_directories(include)
 include_directories(include/min)
-
-file(GLOB coreSrc
-        src/core/*.cc
+FILE(GLOB MIN_SRC
+        include/min/common/*.h
+        include/min/min.h
         )
 
-set(MIN_LIBS
-        fmt
-        ${TBB_IMPORTED_TARGETS}
-        pugixml)
+add_library(min STATIC ${MIN_SRC})
+set_property(TARGET min PROPERTY CXX_STANDARD 17)
+set(MIN_INCLUDE_DIRS include CACHE STRING "include directories for min")
 
-
-add_executable(min src/main.cc
-        ${coreSrc})
+target_link_directories(min PRIVATE ${MIN_INCLUDE_DIRS})
 
 target_link_libraries(min
-        ${MIN_LIBS})
+        PRIVATE pugixml
+        PRIVATE Eigen3::Eigen
+        PRIVATE fmt::fmt fmt::fmt-header-only
+        )
+
+# set up gui
+FILE(GLOB MIN_GUI_SRC
+        app/gui/src/gui.cc
+        app/gui/src/gui.h)
+
+
+add_executable(min_gui app/gui/src/main.cc
+        ${MIN_GUI_SRC}
+        ${imguiSrc})
+
+target_link_libraries(min_gui
+        PRIVATE OpenGL::GL
+        PRIVATE GLEW::GLEW
+        PRIVATE glfw
+        )

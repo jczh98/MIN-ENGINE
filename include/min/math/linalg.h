@@ -368,10 +368,6 @@ MIN_FORCE_INLINE VectorND<dim, T> operator/(const VectorND<dim, T> &v, T a) {
   return v / VectorND<dim, T>(a);
 }
 
-using Vector2 = Eigen::Vector2<Float>;
-using Vector3 = Eigen::Vector3<Float>;
-using Vector4 = Eigen::Vector4<Float>;
-
 using Vector2f = Eigen::Vector2f;
 using Vector3f = Eigen::Vector3f;
 using Vector4f = Eigen::Vector4f;

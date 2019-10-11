@@ -9,6 +9,5 @@
 #define MIN_INCLUDE_MIN_MIN_H_
 
 #include "common/util.h"
-#include "math/math.h"
 
 #endif //MIN_INCLUDE_MIN_MIN_H_
