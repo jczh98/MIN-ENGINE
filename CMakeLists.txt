@@ -9,6 +9,7 @@ find_package(fmt CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
+find_package(glm CONFIG REQUIRED)
 
 # set up imgui
 include_directories(external/imgui)
@@ -21,6 +22,8 @@ include_directories(include)
 include_directories(include/min)
 FILE(GLOB MIN_SRC
         include/min/common/*.h
+        include/min/opengl/*.h
+        include/min/math/*.h
         include/min/min.h
         )
 
@@ -50,4 +53,11 @@ target_link_libraries(min_gui
         PRIVATE OpenGL::GL
         PRIVATE GLEW::GLEW
         PRIVATE glfw
+        )
+
+# test
+add_executable(test_linalg tests/test_linalg.cc)
+target_link_libraries(test_linalg
+        PRIVATE Eigen3::Eigen
+        PRIVATE glm
         )

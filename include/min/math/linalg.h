@@ -368,6 +368,16 @@ MIN_FORCE_INLINE VectorND<dim, T> operator/(const VectorND<dim, T> &v, T a) {
   return v / VectorND<dim, T>(a);
 }
 
+#ifdef MIN_USE_DOUBLE
+using Vector2 = Eigen::Vector2d;
+using Vector3 = Eigen::Vector3d;
+using Vector4 = Eigen::Vector4d;
+#else
+using Vector2 = Eigen::Vector2f;
+using Vector3 = Eigen::Vector3f;
+using Vector4 = Eigen::Vector4f;
+#endif
+
 using Vector2f = Eigen::Vector2f;
 using Vector3f = Eigen::Vector3f;
 using Vector4f = Eigen::Vector4f;
@@ -383,6 +393,17 @@ using Vector4i = Eigen::Vector4i;
 /////////////////////////////////////////////////////////////////
 /////              N dimensional Matrix
 /////////////////////////////////////////////////////////////////
+
+#ifdef MIN_USE_DOUBLE
+using Matrix3 = Eigen::Matrix3d;
+using Matrix4 = Eigen::Matrix4d;
+#else
+using Matrix3 = Eigen::Matrix3f;
+using Matrix4 = Eigen::Matrix4f;
+#endif
+
+using Matrix4f = Eigen::Matrix4f;
+using Matrix4d = Eigen::Matrix4d;
 
 using MatrixX = Eigen::Matrix<Float, Eigen::Dynamic, Eigen::Dynamic>;
 using MatrixXf = Eigen::Matrix<float32, Eigen::Dynamic, Eigen::Dynamic>;

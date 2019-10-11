@@ -16,6 +16,9 @@
 #include <filesystem>
 #include <thread>
 #include <chrono>
+#include <type_traits>
+#include <fstream>
+#include <sstream>
 #include "fmt/format.h"
 
 //******************************************************************************
