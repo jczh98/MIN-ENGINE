@@ -13,7 +13,7 @@
 #include <type_traits>
 #include <min/common/util.h>
 #include <immintrin.h>
-#include <Eigen/Core>
+#include <Eigen/Dense>
 #include "scalar.h"
 
 MIN_NAMESPACE_BEGIN

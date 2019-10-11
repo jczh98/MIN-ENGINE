@@ -56,7 +56,8 @@ target_link_libraries(min_gui
         )
 
 # test
-add_executable(test_linalg tests/test_linalg.cc)
+add_executable(test_linalg tests/test_linalg.cc
+        )
 target_link_libraries(test_linalg
         PRIVATE Eigen3::Eigen
         PRIVATE glm
