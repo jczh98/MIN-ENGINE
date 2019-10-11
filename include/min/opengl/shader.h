@@ -13,7 +13,6 @@
 MIN_NAMESPACE_BEGIN
 namespace gl {
 
-template<GLenum ShaderType>
 class Shader {
  public:
   Shader(std::string vertex_path, std::string frag_path, std::string geo_path = "") {

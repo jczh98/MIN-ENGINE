@@ -18,6 +18,7 @@
 #include <chrono>
 #include <type_traits>
 #include <fstream>
+#include <cstddef>
 #include <sstream>
 #include "fmt/format.h"
 
