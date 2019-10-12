@@ -25,10 +25,10 @@ FILE(GLOB MIN_SRC
         include/min/opengl/*.h
         include/min/math/*.h
         include/min/min.h
+        src/opengl/*.cc
         )
 
 add_library(min STATIC ${MIN_SRC})
-set_property(TARGET min PROPERTY CXX_STANDARD 17)
 set(MIN_INCLUDE_DIRS include CACHE STRING "include directories for min")
 
 target_link_directories(min PRIVATE ${MIN_INCLUDE_DIRS})
@@ -61,4 +61,5 @@ add_executable(test_linalg tests/test_linalg.cc
 target_link_libraries(test_linalg
         PRIVATE Eigen3::Eigen
         PRIVATE glm
+        PRIVATE min
         )
