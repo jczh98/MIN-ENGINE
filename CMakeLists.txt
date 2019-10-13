@@ -11,6 +11,8 @@ find_package(GLEW REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
+add_subdirectory(external/assimp)
+
 # set up imgui
 include_directories(external/imgui)
 file(GLOB imguiSrc
@@ -26,6 +28,8 @@ FILE(GLOB MIN_SRC
         include/min/math/*.h
         include/min/min.h
         src/opengl/*.cc
+        src/math/*.cc
+        src/common/stb_image.cc
         )
 
 add_library(min STATIC ${MIN_SRC})
@@ -37,6 +41,7 @@ target_link_libraries(min
         PRIVATE pugixml
         PRIVATE Eigen3::Eigen
         PRIVATE fmt::fmt fmt::fmt-header-only
+        PRIVATE assimp::assimp
         )
 
 # set up gui
@@ -58,6 +63,20 @@ target_link_libraries(min_gui
 # test
 add_executable(test_linalg tests/test_linalg.cc
         )
+add_executable(test_opengl tests/test_opengl.cc)
+
+add_executable(test_assimp tests/test_assimp.cc)
+
+target_link_libraries(test_assimp
+        assimp::assimp)
+
+target_link_libraries(test_opengl
+        min
+        GLEW::GLEW
+        OpenGL::GL
+        glfw
+        )
+
 target_link_libraries(test_linalg
         PRIVATE Eigen3::Eigen
         PRIVATE glm

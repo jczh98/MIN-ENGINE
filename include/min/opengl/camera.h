@@ -24,7 +24,7 @@ class Camera {
   Camera(Vector3 pos = Vector3(0.0, 0.0, 0.0),
          Vector3 up = Vector3(0.0, 1.0, 0.0),
          Float yaw = -90.f, Float pitch = 0.0f) : front_(Vector3(0.0f, 0.0f, -1.0f)),
-                                                  speed_(2.5f), mouse_sensitivity_(0.1f), zoom_(45.0f) {
+                                                  speed_(2.5f), mouse_sensitivity_(0.1f), zoom(45.0f) {
     this->position_ = pos;
     this->up_ = up;
     this->yaw_ = yaw;
@@ -58,11 +58,12 @@ class Camera {
     UpdateCameraVectors();
   }
   void ProcessMouseScroll(Float y_offset) {
-    if (zoom_ >= 1.0f && zoom_ <= 45.0f) zoom_ -= y_offset;
-    if (zoom_ <= 1.0f) zoom_ = 1.0f;
-    if (zoom_ >= 45.0f) zoom_ = 45.0f;
+    if (zoom >= 1.0f && zoom <= 45.0f) zoom -= y_offset;
+    if (zoom <= 1.0f) zoom = 1.0f;
+    if (zoom >= 45.0f) zoom = 45.0f;
   }
 
+  Float zoom;
  private:
   void UpdateCameraVectors() {
     Vector3 front;
@@ -77,7 +78,7 @@ class Camera {
 
   Vector3 position_, front_, up_, right_, worldup_;
   Float yaw_, pitch_;
-  Float speed_, mouse_sensitivity_, zoom_;
+  Float speed_, mouse_sensitivity_;
 };
 
 }

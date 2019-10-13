@@ -7,8 +7,8 @@
 #pragma once
 
 #include <min/common/util.h>
+#include <min/math/math.h>
 #include <GL/glew.h>
-#include <min/math/linalg.h>
 
 MIN_NAMESPACE_BEGIN
 namespace gl {
@@ -83,10 +83,10 @@ class Shader {
     glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
   }
   void SetVec3(const std::string &name, const Vector3f &vec) const {
-    glUniform3f(glGetUniformLocation(ID, name.c_str()), vec.data());
+    glUniform3fv(glGetUniformLocation(ID, name.c_str()), 1, vec.data());
   }
   void SetMat4(const std::string &name, const Matrix4f &mat) {
-    glUniform4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, mat.data());
+    glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE, mat.data());
   }
   unsigned int ID;
  private:

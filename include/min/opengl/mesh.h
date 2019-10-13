@@ -6,8 +6,6 @@
  */
 #pragma once
 
-#include <min/common/util.h>
-#include <min/math/math.h>
 #include "shader.h"
 
 MIN_NAMESPACE_BEGIN

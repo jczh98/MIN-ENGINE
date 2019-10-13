@@ -4,9 +4,7 @@
  * This software is licensed under the terms of the MIT License.
  * See COPYING for further information.
  */
-
-#ifndef MIN_INCLUDE_MIN_MATH_LINALG_H_
-#define MIN_INCLUDE_MIN_MATH_LINALG_H_
+#pragma once
 
 #include <vector>
 #include <array>
@@ -411,4 +409,3 @@ using MatrixXu = Eigen::Matrix<uint32_t, Eigen::Dynamic, Eigen::Dynamic>;
 
 MIN_NAMESPACE_END
 
-#endif //MIN_INCLUDE_MIN_MATH_LINALG_H_

@@ -9,5 +9,7 @@
 #define MIN_INCLUDE_MIN_MIN_H_
 
 #include "common/util.h"
+#include "opengl/camera.h"
+#include "opengl/model.h"
 
 #endif //MIN_INCLUDE_MIN_MIN_H_
