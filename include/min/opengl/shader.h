@@ -39,7 +39,7 @@ class Shader {
         geo_code = g_shader_stream.str();
       }
     } catch (std::ifstream::failure &e) {
-        std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+      std::cerr << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
     }
     // compile shaders
     const char *vertex_code_c = vertex_code.c_str();
@@ -48,9 +48,11 @@ class Shader {
     vertex = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertex, 1, &vertex_code_c, NULL);
     glCompileShader(vertex);
+    checkCompileErrors(vertex, "VERTEX");
     fragment = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragment, 1, &fragment_code_c, NULL);
     glCompileShader(fragment);
+    checkCompileErrors(fragment, "FRAGMENT");
     unsigned int geometry;
     if (!geo_path.empty()) {
       const char *geo_code_c = geo_code.c_str();
@@ -65,6 +67,7 @@ class Shader {
       glAttachShader(ID, geometry);
     }
     glLinkProgram(ID);
+    checkCompileErrors(ID, "PROGRAM");
     // delete shaders
     glDeleteShader(vertex);
     glDeleteShader(fragment);
@@ -90,6 +93,26 @@ class Shader {
   }
   unsigned int ID;
  private:
+  void checkCompileErrors(GLuint shader, std::string type) {
+    GLint success;
+    GLchar infoLog[1024];
+    if (type!="PROGRAM") {
+      glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+      if (!success) {
+        glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+        std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog
+                  << "\n -- --------------------------------------------------- -- " << std::endl;
+      }
+    } else {
+      glGetProgramiv(shader, GL_LINK_STATUS, &success);
+      if (!success) {
+        glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+        std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog
+                  << "\n -- --------------------------------------------------- -- " << std::endl;
+      }
+    }
+  }
+
 };
 
 }

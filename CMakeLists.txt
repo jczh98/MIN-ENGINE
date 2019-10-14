@@ -10,6 +10,7 @@ find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
+#find_package(assimp CONFIG REQUIRED)
 
 add_subdirectory(external/assimp)
 
@@ -22,9 +23,11 @@ file(GLOB imguiSrc
 # set up min
 include_directories(include)
 include_directories(include/min)
+
 FILE(GLOB MIN_SRC
         include/min/common/*.h
         include/min/opengl/*.h
+        include/min/test/*.h
         include/min/math/*.h
         include/min/min.h
         src/opengl/*.cc
@@ -41,7 +44,7 @@ target_link_libraries(min
         PRIVATE pugixml
         PRIVATE Eigen3::Eigen
         PRIVATE fmt::fmt fmt::fmt-header-only
-        PRIVATE assimp::assimp
+        assimp::assimp
         )
 
 # set up gui
@@ -67,10 +70,20 @@ add_executable(test_opengl tests/test_opengl.cc)
 
 add_executable(test_assimp tests/test_assimp.cc)
 
+add_executable(test_opengl_shader tests/test_opengl_textures.cc src/common/stb_image.cc)
+
+
 target_link_libraries(test_assimp
         assimp::assimp)
 
 target_link_libraries(test_opengl
+        min
+        GLEW::GLEW
+        OpenGL::GL
+        glfw
+        )
+
+target_link_libraries(test_opengl_shader
         min
         GLEW::GLEW
         OpenGL::GL

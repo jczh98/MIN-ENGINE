@@ -9,6 +9,7 @@
 #include <min/math/math.h>
 #include <GL/glew.h>
 
+
 MIN_NAMESPACE_BEGIN
 namespace gl {
 
@@ -21,12 +22,12 @@ enum Direction {
 
 class Camera {
  public:
-  Camera(Vector3 pos = Vector3(0.0, 0.0, 0.0),
-         Vector3 up = Vector3(0.0, 1.0, 0.0),
-         Float yaw = -90.f, Float pitch = 0.0f) : front_(Vector3(0.0f, 0.0f, -1.0f)),
+  Camera(Vector3f pos = Vector3(0.0, 0.0, 0.0),
+         Vector3f up = Vector3(0.0, 1.0, 0.0),
+         float yaw = -90.f, float pitch = 0.0f) : front_(Vector3f(0.0f, 0.0f, -1.0f)),
                                                   speed_(2.5f), mouse_sensitivity_(0.1f), zoom(45.0f) {
     this->position_ = pos;
-    this->up_ = up;
+    this->worldup_ = up;
     this->yaw_ = yaw;
     this->pitch_ = pitch;
     UpdateCameraVectors();
@@ -66,14 +67,15 @@ class Camera {
   Float zoom;
  private:
   void UpdateCameraVectors() {
-    Vector3 front;
-    front.x() = std::cos(math::radians(yaw_)) * std::cos(math::radians(pitch_));
-    front.y() = std::sin(math::radians(pitch_));
-    front.z() = std::sin(math::radians(yaw_)) * std::cos(math::radians(pitch_));
-    front.normalize();
-    front_ = front;
-    right_ = this->front_.cross(worldup_);
-    up_ = right_.cross(front_);
+    // Calculate the new Front vector
+    Vector3f front;
+    front.x() = cos(math::radians(yaw_)) * cos(math::radians(pitch_));
+    front.y() = sin(math::radians(pitch_));
+    front.z() = sin(math::radians(yaw_)) * cos(math::radians(pitch_));
+    front_ = front.normalized();
+    // Also re-calculate the Right and Up vector
+    right_ = front_.cross(worldup_).normalized();
+    up_ = right_.cross(front_).normalized();
   }
 
   Vector3 position_, front_, up_, right_, worldup_;

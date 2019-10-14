@@ -2,3 +2,7 @@
 cmake-build-*
 external/tbb/cmake/TBBConfig.cmake
 external/tbb/cmake/TBBConfigVersion.cmake
+.DS_Store
+*/.DS_Store
+*/*/.DS_Store
+*/*/*/.DS_Store

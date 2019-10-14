@@ -7,16 +7,16 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <min/min.h>
-
+#include <min/opengl/camera.h>
+#include <min/opengl/model.h>
 #include <iostream>
 
 using namespace min;
 using namespace min::gl;
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-void mouse_callback(GLFWwindow* window, double xpos, double ypos);
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+void framebuffer_size_callback(GLFWwindow *window, int width, int height);
+void mouse_callback(GLFWwindow *window, double xpos, double ypos);
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 void processInput(GLFWwindow *window);
 
 // settings
@@ -24,17 +24,16 @@ const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
 
 // camera
-Camera camera(Vector3(0.0f, 0.0f, 3.0f));
-float lastX = SCR_WIDTH / 2.0f;
-float lastY = SCR_HEIGHT / 2.0f;
+Camera camera(Vector3f(0.0f, 0.0f, 3.0f));
+float lastX = SCR_WIDTH/2.0f;
+float lastY = SCR_HEIGHT/2.0f;
 bool firstMouse = true;
 
 // timing
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-int main()
-{
+int main() {
   // glfw: initialize and configure
   // ------------------------------
   glfwInit();
@@ -48,9 +47,8 @@ int main()
 
   // glfw window creation
   // --------------------
-  GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-  if (window == NULL)
-  {
+  GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+  if (window==NULL) {
     std::cout << "Failed to create GLFW window" << std::endl;
     glfwTerminate();
     return -1;
@@ -64,8 +62,7 @@ int main()
   glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
   // ---------------------------------------
-  if (glewInit()!=GLEW_OK)
-  {
+  if (glewInit()!=GLEW_OK) {
     std::cout << "Failed to initialize GLEW" << std::endl;
     return -1;
   }
@@ -88,8 +85,7 @@ int main()
 
   // render loop
   // -----------
-  while (!glfwWindowShouldClose(window))
-  {
+  while (!glfwWindowShouldClose(window)) {
     // per-frame time logic
     // --------------------
     float currentFrame = glfwGetTime();
@@ -102,26 +98,25 @@ int main()
 
     // render
     // ------
-    glClearColor(0.05f, 0.05f, 0.05f, 1.0f);
+    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     // don't forget to enable shader before setting uniforms
     ourShader.Use();
 
     // view/projection transformations
-    Matrix4 projection = math::Perspective(math::radians(camera.zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-    Matrix4 view = camera.GetViewMatrix();
+    Matrix4f
+        projection =
+        min::math::Perspective(min::math::radians(camera.zoom), (float) SCR_WIDTH/(float) SCR_HEIGHT, 0.1f, 100.0f);
+    Matrix4f view = camera.GetViewMatrix();
     ourShader.SetMat4("projection", projection);
     ourShader.SetMat4("view", view);
 
     // render the loaded model
-    Matrix4 model = Matrix4f::Identity();
-    Eigen::Affine3f a;
-    a.translation() = Vector3(0.0f, -1.75f, 0.0f);
-    a.scale(0.2f);
-    model = model * a.matrix();
-    //model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-    //model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+    Eigen::Affine3f t = Eigen::Affine3f::Identity();
+    t.translate(Vector3f(0.0f, -1.75f, 0.0f));
+    t.scale(0.2f);
+    auto model = t.matrix();
     ourShader.SetMat4("model", model);
     ourModel.Draw(ourShader);
 
@@ -140,25 +135,23 @@ int main()
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
-void processInput(GLFWwindow *window)
-{
-  if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+void processInput(GLFWwindow *window) {
+  if (glfwGetKey(window, GLFW_KEY_ESCAPE)==GLFW_PRESS)
     glfwSetWindowShouldClose(window, true);
 
-  if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
+  if (glfwGetKey(window, GLFW_KEY_W)==GLFW_PRESS)
     camera.ProcessKeyboard(FORWARD, deltaTime);
-  if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+  if (glfwGetKey(window, GLFW_KEY_S)==GLFW_PRESS)
     camera.ProcessKeyboard(BACKWARD, deltaTime);
-  if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
+  if (glfwGetKey(window, GLFW_KEY_A)==GLFW_PRESS)
     camera.ProcessKeyboard(LEFT, deltaTime);
-  if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
+  if (glfwGetKey(window, GLFW_KEY_D)==GLFW_PRESS)
     camera.ProcessKeyboard(RIGHT, deltaTime);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
+void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
   // make sure the viewport matches the new window dimensions; note that width and
   // height will be significantly larger than specified on retina displays.
   glViewport(0, 0, width, height);
@@ -166,10 +159,8 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 // glfw: whenever the mouse moves, this callback is called
 // -------------------------------------------------------
-void mouse_callback(GLFWwindow* window, double xpos, double ypos)
-{
-  if (firstMouse)
-  {
+void mouse_callback(GLFWwindow *window, double xpos, double ypos) {
+  if (firstMouse) {
     lastX = xpos;
     lastY = ypos;
     firstMouse = false;
@@ -186,7 +177,6 @@ void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 
 // glfw: whenever the mouse scroll wheel scrolls, this callback is called
 // ----------------------------------------------------------------------
-void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
+void scroll_callback(GLFWwindow *window, double xoffset, double yoffset) {
   camera.ProcessMouseScroll(yoffset);
 }
