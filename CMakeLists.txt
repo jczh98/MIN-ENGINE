@@ -53,9 +53,15 @@ FILE(GLOB MIN_GUI_SRC
         app/gui/src/gui.h)
 
 
+file(COPY assets
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/bin)
+
 add_executable(min_gui app/gui/src/main.cc
         ${MIN_GUI_SRC}
         ${imguiSrc})
+
+set_target_properties(min_gui PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+        "${CMAKE_CURRENT_BINARY_DIR}/bin")
 
 target_link_libraries(min_gui
         PRIVATE OpenGL::GL
