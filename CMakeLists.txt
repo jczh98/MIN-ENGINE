@@ -10,6 +10,7 @@ find_package(OpenGL REQUIRED)
 find_package(GLEW REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
+find_package(spdlog CONFIG REQUIRED)
 #find_package(assimp CONFIG REQUIRED)
 
 add_subdirectory(external/assimp)
@@ -30,6 +31,7 @@ FILE(GLOB MIN_SRC
         include/min/test/*.h
         include/min/math/*.h
         include/min/min.h
+        include/min/engine/events/*.h
         src/opengl/*.cc
         src/math/*.cc
         src/common/stb_image.cc
@@ -45,6 +47,7 @@ target_link_libraries(min
         PRIVATE Eigen3::Eigen
         PRIVATE fmt::fmt fmt::fmt-header-only
         assimp::assimp
+        spdlog::spdlog
         )
 
 # set up gui

@@ -17,7 +17,6 @@ extern Float radians(Float deg);
 
 extern Matrix4 Perspective(Float fovy, Float aspect, Float z_near, Float z_far);
 
-
 extern Matrix4 LookAt(const Vector3 &eye, const Vector3 &center, const Vector3 &up);
 
 extern Matrix4 Ortho(const Float left, const Float right, const Float bottom, const Float top, const Float zNear, const Float zFar);
