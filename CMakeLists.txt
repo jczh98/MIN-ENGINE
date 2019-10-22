@@ -32,8 +32,16 @@ FILE(GLOB MIN_SRC
         include/min/math/*.h
         include/min/min.h
         include/min/engine/events/*.h
+        include/min/engine/core/*.h
+        include/min/engine/gui/*.h
+        include/min/engine/renderer/*.h
+        include/min/engine/renderer/opengl/*.h
         src/opengl/*.cc
         src/math/*.cc
+        src/engine/gui/*.cc
+        src/engine/core/*.cc
+        src/engine/renderer/*.cc
+        src/engine/renderer/opengl/*.cc
         src/common/stb_image.cc
         )
 
