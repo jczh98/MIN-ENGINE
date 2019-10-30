@@ -21,6 +21,7 @@
 #include <cstddef>
 #include <sstream>
 #include "fmt/format.h"
+#include "log.h"
 
 //******************************************************************************
 //                                 System State
@@ -101,6 +102,9 @@ static_assert(__cplusplus >= 201402L, "C++14 required.");
 #define sscanf_s sscanf
 #define sprintf_s sprintf
 #endif
+
+#define MIN_ASSERT(x, ...) { if(!(x)) { MIN_ERROR("Assertion Failed: {0}", __VA_ARGS__); }}
+#define MIN_CORE_ASSERT(x, ...) { if(!(x)) { MIN_ERROR("Assertion Failed: {0}", __VA_ARGS__); }}
 
 #define MIN_NAMESPACE_BEGIN namespace min {
 #define MIN_NAMESPACE_END }
