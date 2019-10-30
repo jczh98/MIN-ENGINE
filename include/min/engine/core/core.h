@@ -8,6 +8,7 @@
 
 #include <min/common/util.h>
 #include <min/common/log.h>
+#include <min/math/math.h>
 
 #define MIN_ENGINE_NAMESPACE_BEGIN namespace min { namespace engine {
 #define MIN_ENGINE_NAMESPACE_END }}

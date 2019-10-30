@@ -5,7 +5,7 @@
  * See COPYING for further information.
  */
 
-#include <min/engine/renderer/opengl/context.h>
+#include <min/engine/renderer/opengl/gl_context.h>
 
 MIN_ENGINE_NAMESPACE_BEGIN
 

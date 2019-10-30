@@ -7,6 +7,7 @@
 #pragma once
 
 #include <min/engine/core/core.h>
+#include "renderer_api.h"
 
 MIN_ENGINE_NAMESPACE_BEGIN
 
@@ -14,6 +15,7 @@ class Renderer {
  public:
   static void Init();
   static void OnWindowResize(uint width, uint height);
+  inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); }
  private:
 
 };

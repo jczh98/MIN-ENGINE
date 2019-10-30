@@ -400,6 +400,7 @@ using Matrix3 = Eigen::Matrix3f;
 using Matrix4 = Eigen::Matrix4f;
 #endif
 
+using Matrix3f = Eigen::Matrix3f;
 using Matrix4f = Eigen::Matrix4f;
 using Matrix4d = Eigen::Matrix4d;
 
