@@ -6,6 +6,7 @@
  */
 #pragma once
 
+#include <GL/glew.h>
 #include "../buffer.h"
 
 MIN_ENGINE_NAMESPACE_BEGIN
