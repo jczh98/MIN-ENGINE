@@ -7,6 +7,7 @@
 #pragma once
 
 #include <min/engine/core/core.h>
+#include "vertex_array.h"
 
 MIN_ENGINE_NAMESPACE_BEGIN
 
@@ -20,6 +21,7 @@ class RendererAPI {
   virtual void SetClearColor(const Vector4f color) = 0;
   virtual void Clear() = 0;
 
+  virtual void DrawIndexed(const std::shared_ptr<VertexArray>& vertex_array) = 0;
   inline static API GetAPI() { return API_; }
  private:
   static API API_;
