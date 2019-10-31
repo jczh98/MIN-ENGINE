@@ -20,7 +20,7 @@ class Texture {
 
 class Texture2D : public Texture {
  public:
-  static std::shared_prt<Texture2D> Create(const std::string& path);
+  static std::shared_ptr<Texture2D> Create(const std::string& path);
 };
 
 
