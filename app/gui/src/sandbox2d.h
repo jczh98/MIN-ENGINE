@@ -21,28 +21,25 @@
 // SOFTWARE.
 #pragma once
 
-#include "renderer_api.h"
+#include <min/engine/core/layer.h>
+#include <min/engine/core/timestep.h>
+#include <min/engine/renderer/camera_controller.h>
+#include <min/engine/renderer/vertex_array.h>
+#include <min/engine/renderer/shader.h>
 
-namespace min::engine {
+class Sandbox2D : public min::engine::Layer {
+  public:
+  Sandbox2D();
+  virtual ~Sandbox2D() = default;
+  virtual void OnAttach() override ;
+  virtual void OnDetach() override ;
+  void OnUpdate(min::engine::TimeStep ts) override;
+  virtual void OnImGuiRender() override ;
+  void OnEvent(min::engine::Event& e) override ;
+  private:
+  min::engine::CameraController camera_controller_;
+  std::shared_ptr<min::engine::VertexArray> square_va;
+  std::shared_ptr<min::engine::Shader> flat_color_shader;
 
-class RenderCommand {
- public:
-  inline static Init() {
-    renderer_api_->Init();
-  }
-  inline static void SetViewPort(uint x, uint y, uint width, uint height) {
-    renderer_api_->SetViewport(x, y, width, height);
-  }
-  inline static void SetClearColor(const Vector4f& color) {
-    renderer_api_->SetClearColor(color);
-  }
-  inline static void Clear() {
-    renderer_api_->Clear();
-  }
-  inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertex_array) {
-    renderer_api_->DrawIndexed(vertex_array);
-  }
- private:
-  static std::unique_ptr<RendererAPI> renderer_api_;
+  min::Vector4f square_color = {0.2f, 0.3f, 0.8f, 1.0f};
 };
-}

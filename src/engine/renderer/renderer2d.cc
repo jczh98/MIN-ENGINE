@@ -71,8 +71,9 @@ void Renderer2D::EndScene() {
 
 }
 void Renderer2D::DrawQuad(const Vector2f &position, const Vector2f &size, const Vector4f &color) {
-
+  DrawQuad(Vector3f(position.x(), position.y(), 0.0f), size, color);
 }
+
 void Renderer2D::DrawQuad(const Vector3f &position, const Vector2f &size, const Vector4f &color) {
   std::dynamic_pointer_cast<OpenGLShader>(data->flat_color_shader)->Bind();
   std::dynamic_pointer_cast<OpenGLShader>(data->flat_color_shader)->UploadUniformFloat4("u_Color", color);

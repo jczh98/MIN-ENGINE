@@ -8,6 +8,7 @@
 
 #include "core.h"
 #include "engine/events/event.h"
+#include "timestep.h"
 
 namespace min {
 namespace engine {
@@ -18,7 +19,7 @@ class Layer {
   virtual ~Layer() = default;
   virtual void OnAttach() {}
   virtual void OnDetach() {}
-  virtual void OnUpdate() {}
+  virtual void OnUpdate(TimeStep ts) {}
   virtual void OnImGuiRender() {}
   virtual void OnEvent(Event& event) {}
   std::string name;

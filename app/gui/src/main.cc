@@ -5,16 +5,28 @@
  * See COPYING for further information.
  */
 
+#include <min/engine/core/application.h>
 #include "gui.h"
+#include "sandbox2d.h"
 
 using namespace min::gui;
 
-int main(int argc, char **argv) {
-  try {
-    std::unique_ptr<GUI> gui = std::make_unique<GUI>(GUI());
-    gui->Show();
-  } catch (std::exception &e) {
-    std::cerr << e.what() << std::endl;
+class Sandbox : public min::engine::Application {
+ public:
+  Sandbox() {
+    PushLayer(new Sandbox2D());
   }
+};
+
+int main(int argc, char **argv) {
+  auto app = new Sandbox();
+  app->Run();
+  delete app;
+  //try {
+  //  std::unique_ptr<GUI> gui = std::make_unique<GUI>(GUI());
+  //  gui->Show();
+  //} catch (std::exception &e) {
+  //  std::cerr << e.what() << std::endl;
+  //}
   return 0;
 }

@@ -19,30 +19,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-#pragma once
 
-#include "renderer_api.h"
+#include <min/engine/renderer/render_command.h>
+#include <min/engine/renderer/renderer2d.h>
+#include <imgui.h>
+#include "sandbox2d.h"
 
-namespace min::engine {
+Sandbox2D::Sandbox2D() : Layer("Sandbox2D"), camera_controller_(1280.0f/720.0f) {
 
-class RenderCommand {
- public:
-  inline static Init() {
-    renderer_api_->Init();
-  }
-  inline static void SetViewPort(uint x, uint y, uint width, uint height) {
-    renderer_api_->SetViewport(x, y, width, height);
-  }
-  inline static void SetClearColor(const Vector4f& color) {
-    renderer_api_->SetClearColor(color);
-  }
-  inline static void Clear() {
-    renderer_api_->Clear();
-  }
-  inline static void DrawIndexed(const std::shared_ptr<VertexArray>& vertex_array) {
-    renderer_api_->DrawIndexed(vertex_array);
-  }
- private:
-  static std::unique_ptr<RendererAPI> renderer_api_;
-};
+}
+void Sandbox2D::OnAttach() {
+  Layer::OnAttach();
+}
+void Sandbox2D::OnDetach() {
+  Layer::OnDetach();
+}
+void Sandbox2D::OnUpdate(min::engine::TimeStep ts) {
+  camera_controller_.OnUpdate(ts);
+  using namespace min;
+  using namespace min::engine;
+  min::Vector4f color(.1f, 0.1f, 0.1f, 0.1f);
+  RenderCommand::SetClearColor(Vector4f(0.1f, 0.1f, 0.1f, 0.1f));
+  RenderCommand::Clear();
+  Renderer2D::BeginScene(camera_controller_.camera);
+  Renderer2D::DrawQuad(Vector2f(0.0f, 0.0f), Vector2f(1.0f, 1.0f), Vector4f(0.8f, 0.2f, 0.3f, 1.0f));
+  Renderer2D::EndScene();
+}
+void Sandbox2D::OnImGuiRender() {
+  ImGui::Begin("Settings");
+  ImGui::ColorEdit4("Square Color", square_color.data());
+  ImGui::End();
+}
+void Sandbox2D::OnEvent(min::engine::Event &e) {
+  camera_controller_.OnEvent(e);
 }

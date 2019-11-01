@@ -60,8 +60,9 @@ target_link_libraries(min
 
 # set up gui
 FILE(GLOB MIN_GUI_SRC
-        app/gui/src/gui.cc
-        app/gui/src/gui.h)
+        app/gui/src/sandbox2d.h
+        app/gui/src/sandbox2d.cc
+        )
 
 
 file(COPY assets
