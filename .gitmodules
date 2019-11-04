@@ -1,3 +1,6 @@
 [submodule "external/eigen3"]
 	path = external/eigen3
 	url = https://github.com/eigenteam/eigen-git-mirror.git
+[submodule "external/imgui"]
+	path = external/imgui
+	url = https://github.com/ocornut/imgui.git
