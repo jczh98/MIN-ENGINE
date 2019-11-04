@@ -3,7 +3,7 @@
 #include "imgui/imgui_impl_opengl3.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
+#include <Eigen/Dense>
 #include <iostream>
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height) {
@@ -57,6 +57,8 @@ int main() {
   ImGui_ImplGlfw_InitForOpenGL(window, true);
   ImGui_ImplOpenGL3_Init(glsl_version);
   ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+  bool show_demo = true;
+  Eigen::Vector3f vec(0,0,0);
   while (!glfwWindowShouldClose(window)) {
     glfwPollEvents();
     processInput(window);
@@ -65,8 +67,15 @@ int main() {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    ImGui::ShowDemoWindow();
-
+    if (show_demo) {
+      ImGui::ShowDemoWindow(&show_demo);
+    }
+    ImGui::Begin("Hello world!");
+    ImGui::Checkbox("Demo", &show_demo);
+    if (ImGui::Button("Button"))
+      vec += Eigen::Vector3f(1,2,3);
+    ImGui::Text("Vector = (%f, %f, %f)", vec.x(), vec.y(), vec.z());
+    ImGui::End();
     ImGui::Render();
     int display_w, display_h;
     glfwGetFramebufferSize(window, &display_w, &display_h);
