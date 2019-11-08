@@ -11,6 +11,7 @@ find_package(OpenGL REQUIRED)
 include(cmake/cmake-glfw)
 
 add_subdirectory(external/glad)
+add_subdirectory(external/nf)
 
 file(GLOB IMGUI_SRC
         src/imgui/*.cpp
@@ -22,10 +23,10 @@ file(GLOB IMGUI_SRC
 add_executable(${PROJECT_NAME} src/main.cpp ${IMGUI_SRC})
 
 target_include_directories(${PROJECT_NAME} PUBLIC external/imgui)
-target_include_directories(${PROJECT_NAME} PUBLIC external/eigen3)
 target_include_directories(${PROJECT_NAME} PUBLIC ${OPENGL_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} OpenGL::GL)
 target_link_libraries(${PROJECT_NAME} glfw)
 target_link_libraries(${PROJECT_NAME} glad)
 target_link_libraries(${PROJECT_NAME} ${OPENGL_gl_LIBRARY})
+target_link_libraries(${PROJECT_NAME} nf::math)
