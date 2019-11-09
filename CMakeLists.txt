@@ -20,7 +20,24 @@ file(GLOB IMGUI_SRC
         external/imgui/*.h
         )
 
-add_executable(${PROJECT_NAME} src/main.cpp ${IMGUI_SRC})
+file(GLOB ENGINE_SRC
+        src/common.h
+        src/log.h
+        src/gl_shader.h
+        src/gl_shader.cc
+        src/engine.cc
+        src/engine.h
+        src/display.cc
+        src/display.h
+        src/main.cpp)
+
+file(COPY assets
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/bin)
+
+add_executable(${PROJECT_NAME} ${ENGINE_SRC} ${IMGUI_SRC})
+
+set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+        "${CMAKE_CURRENT_BINARY_DIR}/bin")
 
 target_include_directories(${PROJECT_NAME} PUBLIC external/imgui)
 target_include_directories(${PROJECT_NAME} PUBLIC ${OPENGL_INCLUDE_DIR})
