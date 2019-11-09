@@ -1,18 +1,13 @@
-[submodule "external/glog"]
-	path = external/glog
-	url = https://github.com/google/glog.git
+[submodule "external/eigen3"]
+	path = external/eigen3
+	url = https://github.com/eigenteam/eigen-git-mirror.git
+[submodule "external/imgui"]
+	path = external/imgui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking
+[submodule "external/nf"]
+	path = external/nf
+	url = https://github.com/neverfelly/nf.git
 [submodule "external/fmt"]
 	path = external/fmt
 	url = https://github.com/fmtlib/fmt.git
-[submodule "external/stb"]
-	path = external/stb
-	url = https://github.com/nothings/stb.git
-[submodule "external/eigen"]
-	path = external/eigen
-	url = https://github.com/eigenteam/eigen-git-mirror.git
-[submodule "external/tbb"]
-	path = external/tbb
-	url = https://github.com/intel/tbb.git
-[submodule "external/pugixml"]
-	path = external/pugixml
-	url = https://github.com/zeux/pugixml.git
