@@ -24,11 +24,13 @@
 
 #include <iostream>
 #include <string>
+#include <fmt/format.h>
 
 namespace min::log {
 
-void Log(const std::string& message) {
-  std::cout << message << std::endl;
+template <class... Args>
+void Log(const char *format, Args &&...args) {
+  fmt::print(format, args...);
 }
 
 }

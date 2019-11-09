@@ -20,40 +20,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#pragma once
-
-#include "common.h"
-#include "input.h"
-
-namespace min::engine {
-
-class Engine {
- public:
-  const static int SCREEN_WIDTH = 800;
-  const static int SCREEN_HEIGHT = 600;
-  constexpr static float SCREEN_ASPECT_RATIO = SCREEN_WIDTH / (float) SCREEN_HEIGHT;
-
-#ifdef __APPLE__
-  const char* glsl_version = "#version 150";
-#else
-  const char *glsl_version = "#version 130";
-#endif
-
-  Engine();
-  ~Engine();
-
-  bool Initialize();
-  void Shutdown();
-  void Run();
- private:
-  bool InitializeDisplay();
-  GLFWwindow* window_;
-  std::unique_ptr<Input> input_;
-  double last_frame_time_fps_ = 0.0;
-  double last_frame_time_ = 0.0;
-  double delta_time_ = 0.0;
-  int fps_ = 0;
-  int next_fps_ = 0;
-};
-
-}
+#include "camera.h"

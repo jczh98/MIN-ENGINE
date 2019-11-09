@@ -19,41 +19,47 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
-#pragma once
-
-#include "common.h"
 #include "input.h"
+
+#include <utility>
 
 namespace min::engine {
 
-class Engine {
- public:
-  const static int SCREEN_WIDTH = 800;
-  const static int SCREEN_HEIGHT = 600;
-  constexpr static float SCREEN_ASPECT_RATIO = SCREEN_WIDTH / (float) SCREEN_HEIGHT;
+Input::Input() {
 
-#ifdef __APPLE__
-  const char* glsl_version = "#version 150";
-#else
-  const char *glsl_version = "#version 130";
-#endif
+}
+Input::~Input() {
 
-  Engine();
-  ~Engine();
+}
+bool Input::Initialize(GLFWwindow* window) {
+  window_ = std::move(window);
+  if (window_ == nullptr) {
+    return false;
+  }
+  return true;
+}
 
-  bool Initialize();
-  void Shutdown();
-  void Run();
- private:
-  bool InitializeDisplay();
-  GLFWwindow* window_;
-  std::unique_ptr<Input> input_;
-  double last_frame_time_fps_ = 0.0;
-  double last_frame_time_ = 0.0;
-  double delta_time_ = 0.0;
-  int fps_ = 0;
-  int next_fps_ = 0;
-};
+void Input::ProcessInput() {
+  if (KeyPressedOnce(GLFW_KEY_ESCAPE)) {
+    glfwSetWindowShouldClose(window_, true);
+  }
+}
+
+bool Input::KeyPressed(int key_code) {
+  return glfwGetKey(window_, key_code) == GLFW_PRESS;
+}
+
+bool Input::KeyPressedOnce(int key_code) {
+  bool result = false;
+  if (KeyPressed(key_code)) {
+    if (!key_pressed_[key_code]) {
+      result = true;
+    }
+    key_pressed_[key_code] = true;
+  } else {
+    key_pressed_[key_code] = false;
+  }
+  return result;
+}
 
 }

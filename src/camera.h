@@ -19,42 +19,14 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
 #pragma once
 
 #include "common.h"
 
 namespace min::engine {
 
-class Display {
- public:
-  const static int SCREEN_WIDTH = 800;
-  const static int SCREEN_HEIGHT = 600;
-  constexpr static float SCREEN_ASPECT_RATIO = SCREEN_WIDTH / (float) SCREEN_HEIGHT;
+class Camera {
 
-#ifdef __APPLE__
-  const char* glsl_version = "#version 150";
-#else
-  const char *glsl_version = "#version 130";
-#endif
-
-  Display();
-  ~Display();
-
-  bool Initialize();
-  void Shutdown();
-
-  void Bind();
-  void SwapBuffer();
-
- private:
-  bool InitializeGLFW();
-  bool InitializeGL();
-  bool CreateWindow();
-  bool CreateGLContext();
-  bool CreateImGuiContext();
-
-  std::unique_ptr<GLFWwindow> window_;
 };
 
 }

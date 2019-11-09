@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <vector>
 #include "gl_shader.h"
 
 namespace min::engine {
@@ -103,7 +104,7 @@ std::string GLShader::Process(const std::string &path) {
     in.read(&result[0], result.size());
     in.close();
   } else {
-    log::Log("Could not open file" + path);
+    log::Log("Could not open file {}", path);
   }
   return result;
 }

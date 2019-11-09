@@ -11,6 +11,7 @@ find_package(OpenGL REQUIRED)
 include(cmake/cmake-glfw)
 
 add_subdirectory(external/glad)
+add_subdirectory(external/fmt)
 add_subdirectory(external/nf)
 
 file(GLOB IMGUI_SRC
@@ -27,8 +28,8 @@ file(GLOB ENGINE_SRC
         src/gl_shader.cc
         src/engine.cc
         src/engine.h
-        src/display.cc
-        src/display.h
+        src/input.cc
+        src/camera.cc
         src/main.cpp)
 
 file(COPY assets
@@ -46,4 +47,5 @@ target_link_libraries(${PROJECT_NAME} OpenGL::GL)
 target_link_libraries(${PROJECT_NAME} glfw)
 target_link_libraries(${PROJECT_NAME} glad)
 target_link_libraries(${PROJECT_NAME} ${OPENGL_gl_LIBRARY})
+target_link_libraries(${PROJECT_NAME} fmt::fmt)
 target_link_libraries(${PROJECT_NAME} nf::math)
