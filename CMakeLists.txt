@@ -30,6 +30,7 @@ file(GLOB ENGINE_SRC
         src/engine.h
         src/input.cc
         src/camera.cc
+        src/renderer.cc
         src/main.cpp)
 
 file(COPY assets

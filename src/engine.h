@@ -24,6 +24,7 @@
 
 #include "common.h"
 #include "input.h"
+#include "renderer.h"
 
 namespace min::engine {
 
@@ -49,6 +50,7 @@ class Engine {
   bool InitializeDisplay();
   GLFWwindow* window_;
   std::unique_ptr<Input> input_;
+  std::unique_ptr<Renderer> renderer_;
   double last_frame_time_fps_ = 0.0;
   double last_frame_time_ = 0.0;
   double delta_time_ = 0.0;

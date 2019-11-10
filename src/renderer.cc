@@ -19,19 +19,59 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#include "renderer.h"
 
-#pragma once
+namespace min::engine {
 
-#include <iostream>
-#include <string>
-#include <fmt/format.h>
+Renderer::Renderer() {
 
-namespace min::log {
+}
+Renderer::~Renderer() {
 
-template <class... Args>
-void Log(const char *format, Args &&...args) {
-  fmt::print(format, args...);
-  fmt::print("\n");
+}
+bool Renderer::Initialize() {
+  log::Log("Initializing renderer.");
+  show_demo_ = false;
+  if (!InitFBOs()) {
+    log::Log("FBOs' failed to be initialized correctly.");
+    return false;
+  }
+  if (!LoadShaders()) {
+    log::Log("Shaders' failed to be initialized correctly.");
+    return false;
+  }
+  if (!PreProcess()) {
+    log::Log("Failed to preprocess.");
+    return false;
+  }
+  log::Log("Renderer initialized.");
+  return true;
+}
+void Renderer::Shutdown() {
+
+}
+void Renderer::Render() {
+
+}
+bool Renderer::InitFBOs() {
+  return true;
+}
+bool Renderer::LoadShaders() {
+  return true;
+}
+bool Renderer::PreProcess() {
+  return true;
+}
+void Renderer::PostProcess() {
+
+}
+void Renderer::OnGUI() {
+  if (show_demo_) {
+    ImGui::ShowDemoWindow(&show_demo_);
+  }
+  ImGui::Begin("Hello world!");
+  ImGui::Checkbox("Demo", &show_demo_);
+  ImGui::End();
 }
 
 }

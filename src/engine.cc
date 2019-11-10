@@ -87,6 +87,11 @@ bool Engine::Initialize() {
     log::Log("Unable to create input manager.\n");
     return false;
   }
+  renderer_ = std::make_unique<Renderer>();
+  if (!renderer_->Initialize()) {
+    log::Log("Unable to initialize renderer.");
+    return false;
+  }
   return true;
 }
 void Engine::Shutdown() {
@@ -110,18 +115,14 @@ void Engine::Run() {
       fps_ = next_fps_;
       next_fps_ = 0;
     }
-    std::cout << "FPS: " << fps_ << std::endl;
+    // std::cout << "FPS: " << fps_ << std::endl;
     // Setup imgui
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
+    renderer_->OnGUI();
     // Start Render
-    if (show_demo) {
-      ImGui::ShowDemoWindow(&show_demo);
-    }
-    ImGui::Begin("Hello world!");
-    ImGui::Checkbox("Demo", &show_demo);
-    ImGui::End();
+    renderer_->Render();
     // ImGui swap data
     ImGui::Render();
     int display_w, display_h;

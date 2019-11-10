@@ -19,19 +19,27 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
 #pragma once
 
-#include <iostream>
-#include <string>
-#include <fmt/format.h>
+#include "common.h"
 
-namespace min::log {
+namespace min::engine {
 
-template <class... Args>
-void Log(const char *format, Args &&...args) {
-  fmt::print(format, args...);
-  fmt::print("\n");
-}
+class Renderer {
+ public:
+  Renderer();
+  ~Renderer();
+  bool Initialize();
+  void Shutdown();
+  void Render();
+  // Initialize rendering gui
+  void OnGUI();
+ private:
+  bool InitFBOs();
+  bool LoadShaders();
+  bool PreProcess();
+  void PostProcess();
+  bool show_demo_;
+};
 
 }
