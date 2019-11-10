@@ -20,6 +20,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #include "input.h"
+#include "engine.h"
 
 #include <utility>
 
@@ -31,11 +32,12 @@ Input::Input() {
 Input::~Input() {
 
 }
-bool Input::Initialize(GLFWwindow* window) {
-  window_ = std::move(window);
+bool Input::Initialize(GLFWwindow* window, std::shared_ptr<Camera> camera) {
+  window_ = window;
   if (window_ == nullptr) {
     return false;
   }
+  camera_ = std::move(camera);
   return true;
 }
 
@@ -61,5 +63,22 @@ bool Input::KeyPressedOnce(int key_code) {
   }
   return result;
 }
-
+void Input::MouseCallback(GLFWwindow *window, double xpos, double ypos) {
+  static bool first_mouse = true;
+  static float last_x = Engine::SCREEN_WIDTH / 2.0f;
+  static float last_y = Engine::SCREEN_HEIGHT / 2.0f;
+  if (first_mouse) {
+    last_x = xpos;
+    last_y = ypos;
+    first_mouse = false;
+  }
+  float xoffset = xpos - last_x;
+  float yoffset = last_y - ypos; // reversed since y-coordinates go from bottom to top
+  last_x = xpos;
+  last_y = ypos;
+  camera_->ProcessMouseMovement(xoffset, yoffset);
+}
+void Input::ScrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
+  camera_->ProcessMouseScroll(yoffset);
+}
 }

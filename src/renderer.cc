@@ -51,7 +51,9 @@ void Renderer::Shutdown() {
 
 }
 void Renderer::Render() {
-
+  //Making sure depth testing is enabled
+  glEnable(GL_DEPTH_TEST);
+  glDepthMask(true);
 }
 bool Renderer::InitFBOs() {
   return true;

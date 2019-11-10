@@ -30,13 +30,15 @@ class Input {
  public:
   Input();
   ~Input();
-  bool Initialize(GLFWwindow* window);
+  bool Initialize(GLFWwindow* window, std::shared_ptr<Camera> camera);
   void ProcessInput();
  private:
   bool KeyPressed(int key_code);
   bool KeyPressedOnce(int key_code);
+  void MouseCallback(GLFWwindow* window, double xpos, double ypos);
+  void ScrollCallback(GLFWwindow* window, double xoffset, double yoffset);
   std::unordered_map<int, bool> key_pressed_;
-  std::unique_ptr<Camera> camera_;
+  std::shared_ptr<Camera> camera_;
   GLFWwindow* window_;
 };
 

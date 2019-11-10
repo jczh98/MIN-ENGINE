@@ -25,8 +25,29 @@
 
 namespace min::engine {
 
-class Camera {
+enum Direction {
+  FORWARD,
+  BACKWARD,
+  LEFT,
+  RIGHT
+};
 
+class Camera {
+ public:
+  Camera(const Vector3f &position = Vector3f(0.0f, 0.0f, 0.0f),
+         const Vector3f &up = Vector3f(0.0f, 1.0f, 0.0f),
+         float yaw = -90.0f,
+         float pitch = 0.0f);
+  void ProcessKeyboard(Direction direction, float delta_time);
+  void ProcessMouseMovement(float x_offset, float y_offset, GLboolean constrain_pitch = true);
+  void ProcessMouseScroll(float y_offset);
+  Matrix4f GetViewMatrix() { return nf::math::LookAt(position_, position_ + front_, up_);}
+  float GetFOV() const { return zoom_; }
+ private:
+  void UpdateCamera();
+  Vector3f position_, front_, up_, right_, world_up_;
+  float yaw_, pitch_;
+  float movement_speed_, mouse_sensitivity_, zoom_; // zoom_ also called fov
 };
 
 }
