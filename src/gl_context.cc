@@ -19,27 +19,25 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-#pragma once
-
-#include "common.h"
+#include "gl_context.h"
 
 namespace min::engine {
 
-class Input {
- public:
-  Input(const Input&) = default;
-  Input&operator=(const Input&) = default;
-  inline static bool IsKeyPressed(int keycode) { return instance->IsKeyPressedImpl(keycode); }
-  inline static bool IsMouseButtonPressed(int button) { return instance->IsMouseButtonPressedImpl(button); }
-  inline static std::pair<float, float> GetMousePosition() { return instance->GetMousePositionImpl(); }
-  inline static float GetMouseX() { return instance->GetMouseXImpl(); }
-  inline static float GetMouseY() { return instance->GetMouseYImpl(); }
- private:
-  virtual bool IsKeyPressedImpl(int keycode);
-  virtual bool IsMouseButtonPressedImpl(int button);
-  virtual std::pair<float, float> GetMousePositionImpl();
-  virtual float GetMouseXImpl();
-  virtual float GetMouseYImpl();
-  static std::unique_ptr<Input> instance;
-};
+GLContext::GLContext(GLFWwindow *window) : window_(window){
+
+}
+void GLContext::Init() {
+  glfwMakeContextCurrent(window_);
+  int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+  log::Log("Failed to initialize Glad! status is {}", status);
+
+  log::Log("OpenGL Info:");
+  log::Log("  Vendor: {0}", glGetString(GL_VENDOR));
+  log::Log("  Renderer: {0}", glGetString(GL_RENDERER));
+  log::Log("  Version: {0}", glGetString(GL_VERSION));
+}
+void GLContext::SwapBuffers() {
+  glfwSwapBuffers(window_);
+}
+
 }

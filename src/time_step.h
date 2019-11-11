@@ -21,25 +21,15 @@
 // SOFTWARE.
 #pragma once
 
-#include "common.h"
-
 namespace min::engine {
 
-class Input {
+class TimeStep {
  public:
-  Input(const Input&) = default;
-  Input&operator=(const Input&) = default;
-  inline static bool IsKeyPressed(int keycode) { return instance->IsKeyPressedImpl(keycode); }
-  inline static bool IsMouseButtonPressed(int button) { return instance->IsMouseButtonPressedImpl(button); }
-  inline static std::pair<float, float> GetMousePosition() { return instance->GetMousePositionImpl(); }
-  inline static float GetMouseX() { return instance->GetMouseXImpl(); }
-  inline static float GetMouseY() { return instance->GetMouseYImpl(); }
+  TimeStep(float time = 0.0f) : time_(time) {}
+  operator float() const { return time_; }
+  float seconds() const { return time_; }
+  float milliseconds() const { return time_ * 1000.0f; }
  private:
-  virtual bool IsKeyPressedImpl(int keycode);
-  virtual bool IsMouseButtonPressedImpl(int button);
-  virtual std::pair<float, float> GetMousePositionImpl();
-  virtual float GetMouseXImpl();
-  virtual float GetMouseYImpl();
-  static std::unique_ptr<Input> instance;
+  float time_;
 };
 }

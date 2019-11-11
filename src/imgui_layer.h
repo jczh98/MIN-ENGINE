@@ -22,24 +22,20 @@
 #pragma once
 
 #include "common.h"
+#include "layer.h"
 
 namespace min::engine {
 
-class Input {
+class ImGuiLayer : public Layer {
  public:
-  Input(const Input&) = default;
-  Input&operator=(const Input&) = default;
-  inline static bool IsKeyPressed(int keycode) { return instance->IsKeyPressedImpl(keycode); }
-  inline static bool IsMouseButtonPressed(int button) { return instance->IsMouseButtonPressedImpl(button); }
-  inline static std::pair<float, float> GetMousePosition() { return instance->GetMousePositionImpl(); }
-  inline static float GetMouseX() { return instance->GetMouseXImpl(); }
-  inline static float GetMouseY() { return instance->GetMouseYImpl(); }
- private:
-  virtual bool IsKeyPressedImpl(int keycode);
-  virtual bool IsMouseButtonPressedImpl(int button);
-  virtual std::pair<float, float> GetMousePositionImpl();
-  virtual float GetMouseXImpl();
-  virtual float GetMouseYImpl();
-  static std::unique_ptr<Input> instance;
+  ImGuiLayer();
+  ~ImGuiLayer() = default;
+  virtual void OnAttach() override;
+  virtual void OnDetach() override;
+  virtual void OnImGuiRender() override;
+
+  void Begin();
+  void End();
 };
+
 }

@@ -22,24 +22,34 @@
 #pragma once
 
 #include "common.h"
-
+#include "events/application_event.h"
+#include "window.h"
+#include "layer_stack.h"
+#include "imgui_layer.h"
 namespace min::engine {
 
-class Input {
+class Application {
  public:
-  Input(const Input&) = default;
-  Input&operator=(const Input&) = default;
-  inline static bool IsKeyPressed(int keycode) { return instance->IsKeyPressedImpl(keycode); }
-  inline static bool IsMouseButtonPressed(int button) { return instance->IsMouseButtonPressedImpl(button); }
-  inline static std::pair<float, float> GetMousePosition() { return instance->GetMousePositionImpl(); }
-  inline static float GetMouseX() { return instance->GetMouseXImpl(); }
-  inline static float GetMouseY() { return instance->GetMouseYImpl(); }
+  Application();
+  virtual ~Application() = default;
+  void Run();
+  void OnEvent(Event& e);
+
+  void PushLayer(std::shared_ptr<Layer> layer);
+  void PushOverlay(std::shared_ptr<Layer> layer);
+
+  inline static Application& Get() { return *instance_; }
  private:
-  virtual bool IsKeyPressedImpl(int keycode);
-  virtual bool IsMouseButtonPressedImpl(int button);
-  virtual std::pair<float, float> GetMousePositionImpl();
-  virtual float GetMouseXImpl();
-  virtual float GetMouseYImpl();
-  static std::unique_ptr<Input> instance;
+  bool OnWindowClose(WindowCloseEvent& e);
+  bool OnWindowResize(WindowResizeEvent& e);
+
+  std::shared_ptr<ImGuiLayer> imgui_layer_;
+  std::unique_ptr<Window> window_;
+  bool running_ = true;
+  bool minimized_ = false;
+  float last_frame_time = 0.0f;
+  LayerStack layer_stack_;
+  static Application* instance_;
 };
+
 }

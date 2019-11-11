@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 
-project(min)
+project(min CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -31,6 +31,13 @@ file(GLOB ENGINE_SRC
         src/input.cc
         src/camera.cc
         src/renderer.cc
+        src/events/*
+        src/time_step.h
+        src/window.cc
+        src/gl_context.cc
+        src/layer_stack.cc
+        src/imgui_layer.cc
+        src/application.cc
         src/main.cpp)
 
 file(COPY assets

@@ -25,21 +25,13 @@
 
 namespace min::engine {
 
-class Input {
+class GLContext {
  public:
-  Input(const Input&) = default;
-  Input&operator=(const Input&) = default;
-  inline static bool IsKeyPressed(int keycode) { return instance->IsKeyPressedImpl(keycode); }
-  inline static bool IsMouseButtonPressed(int button) { return instance->IsMouseButtonPressedImpl(button); }
-  inline static std::pair<float, float> GetMousePosition() { return instance->GetMousePositionImpl(); }
-  inline static float GetMouseX() { return instance->GetMouseXImpl(); }
-  inline static float GetMouseY() { return instance->GetMouseYImpl(); }
+  GLContext(GLFWwindow *window);
+  virtual void Init();
+  virtual void SwapBuffers();
  private:
-  virtual bool IsKeyPressedImpl(int keycode);
-  virtual bool IsMouseButtonPressedImpl(int button);
-  virtual std::pair<float, float> GetMousePositionImpl();
-  virtual float GetMouseXImpl();
-  virtual float GetMouseYImpl();
-  static std::unique_ptr<Input> instance;
+  GLFWwindow *window_;
 };
+
 }

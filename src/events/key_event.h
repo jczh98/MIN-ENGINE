@@ -21,25 +21,57 @@
 // SOFTWARE.
 #pragma once
 
-#include "common.h"
+#include "event.h"
 
-namespace min::engine {
+namespace min {
+namespace engine {
 
-class Input {
+class KeyEvent : public Event {
  public:
-  Input(const Input&) = default;
-  Input&operator=(const Input&) = default;
-  inline static bool IsKeyPressed(int keycode) { return instance->IsKeyPressedImpl(keycode); }
-  inline static bool IsMouseButtonPressed(int button) { return instance->IsMouseButtonPressedImpl(button); }
-  inline static std::pair<float, float> GetMousePosition() { return instance->GetMousePositionImpl(); }
-  inline static float GetMouseX() { return instance->GetMouseXImpl(); }
-  inline static float GetMouseY() { return instance->GetMouseYImpl(); }
- private:
-  virtual bool IsKeyPressedImpl(int keycode);
-  virtual bool IsMouseButtonPressedImpl(int button);
-  virtual std::pair<float, float> GetMousePositionImpl();
-  virtual float GetMouseXImpl();
-  virtual float GetMouseYImpl();
-  static std::unique_ptr<Input> instance;
+  KeyEvent(int keycode) : key_code(keycode) {}
+  EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
+  int key_code;
 };
+
+class KeyPressedEvent : public KeyEvent {
+ public:
+  KeyPressedEvent(int keycode, int repeat_count) : KeyEvent(keycode), repeat_count(repeat_count) {}
+  std::string ToString() const override {
+    std::stringstream ss;
+    ss << "KeyPressedEvent: " << key_code << " (" << repeat_count << " repeats)";
+    return ss.str();
+  }
+  EVENT_CLASS_TYPE(KeyPressed)
+  int repeat_count;
+};
+
+class KeyReleasedEvent : public KeyEvent {
+ public:
+  KeyReleasedEvent(int keycode)
+      : KeyEvent(keycode) {}
+
+  std::string ToString() const override {
+    std::stringstream ss;
+    ss << "KeyReleasedEvent: " << key_code;
+    return ss.str();
+  }
+
+  EVENT_CLASS_TYPE(KeyReleased)
+};
+
+class KeyTypedEvent : public KeyEvent {
+ public:
+  KeyTypedEvent(int keycode)
+      : KeyEvent(keycode) {}
+
+  std::string ToString() const override {
+    std::stringstream ss;
+    ss << "KeyTypedEvent: " << key_code;
+    return ss.str();
+  }
+
+  EVENT_CLASS_TYPE(KeyTyped)
+};
+
+}
 }

@@ -21,25 +21,53 @@
 // SOFTWARE.
 #pragma once
 
-#include "common.h"
+#include "event.h"
 
-namespace min::engine {
+namespace min {
+namespace engine {
 
-class Input {
+class WindowResizeEvent : public Event {
  public:
-  Input(const Input&) = default;
-  Input&operator=(const Input&) = default;
-  inline static bool IsKeyPressed(int keycode) { return instance->IsKeyPressedImpl(keycode); }
-  inline static bool IsMouseButtonPressed(int button) { return instance->IsMouseButtonPressedImpl(button); }
-  inline static std::pair<float, float> GetMousePosition() { return instance->GetMousePositionImpl(); }
-  inline static float GetMouseX() { return instance->GetMouseXImpl(); }
-  inline static float GetMouseY() { return instance->GetMouseYImpl(); }
- private:
-  virtual bool IsKeyPressedImpl(int keycode);
-  virtual bool IsMouseButtonPressedImpl(int button);
-  virtual std::pair<float, float> GetMousePositionImpl();
-  virtual float GetMouseXImpl();
-  virtual float GetMouseYImpl();
-  static std::unique_ptr<Input> instance;
+  WindowResizeEvent(uint width, uint height) : width(width), height(height) {}
+  std::string ToString() const override {
+    std::stringstream ss;
+    ss << "WindowResizeEvent: " << width << ", " << height;
+    return ss.str();
+  }
+  uint width, height;
+  EVENT_CLASS_TYPE(WindowResize)
+  EVENT_CLASS_CATEGORY(EventCategoryApplication)
 };
+class WindowCloseEvent : public Event {
+ public:
+  WindowCloseEvent() {}
+
+  EVENT_CLASS_TYPE(WindowClose)
+  EVENT_CLASS_CATEGORY(EventCategoryApplication)
+};
+
+class AppTickEvent : public Event {
+ public:
+  AppTickEvent() {}
+
+  EVENT_CLASS_TYPE(AppTick)
+  EVENT_CLASS_CATEGORY(EventCategoryApplication)
+};
+
+class AppUpdateEvent : public Event {
+ public:
+  AppUpdateEvent() {}
+
+  EVENT_CLASS_TYPE(AppUpdate)
+  EVENT_CLASS_CATEGORY(EventCategoryApplication)
+};
+
+class AppRenderEvent : public Event {
+ public:
+  AppRenderEvent() {}
+
+  EVENT_CLASS_TYPE(AppRender)
+  EVENT_CLASS_CATEGORY(EventCategoryApplication)
+};
+}
 }

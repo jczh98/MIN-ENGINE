@@ -19,27 +19,47 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-#pragma once
 
-#include "common.h"
+#include "layer_stack.h"
 
 namespace min::engine {
 
-class Input {
- public:
-  Input(const Input&) = default;
-  Input&operator=(const Input&) = default;
-  inline static bool IsKeyPressed(int keycode) { return instance->IsKeyPressedImpl(keycode); }
-  inline static bool IsMouseButtonPressed(int button) { return instance->IsMouseButtonPressedImpl(button); }
-  inline static std::pair<float, float> GetMousePosition() { return instance->GetMousePositionImpl(); }
-  inline static float GetMouseX() { return instance->GetMouseXImpl(); }
-  inline static float GetMouseY() { return instance->GetMouseYImpl(); }
- private:
-  virtual bool IsKeyPressedImpl(int keycode);
-  virtual bool IsMouseButtonPressedImpl(int button);
-  virtual std::pair<float, float> GetMousePositionImpl();
-  virtual float GetMouseXImpl();
-  virtual float GetMouseYImpl();
-  static std::unique_ptr<Input> instance;
-};
+LayerStack::LayerStack() {
+}
+
+LayerStack::~LayerStack() {
+  for (Layer *layer : layers_) {
+    layer->OnDetach();
+    delete layer;
+  }
+}
+
+void LayerStack::PushLayer(std::shared_ptr<Layer> layer) {
+  layers_.emplace(layers_.begin() + insert_index_, layer);
+  insert_index_++;
+  layer->OnAttach();
+}
+
+void LayerStack::PushOverlay(std::shared_ptr<Layer> overlay) {
+  layers_.emplace_back(overlay);
+  overlay->OnAttach();
+}
+
+void LayerStack::PopLayer(std::shared_ptr<Layer> layer) {
+  auto it = std::find(layers_.begin(), layers_.begin() + insert_index_, layer);
+  if (it!=layers_.begin() + insert_index_) {
+    layer->OnDetach();
+    layers_.erase(it);
+    insert_index_--;
+  }
+}
+
+void LayerStack::PopOverlay(std::shared_ptr<Layer> overlay) {
+  auto it = std::find(layers_.begin() + insert_index_, layers_.end(), overlay);
+  if (it!=layers_.end()) {
+    overlay->OnDetach();
+    layers_.erase(it);
+  }
+}
+
 }
