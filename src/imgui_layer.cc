@@ -52,11 +52,16 @@ void ImGuiLayer::OnAttach() {
   }
 
   Application& app = Application::Get();
-  GLFWwindow* window = static_cast<GLFWwindow*>(app.window->GetNativeWindow());
+  GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
 
   // Setup Platform/Renderer bindings
   ImGui_ImplGlfw_InitForOpenGL(window, true);
-  ImGui_ImplOpenGL3_Init("#version 410");
+#ifdef __APPLE__
+  const char* glsl_version = "#version 150";
+#else
+  const char *glsl_version = "#version 130";
+#endif
+  ImGui_ImplOpenGL3_Init(glsl_version);
 }
 void ImGuiLayer::OnDetach() {
   ImGui_ImplOpenGL3_Shutdown();
@@ -74,7 +79,7 @@ void ImGuiLayer::Begin() {
 void ImGuiLayer::End() {
   ImGuiIO& io = ImGui::GetIO();
   Application& app = Application::Get();
-  io.DisplaySize = ImVec2((float)app.window->GetWidth(), (float)app.window->GetHeight());
+  io.DisplaySize = ImVec2((float)app.GetWindow().GetWidth(), (float)app.GetWindow().GetHeight());
 
   // Rendering
   ImGui::Render();

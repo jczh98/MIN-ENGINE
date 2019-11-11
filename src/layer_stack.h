@@ -21,7 +21,7 @@
 // SOFTWARE.
 #pragma once
 
-#include "common.h"
+#include <vector>
 #include "layer.h"
 
 namespace min::engine {
@@ -30,10 +30,10 @@ class LayerStack {
  public:
   LayerStack();
   ~LayerStack();
-  void PushLayer(std::shared_ptr<Layer> layer);
-  void PushOverlay(std::shared_ptr<Layer> overlay);
-  void PopLayer(std::shared_ptr<Layer> layer);
-  void PopOverlay(std::shared_ptr<Layer> overlay);
+  void PushLayer(const std::shared_ptr<Layer>& layer);
+  void PushOverlay(const std::shared_ptr<Layer>& overlay);
+  void PopLayer(const std::shared_ptr<Layer>& layer);
+  void PopOverlay(const std::shared_ptr<Layer>& overlay);
   std::vector<std::shared_ptr<Layer>>::iterator begin() { return layers_.begin(); }
   std::vector<std::shared_ptr<Layer>>::iterator end() { return layers_.end(); }
  private:

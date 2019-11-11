@@ -20,65 +20,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 #include "input.h"
-#include "engine.h"
-
-#include <utility>
+#include "application.h"
 
 namespace min::engine {
 
-Input::Input() {
+std::unique_ptr<Input> Input::instance = std::make_unique<Input>();
 
+bool Input::IsKeyPressedImpl(int keycode) {
+  auto window = static_cast<GLFWwindow *>(Application::Get().GetWindow().GetNativeWindow());
+  auto state = glfwGetKey(window, keycode);
+  return state==GLFW_PRESS || state==GLFW_REPEAT;
 }
-Input::~Input() {
+bool Input::IsMouseButtonPressedImpl(int button) {
+  auto window = static_cast<GLFWwindow *>(Application::Get().GetWindow().GetNativeWindow());
+  auto state = glfwGetMouseButton(window, button);
+  return state==GLFW_PRESS;
+}
+std::pair<float, float> Input::GetMousePositionImpl() {
+  auto window = static_cast<GLFWwindow *>(Application::Get().GetWindow().GetNativeWindow());
+  double xpos, ypos;
+  glfwGetCursorPos(window, &xpos, &ypos);
 
+  return {(float) xpos, (float) ypos};
 }
-bool Input::Initialize(GLFWwindow* window, std::shared_ptr<Camera> camera) {
-  window_ = window;
-  if (window_ == nullptr) {
-    return false;
-  }
-  camera_ = std::move(camera);
-  return true;
+float Input::GetMouseXImpl() {
+  auto[x, y] = GetMousePositionImpl();
+  return x;
 }
-
-void Input::ProcessInput() {
-  if (KeyPressedOnce(GLFW_KEY_ESCAPE)) {
-    glfwSetWindowShouldClose(window_, true);
-  }
+float Input::GetMouseYImpl() {
+  auto[x, y] = GetMousePositionImpl();
+  return y;
 }
 
-bool Input::KeyPressed(int key_code) {
-  return glfwGetKey(window_, key_code) == GLFW_PRESS;
-}
-
-bool Input::KeyPressedOnce(int key_code) {
-  bool result = false;
-  if (KeyPressed(key_code)) {
-    if (!key_pressed_[key_code]) {
-      result = true;
-    }
-    key_pressed_[key_code] = true;
-  } else {
-    key_pressed_[key_code] = false;
-  }
-  return result;
-}
-void Input::MouseCallback(GLFWwindow *window, double xpos, double ypos) {
-  static bool first_mouse = true;
-  static float last_x = Engine::SCREEN_WIDTH / 2.0f;
-  static float last_y = Engine::SCREEN_HEIGHT / 2.0f;
-  if (first_mouse) {
-    last_x = xpos;
-    last_y = ypos;
-    first_mouse = false;
-  }
-  float xoffset = xpos - last_x;
-  float yoffset = last_y - ypos; // reversed since y-coordinates go from bottom to top
-  last_x = xpos;
-  last_y = ypos;
-  camera_->ProcessMouseMovement(xoffset, yoffset);
-}
-void Input::ScrollCallback(GLFWwindow *window, double xoffset, double yoffset) {
-  camera_->ProcessMouseScroll(yoffset);
-}
 }

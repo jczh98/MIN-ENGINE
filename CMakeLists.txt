@@ -24,13 +24,8 @@ file(GLOB IMGUI_SRC
 file(GLOB ENGINE_SRC
         src/common.h
         src/log.h
-        src/gl_shader.h
         src/gl_shader.cc
-        src/engine.cc
-        src/engine.h
         src/input.cc
-        src/camera.cc
-        src/renderer.cc
         src/events/*
         src/time_step.h
         src/window.cc

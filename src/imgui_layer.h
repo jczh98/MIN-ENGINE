@@ -21,7 +21,6 @@
 // SOFTWARE.
 #pragma once
 
-#include "common.h"
 #include "layer.h"
 
 namespace min::engine {

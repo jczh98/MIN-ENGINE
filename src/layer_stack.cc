@@ -28,24 +28,23 @@ LayerStack::LayerStack() {
 }
 
 LayerStack::~LayerStack() {
-  for (Layer *layer : layers_) {
+  for (const auto& layer : layers_) {
     layer->OnDetach();
-    delete layer;
   }
 }
 
-void LayerStack::PushLayer(std::shared_ptr<Layer> layer) {
+void LayerStack::PushLayer(const std::shared_ptr<Layer>& layer) {
   layers_.emplace(layers_.begin() + insert_index_, layer);
   insert_index_++;
   layer->OnAttach();
 }
 
-void LayerStack::PushOverlay(std::shared_ptr<Layer> overlay) {
+void LayerStack::PushOverlay(const std::shared_ptr<Layer>& overlay) {
   layers_.emplace_back(overlay);
   overlay->OnAttach();
 }
 
-void LayerStack::PopLayer(std::shared_ptr<Layer> layer) {
+void LayerStack::PopLayer(const std::shared_ptr<Layer>& layer) {
   auto it = std::find(layers_.begin(), layers_.begin() + insert_index_, layer);
   if (it!=layers_.begin() + insert_index_) {
     layer->OnDetach();
@@ -54,7 +53,7 @@ void LayerStack::PopLayer(std::shared_ptr<Layer> layer) {
   }
 }
 
-void LayerStack::PopOverlay(std::shared_ptr<Layer> overlay) {
+void LayerStack::PopOverlay(const std::shared_ptr<Layer>& overlay) {
   auto it = std::find(layers_.begin() + insert_index_, layers_.end(), overlay);
   if (it!=layers_.end()) {
     overlay->OnDetach();

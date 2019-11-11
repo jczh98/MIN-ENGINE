@@ -31,7 +31,7 @@ Application::Application() {
     return;
   }
   instance_ = this;
-  window_ = std::make_unique<Window>(Window::Create());
+  window_ = Window::Create();
   window_->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
   //Renderer::Init();
@@ -50,23 +50,26 @@ void Application::OnEvent(Event &e) {
 }
 void Application::Run() {
   while (running_) {
+    auto time = (float) glfwGetTime();
+    TimeStep ts = time - last_frame_time_;
+    last_frame_time_ = time;
     if (!minimized_) {
-      for (auto layer : layer_stack_) {
-        layer->OnUpdate();
+      for (const auto& layer : layer_stack_) {
+        layer->OnUpdate(ts);
       }
-      imgui_layer_->Begin();
-      for (auto layer : layer_stack_) {
-        layer->OnImGuiRender();
-      }
-      imgui_layer_->End();
-      window_->OnUpdate();
     }
+    imgui_layer_->Begin();
+    for (const auto& layer : layer_stack_) {
+      layer->OnImGuiRender();
+    }
+    imgui_layer_->End();
+    window_->OnUpdate();
   }
 }
-void Application::PushLayer(std::shared_ptr<Layer> layer) {
+void Application::PushLayer(const std::shared_ptr<Layer>& layer) {
   layer_stack_.PushLayer(layer);
 }
-void Application::PushOverlay(std::shared_ptr<Layer> layer) {
+void Application::PushOverlay(const std::shared_ptr<Layer>& layer) {
   layer_stack_.PushOverlay(layer);
 }
 bool Application::OnWindowClose(WindowCloseEvent &e) {

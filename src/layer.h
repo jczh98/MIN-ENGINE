@@ -21,7 +21,6 @@
 // SOFTWARE.
 #pragma once
 
-#include "common.h"
 #include "time_step.h"
 #include "events/event.h"
 
@@ -29,7 +28,7 @@ namespace min::engine {
 
 class Layer {
  public:
-  Layer(const std::string& name = "Layer") : name(name) {}
+  Layer(std::string name = "Layer") : name(std::move(name)) {}
   virtual ~Layer() = default;
   virtual void OnAttach() {}
   virtual void OnDetach() {}

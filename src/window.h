@@ -21,9 +21,11 @@
 // SOFTWARE.
 #pragma once
 
-#include "common.h"
 #include "gl_context.h"
 #include "events/event.h"
+#include "events/application_event.h"
+#include "events/mouse_event.h"
+#include "events/key_event.h"
 
 namespace min::engine {
 

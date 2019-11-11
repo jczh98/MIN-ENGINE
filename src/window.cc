@@ -21,9 +21,7 @@
 // SOFTWARE.
 
 #include "window.h"
-#include "events/application_event.h"
-#include "events/mouse_event.h"
-#include "events/key_event.h"
+
 
 namespace min::engine {
 
@@ -59,6 +57,11 @@ void Window::Init(const WindowProps &props) {
 
   if (GLFWWindow_count == 0) {
     int success = glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // uncomment this statement to fix compilation on OS X
+#endif
     if (success == GLFW_FALSE) {
       log::Log("Could not initialize GLFW!");
       return;

@@ -21,11 +21,10 @@
 // SOFTWARE.
 #pragma once
 
-#include "common.h"
-#include "events/application_event.h"
 #include "window.h"
 #include "layer_stack.h"
 #include "imgui_layer.h"
+
 namespace min::engine {
 
 class Application {
@@ -35,9 +34,10 @@ class Application {
   void Run();
   void OnEvent(Event& e);
 
-  void PushLayer(std::shared_ptr<Layer> layer);
-  void PushOverlay(std::shared_ptr<Layer> layer);
+  void PushLayer(const std::shared_ptr<Layer>& layer);
+  void PushOverlay(const std::shared_ptr<Layer>& layer);
 
+  inline Window& GetWindow() { return *window_; }
   inline static Application& Get() { return *instance_; }
  private:
   bool OnWindowClose(WindowCloseEvent& e);
@@ -47,7 +47,7 @@ class Application {
   std::unique_ptr<Window> window_;
   bool running_ = true;
   bool minimized_ = false;
-  float last_frame_time = 0.0f;
+  float last_frame_time_ = 0.0f;
   LayerStack layer_stack_;
   static Application* instance_;
 };
