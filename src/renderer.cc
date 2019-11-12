@@ -19,61 +19,28 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+
 #include "renderer.h"
 
 namespace min::engine {
 
-Renderer::Renderer() {
-
-}
-Renderer::~Renderer() {
-
-}
-bool Renderer::Initialize() {
-  log::Log("Initializing renderer.");
-  show_demo_ = false;
-  if (!InitFBOs()) {
-    log::Log("FBOs' failed to be initialized correctly.");
-    return false;
-  }
-  if (!LoadShaders()) {
-    log::Log("Shaders' failed to be initialized correctly.");
-    return false;
-  }
-  if (!PreProcess()) {
-    log::Log("Failed to preprocess.");
-    return false;
-  }
-  log::Log("Renderer initialized.");
-  return true;
+void Renderer::Init() {
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnable(GL_DEPTH_TEST);
 }
 void Renderer::Shutdown() {
 
 }
-void Renderer::Render() {
-  //Making sure depth testing is enabled
-  glEnable(GL_DEPTH_TEST);
-  glDepthMask(true);
+void Renderer::OnWindowResize(uint width, uint height) {
+  glViewport(0, 0, width, height);
 }
-bool Renderer::InitFBOs() {
-  return true;
-}
-bool Renderer::LoadShaders() {
-  return true;
-}
-bool Renderer::PreProcess() {
-  return true;
-}
-void Renderer::PostProcess() {
 
+void Renderer::SetClearColor(const Vector4f &color) {
+  glClearColor(color.x(), color.y(), color.z(), color.w());
 }
-void Renderer::OnGUI() {
-  if (show_demo_) {
-    ImGui::ShowDemoWindow(&show_demo_);
-  }
-  ImGui::Begin("Hello world!");
-  ImGui::Checkbox("Demo", &show_demo_);
-  ImGui::End();
+void Renderer::Clear() {
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 }
