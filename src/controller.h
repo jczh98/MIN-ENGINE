@@ -34,21 +34,26 @@ namespace min::engine {
 
 class Controller {
  public:
-  Controller(float aspect_ration, bool rotation = false);
+  Controller(float aspect_ration, float yaw = -90.0f, float pitch = 0.0f);
   void OnUpdate(TimeStep ts);
   void OnEvent(Event& e);
 
-  float zoom_level = 1.0f;
-  Camera camera;
+  PerspectiveCamera camera;
  private:
+  void UpdateVectors();
   bool OnMouseScrolled(MouseScrolledEvent& e);
   bool OnWindowResized(WindowResizeEvent& e);
   bool rotation_;
   float aspect_ration_;
-  Vector3f camera_position_ = {0.0f, 0.0f, 0.0f};
+  Vector3f camera_position_ = {0.0f, 0.0f, 3.0f};
+  Vector3f world_up_ = {0.0f, 1.0f, 0.0f};
+  Vector3f direction_ = {0.0f, 0.0f, -1.0f};
+  Vector3f right_;
+  Vector3f vector_up_;
   float camera_rotation_ = 0.0f;
   float camera_translation_speed_ = 5.0f;
   float camera_rotation_speed_ = 180.0f;
+  float yaw_, pitch_, movement_speed_, mouse_sensitivity_, zoom_;
 };
 
 }

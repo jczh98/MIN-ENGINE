@@ -24,30 +24,30 @@
 
 namespace min::engine {
 
-Camera::Camera(float left, float right, float bottom, float top) : view(Matrix4f::Identity()){
-  projection = nf::math::Ortho(left, right, bottom, top, -1.0f, 1.0f);
-  view_projection = projection * view;
-}
-void Camera::SetProjection(float left, float right, float bottom, float top) {
-  projection = nf::math::Ortho(left, right, bottom, top, -1.0f, 1.0f);
-  view_projection = projection * view;
-}
-void Camera::RecalculateViewMatrix() {
-  Eigen::Affine3f transform = Eigen::Affine3f::Identity();
-  transform.translate(position);
-  Eigen::AngleAxisf rot = Eigen::AngleAxisf(nf::math::radians(rotation), Vector3f(0, 0, 1));
-  auto mat = transform * rot;
-  view = mat.matrix().inverse();
-  view_projection = projection * view;
-}
+//Camera::Camera(float left, float right, float bottom, float top) : view(Matrix4f::Identity()){
+//  projection = nf::math::Ortho(left, right, bottom, top, -1.0f, 1.0f);
+//  view_projection = projection * view;
+//}
+//void Camera::SetProjection(float left, float right, float bottom, float top) {
+//  projection = nf::math::Ortho(left, right, bottom, top, -1.0f, 1.0f);
+//  view_projection = projection * view;
+//}
+//void Camera::RecalculateViewMatrix() {
+//  Eigen::Affine3f transform = Eigen::Affine3f::Identity();
+//  transform.translate(position);
+//  Eigen::AngleAxisf rot = Eigen::AngleAxisf(nf::math::radians(rotation), Vector3f(0, 0, 1));
+//  auto mat = transform * rot;
+//  view = mat.matrix().inverse();
+//  view_projection = projection * view;
+//}
 
-//PerspectiveCamera::PerspectiveCamera(float fov, float width, float height, float z_near, float z_far) {
-//  projection = nf::math::Perspective(nf::math::radians(fov), (width / height), z_near, z_far);
-//  view = Matrix4f::Identity();
-//  view_projection = projection * view;
-//}
-//void PerspectiveCamera::RecalculateViewMatrix() {
-//  view = nf::math::LookAt(position_, front_, vector_up_);
-//  view_projection = projection * view;
-//}
+PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float z_near, float z_far) {
+  projection = nf::math::Perspective(nf::math::radians(fov), aspect, z_near, z_far);
+  view = Matrix4f::Identity();
+  view_projection = projection * view;
+}
+void PerspectiveCamera::RecalculateViewMatrix() {
+  view = nf::math::LookAt(position_, position_ + direction_, vector_up_);
+  view_projection = projection * view;
+}
 }

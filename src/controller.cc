@@ -23,41 +23,34 @@
 
 namespace min::engine {
 
-Controller::Controller(float aspect_ration, bool rotation)
-    : aspect_ration_(aspect_ration),
-      camera(-aspect_ration*zoom_level,
-             aspect_ration*zoom_level,
-             -zoom_level,
-             zoom_level) {
-      //camera(45.0, 1280, 720, 0.1, 100.0) {
-
+Controller::Controller(float aspect_ration, float yaw, float pitch)
+    : camera(45.0f, aspect_ration, 0.1f, 100.0f) {
+  UpdateVectors();
 }
 void Controller::OnUpdate(TimeStep ts) {
+  using namespace nf::math;
   if (Input::IsKeyPressed(MIN_KEY_A)) {
-    camera_position_.x() -= std::cos(nf::math::radians(camera_rotation_)) * camera_translation_speed_ * ts;
-    camera_position_.y() -= std::sin(nf::math::radians(camera_rotation_)) * camera_translation_speed_ * ts;
+    camera_position_ -= right_ * movement_speed_ * ts;
   } else if (Input::IsKeyPressed(MIN_KEY_D)) {
-    camera_position_.x() += std::cos(nf::math::radians(camera_rotation_)) * camera_translation_speed_ * ts;
-    camera_position_.y() += std::sin(nf::math::radians(camera_rotation_)) * camera_translation_speed_ * ts;
+    camera_position_ += right_ * movement_speed_ * ts;
   } else if (Input::IsKeyPressed(MIN_KEY_W)) {
-    camera_position_.x() -= std::sin(nf::math::radians(camera_rotation_)) * camera_translation_speed_ * ts;
-    camera_position_.y() += std::cos(nf::math::radians(camera_rotation_)) * camera_translation_speed_ * ts;
+    camera_position_ += direction_ * movement_speed_ * ts;
   } else if (Input::IsKeyPressed(MIN_KEY_S)) {
-    camera_position_.x() += std::sin(nf::math::radians(camera_rotation_)) * camera_translation_speed_ * ts;
-    camera_position_.y() -= std::cos(nf::math::radians(camera_rotation_)) * camera_translation_speed_ * ts;
+    camera_position_ -= direction_ * movement_speed_ * ts;
   }
   if (rotation_) {
     if (Input::IsKeyPressed(MIN_KEY_Q)) {
-      camera_rotation_ += camera_rotation_speed_ * ts;
+      camera_rotation_ += camera_rotation_speed_*ts;
     }
     if (Input::IsKeyPressed(MIN_KEY_E)) {
-      camera_rotation_ -= camera_rotation_speed_ * ts;
+      camera_rotation_ -= camera_rotation_speed_*ts;
     }
     if (camera_rotation_ > 180.0f) camera_rotation_ -= 360.0f;
     else if (camera_rotation_ <= -180.0f) camera_rotation_ += 360.0f;
   }
   camera.SetPosition(camera_position_);
-  camera_translation_speed_ = zoom_level;
+  camera.SetVectorUp(vector_up_);
+  camera.SetDirection(direction_);
 }
 void Controller::OnEvent(Event &e) {
   EventDispatcher dispatcher(e);
@@ -65,15 +58,29 @@ void Controller::OnEvent(Event &e) {
   dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Controller::OnWindowResized, this, std::placeholders::_1));
 }
 bool Controller::OnMouseScrolled(MouseScrolledEvent &e) {
-  zoom_level -= e.offset_y * 0.25f;
-  zoom_level = std::max(zoom_level, 0.25f);
-  camera.SetProjection(-aspect_ration_ * zoom_level, aspect_ration_ * zoom_level, -zoom_level, zoom_level);
+  //zoom_level -= e.offset_y*0.25f;
+  //zoom_level = std::max(zoom_level, 0.25f);
+  //camera.SetProjection(-aspect_ration_ * zoom_level, aspect_ration_ * zoom_level, -zoom_level, zoom_level);
   return false;
 }
 bool Controller::OnWindowResized(WindowResizeEvent &e) {
-  aspect_ration_ = (float) e.width / (float) e.height;
-  camera.SetProjection(-aspect_ration_ * zoom_level, aspect_ration_ * zoom_level, -zoom_level, zoom_level);
+  //aspect_ration_ = (float) e.width/(float) e.height;
+  //camera.SetProjection(-aspect_ration_ * zoom_level, aspect_ration_ * zoom_level, -zoom_level, zoom_level);
   return false;
+}
+
+void Controller::UpdateVectors() {
+  using namespace nf::math;
+  Vector3f front;
+  front.x() = std::cos(radians(yaw_)) * std::cos(radians(pitch_));
+  front.y() = std::sin(radians(pitch_));
+  front.z() = std::sin(radians(yaw_)) * std::cos(radians(pitch_));
+  direction_ = front.normalized();
+  right_ = direction_.cross(world_up_).normalized();
+  vector_up_ = right_.cross(direction_).normalized();
+  camera.SetPosition(camera_position_);
+  camera.SetVectorUp(vector_up_);
+  camera.SetDirection(direction_);
 }
 
 }
