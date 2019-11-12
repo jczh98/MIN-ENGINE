@@ -29,7 +29,9 @@ GLContext::GLContext(GLFWwindow *window) : window_(window){
 void GLContext::Init() {
   glfwMakeContextCurrent(window_);
   int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-  log::Log("Failed to initialize Glad! status is {}", status);
+  if (status == 0) {
+    log::Log("Failed to initialize Glad! status is {}", status);
+  }
 
   log::Log("OpenGL Info:");
   log::Log("  Vendor: {0}", glGetString(GL_VENDOR));

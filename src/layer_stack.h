@@ -38,7 +38,7 @@ class LayerStack {
   std::vector<std::shared_ptr<Layer>>::iterator end() { return layers_.end(); }
  private:
   std::vector<std::shared_ptr<Layer>> layers_;
-  uint insert_index_;
+  uint insert_index_ = 0;
 };
 
 }
