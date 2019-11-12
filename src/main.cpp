@@ -14,6 +14,8 @@ class SandBoxLayer : public Layer {
   }
   void OnUpdate(TimeStep ts) override {
     controller_->OnUpdate(ts);
+    Renderer::SetClearColor({0.1, 0.1, 0.1, 1});
+    Renderer::Clear();
   }
   void OnImGuiRender() override {
   }

@@ -27,19 +27,11 @@ namespace min::engine {
 
 class Renderer {
  public:
-  Renderer();
-  ~Renderer();
-  bool Initialize();
-  void Shutdown();
-  void Render();
-  // Initialize rendering gui
-  void OnGUI();
- private:
-  bool InitFBOs();
-  bool LoadShaders();
-  bool PreProcess();
-  void PostProcess();
-  bool show_demo_;
+  static void Init();
+  static void Shutdown();
+  static void OnWindowResize(uint width, uint height);
+  static void SetClearColor(const Vector4f& color);
+  static void Clear();
 };
 
 }

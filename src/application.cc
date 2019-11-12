@@ -34,7 +34,7 @@ Application::Application() {
   window_ = Window::Create();
   window_->SetEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
 
-  //Renderer::Init();
+  Renderer::Init();
 
   imgui_layer_ = std::make_shared<ImGuiLayer>();
   PushOverlay(imgui_layer_);
@@ -82,7 +82,7 @@ bool Application::OnWindowResize(WindowResizeEvent &e) {
     return false;
   }
   minimized_ = false;
-  //Renderer::OnWindowResize(e.width, e.height);
+  Renderer::OnWindowResize(e.width, e.height);
   return false;
 }
 

@@ -24,6 +24,7 @@
 #include "window.h"
 #include "layer_stack.h"
 #include "imgui_layer.h"
+#include "renderer.h"
 
 namespace min::engine {
 

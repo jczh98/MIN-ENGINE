@@ -43,6 +43,7 @@
 
 using Vector3f = nf::math::Vector3f;
 using Vector2f = nf::math::Vector2f;
+using Vector4f = nf::math::Vector4f;
 using Matrix3f = nf::math::Matrix3f;
 using Matrix4f = nf::math::Matrix4f;
 

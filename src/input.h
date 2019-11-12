@@ -21,8 +21,7 @@
 // SOFTWARE.
 #pragma once
 
-#include <algorithm>
-#include <utility>
+#include "common.h"
 
 namespace min::engine {
 
