@@ -39,7 +39,8 @@ class Controller {
   void OnEvent(Event& e);
 
   float zoom_level = 1.0f;
-  Camera camera;
+  //Camera camera;
+  PerspectiveCamera camera;
  private:
   bool OnMouseScrolled(MouseScrolledEvent& e);
   bool OnWindowResized(WindowResizeEvent& e);

@@ -27,18 +27,28 @@ namespace min::engine {
 
 class Camera {
  public:
-  Camera(float left, float right, float bottom, float top);
-  void SetProjection(float left, float right, float bottom, float top);
-  void SetPosition(const Vector3f& pos) { position = pos; RecalculateViewMatrix(); }
+  void SetPosition(const Vector3f& pos) { position_ = pos; RecalculateViewMatrix(); }
+  void SetDirection(const Vector3f& dir) { front_ = dir; RecalculateViewMatrix(); }
+  void SetVectorUp(const Vector3f& up) { vector_up_ = up; RecalculateViewMatrix(); }
   void SetRotation(float rot) { rotation = rot; RecalculateViewMatrix(); }
 
   Matrix4f projection;
   Matrix4f view;
   Matrix4f view_projection;
-  Vector3f position = {0.0f, 0.0f, 0.0f};
+ protected:
+  Vector3f position_ = {0.0f, 0.0f, 0.0f};
+  Vector3f front_ = {0.0f, 0.0f, -1.0f};
+  Vector3f vector_up_ = {0.0f, 1.0f, 0.0f};
   float rotation;
  private:
-  void RecalculateViewMatrix();
+  virtual void RecalculateViewMatrix() = 0;
+};
+
+class PerspectiveCamera : public Camera {
+ public:
+  PerspectiveCamera(float fov, float width, float height, float z_near, float z_far);
+ private:
+  virtual void RecalculateViewMatrix() override ;
 };
 
 
