@@ -86,7 +86,7 @@ class SandBoxLayer : public Layer {
     // view/projection transformations
     using namespace nf;
     auto& window = Application::Get().GetWindow();
-    Matrix4f  projection = math::Perspective(math::radians(45.0f), window.GetWidth() / window.GetHeight(), 0.1f, 100.0f);
+    Matrix4f  projection = math::Perspective(math::radians(controller_->zoom_level), window.GetWidth() / window.GetHeight(), 0.1f, 100.0f);
     Matrix4f view = controller_->camera.view;
     light_shader_->UploadUniformMat4("projection", projection);
     light_shader_->UploadUniformMat4("view", view);

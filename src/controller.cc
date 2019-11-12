@@ -25,7 +25,11 @@ namespace min::engine {
 
 Controller::Controller(float aspect_ration, bool rotation)
     : aspect_ration_(aspect_ration),
-      camera(45.0, 1280, 720, 0.1, 100.0) {
+      camera(-aspect_ration*zoom_level,
+             aspect_ration*zoom_level,
+             -zoom_level,
+             zoom_level) {
+      //camera(45.0, 1280, 720, 0.1, 100.0) {
 
 }
 void Controller::OnUpdate(TimeStep ts) {
@@ -63,12 +67,12 @@ void Controller::OnEvent(Event &e) {
 bool Controller::OnMouseScrolled(MouseScrolledEvent &e) {
   zoom_level -= e.offset_y * 0.25f;
   zoom_level = std::max(zoom_level, 0.25f);
-  //camera.SetProjection(-aspect_ration_ * zoom_level, aspect_ration_ * zoom_level, -zoom_level, zoom_level);
+  camera.SetProjection(-aspect_ration_ * zoom_level, aspect_ration_ * zoom_level, -zoom_level, zoom_level);
   return false;
 }
 bool Controller::OnWindowResized(WindowResizeEvent &e) {
   aspect_ration_ = (float) e.width / (float) e.height;
-  //camera.SetProjection(-aspect_ration_ * zoom_level, aspect_ration_ * zoom_level, -zoom_level, zoom_level);
+  camera.SetProjection(-aspect_ration_ * zoom_level, aspect_ration_ * zoom_level, -zoom_level, zoom_level);
   return false;
 }
 
