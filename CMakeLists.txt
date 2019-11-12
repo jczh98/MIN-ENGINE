@@ -33,6 +33,8 @@ file(GLOB ENGINE_SRC
         src/layer_stack.cc
         src/imgui_layer.cc
         src/application.cc
+        src/controller.cc
+        src/camera.cc
         src/main.cpp)
 
 file(COPY assets

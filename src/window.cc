@@ -100,6 +100,11 @@ void Window::Init(const WindowProps &props) {
   {
     WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
+    if (key == GLFW_KEY_ESCAPE) {
+      WindowCloseEvent event;
+      data.event_callback_fn(event);
+    }
+
     switch (action)
     {
       case GLFW_PRESS:

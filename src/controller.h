@@ -22,24 +22,34 @@
 #pragma once
 
 #include "common.h"
+#include "time_step.h"
+#include "events/mouse_event.h"
+#include "events/application_event.h"
+#include "input.h"
+#include "keycodes.h"
+#include "camera.h"
+#include "application.h"
 
 namespace min::engine {
 
-class Camera {
+class Controller {
  public:
-  Camera(float left, float right, float bottom, float top);
-  void SetProjection(float left, float right, float bottom, float top);
-  void SetPosition(const Vector3f& pos) { position = pos; RecalculateViewMatrix(); }
-  void SetRotation(float rot) { rotation = rot; RecalculateViewMatrix(); }
+  Controller(float aspect_ration, bool rotation = false);
+  void OnUpdate(TimeStep ts);
+  void OnEvent(Event& e);
 
-  Matrix4f projection;
-  Matrix4f view;
-  Matrix4f view_projection;
-  Vector3f position = {0.0f, 0.0f, 0.0f};
-  float rotation;
+  float zoom_level = 1.0f;
+  Camera camera;
  private:
-  void RecalculateViewMatrix();
+  bool OnMouseScrolled(MouseScrolledEvent& e);
+  bool OnWindowResized(WindowResizeEvent& e);
+  bool rotation_;
+  float aspect_ration_;
+  Vector3f camera_position_ = {0.0f, 0.0f, 0.0f};
+  float camera_rotation_ = 0.0f;
+  float camera_translation_speed_ = 5.0f;
+  float camera_rotation_speed_ = 180.0f;
 };
 
-
 }
+
