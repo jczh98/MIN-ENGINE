@@ -27,7 +27,7 @@ namespace min::engine {
 Camera::Camera(float aspect, Vector3f pos, Vector3f up, float yaw, float pitch)
     : direction_(Vector3f(0.0f, 0.0f, -1.0f)),
       speed_(2.5f),
-      mouse_sensitivity_(0.01f),
+      mouse_sensitivity_(0.1f),
       fov_(45.0f) {
   position_ = pos;
   world_up_ = up;
@@ -74,7 +74,7 @@ void Camera::UpdateCameraVectors() {
   Vector3f front;
   front.x() = std::cos(radians(yaw_)) * std::cos(radians(pitch_));
   front.y() = std::sin(radians(pitch_));
-  front.z() = std::sin(radians(yaw_)) * std::cos(pitch_);
+  front.z() = std::sin(radians(yaw_)) * std::cos(radians(pitch_));
   direction_ = front.normalized();
   right_ = direction_.cross(world_up_).normalized();
   vector_up_ = right_.cross(direction_).normalized();

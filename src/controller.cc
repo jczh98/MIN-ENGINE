@@ -42,7 +42,7 @@ void Controller::OnEvent(Event &e) {
   EventDispatcher dispatcher(e);
   dispatcher.Dispatch<MouseScrolledEvent>(std::bind(&Controller::OnMouseScrolled, this, std::placeholders::_1));
   dispatcher.Dispatch<WindowResizeEvent>(std::bind(&Controller::OnWindowResized, this, std::placeholders::_1));
-  //dispatcher.Dispatch<MouseMovedEvent>(std::bind(&Controller::OnMouseMoved, this, std::placeholders::_1));
+  dispatcher.Dispatch<MouseMovedEvent>(std::bind(&Controller::OnMouseMoved, this, std::placeholders::_1));
 }
 bool Controller::OnMouseMoved(MouseMovedEvent &e) {
   camera.ProcessMouseMovement(e.mouse_x, e.mouse_y);

@@ -41,7 +41,7 @@ class Camera {
          float yaw = -90.0f, float pitch = 0.0f);
 
   inline Matrix4f GetViewMatrix() { return nf::math::LookAt(position_, position_ + direction_, vector_up_); }
-  inline Matrix4f GetProjectionMatrix() { return nf::math::Perspective(fov_, aspect, z_near_, z_far_); }
+  inline Matrix4f GetProjectionMatrix() { return nf::math::Perspective(nf::math::radians(fov_), aspect, z_near_, z_far_); }
   void ProcessKeyboard(Direction direction, TimeStep ts);
   void ProcessMouseMovement(float x_offset, float y_offset, GLboolean constrain_pitch = true);
   void ProcessMouseScroll(float y_offset);
