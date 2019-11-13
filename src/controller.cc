@@ -24,7 +24,7 @@
 namespace min::engine {
 
 Controller::Controller(float aspect_ration)
-    : camera(aspect_ration, {0.0f, 0.0f, 6.0f}) {
+    : camera(aspect_ration, {0.0f, 0.0f, 3.0f}) {
 }
 void Controller::OnUpdate(TimeStep ts) {
   using namespace nf::math;

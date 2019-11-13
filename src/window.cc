@@ -78,7 +78,7 @@ void Window::Init(const WindowProps &props) {
   glfwSetWindowUserPointer(window_, &data_);
   SetVSync(true);
 
-  //glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+  glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
   // Set GLFW callbacks
   glfwSetWindowSizeCallback(window_, [](GLFWwindow* window, int width, int height)

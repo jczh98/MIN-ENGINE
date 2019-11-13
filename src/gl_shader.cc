@@ -41,7 +41,7 @@ GLShader::GLShader(const std::string &vert_path, const std::string &frag_path) {
   glShaderSource(vertex, 1, &vertex_source_c, nullptr);
   glCompileShader(vertex);
   if (!CheckCompileErrors(vertex, CompileType::VERTEX)) {
-    log::Log("Compile error.");
+    log::Log("{} Compile error.", vert_path);
     return;
   }
   // Fragment shader
@@ -49,7 +49,7 @@ GLShader::GLShader(const std::string &vert_path, const std::string &frag_path) {
   glShaderSource(fragment, 1, &fragment_source_c, nullptr);
   glCompileShader(fragment);
   if (!CheckCompileErrors(fragment, CompileType::FRAGMENT)) {
-    log::Log("Compile error.");
+    log::Log("{} Compile error.", frag_path);
     return;
   }
   // Program
