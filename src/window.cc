@@ -78,6 +78,8 @@ void Window::Init(const WindowProps &props) {
   glfwSetWindowUserPointer(window_, &data_);
   SetVSync(true);
 
+  //glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
   // Set GLFW callbacks
   glfwSetWindowSizeCallback(window_, [](GLFWwindow* window, int width, int height)
   {
@@ -167,9 +169,19 @@ void Window::Init(const WindowProps &props) {
 
   glfwSetCursorPosCallback(window_, [](GLFWwindow* window, double xPos, double yPos)
   {
+    static bool first = true;
+    static float last_x, last_y;
+    if (first) {
+      last_x = xPos;
+      last_y = yPos;
+      first = false;
+    }
+    float xoffset = xPos - last_x;
+    float yoffset = last_y - yPos;
+    last_x = xPos;
+    last_y = yPos;
     WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-
-    MouseMovedEvent event((float)xPos, (float)yPos);
+    MouseMovedEvent event(xoffset, yoffset);
     data.event_callback_fn(event);
   });
 }

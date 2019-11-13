@@ -24,30 +24,60 @@
 
 namespace min::engine {
 
-//Camera::Camera(float left, float right, float bottom, float top) : view(Matrix4f::Identity()){
-//  projection = nf::math::Ortho(left, right, bottom, top, -1.0f, 1.0f);
-//  view_projection = projection * view;
-//}
-//void Camera::SetProjection(float left, float right, float bottom, float top) {
-//  projection = nf::math::Ortho(left, right, bottom, top, -1.0f, 1.0f);
-//  view_projection = projection * view;
-//}
-//void Camera::RecalculateViewMatrix() {
-//  Eigen::Affine3f transform = Eigen::Affine3f::Identity();
-//  transform.translate(position);
-//  Eigen::AngleAxisf rot = Eigen::AngleAxisf(nf::math::radians(rotation), Vector3f(0, 0, 1));
-//  auto mat = transform * rot;
-//  view = mat.matrix().inverse();
-//  view_projection = projection * view;
-//}
+Camera::Camera(float aspect, Vector3f pos, Vector3f up, float yaw, float pitch)
+    : direction_(Vector3f(0.0f, 0.0f, -1.0f)),
+      speed_(2.5f),
+      mouse_sensitivity_(0.01f),
+      fov_(45.0f) {
+  position_ = pos;
+  world_up_ = up;
+  yaw_ = yaw;
+  pitch_ = pitch;
+  this->aspect = aspect;
+  UpdateCameraVectors();
+}
 
-PerspectiveCamera::PerspectiveCamera(float fov, float aspect, float z_near, float z_far) {
-  projection = nf::math::Perspective(nf::math::radians(fov), aspect, z_near, z_far);
-  view = Matrix4f::Identity();
-  view_projection = projection * view;
+void Camera::ProcessKeyboard(min::engine::Direction direction, min::engine::TimeStep ts) {
+  float velocity = speed_ * ts;
+  switch (direction) {
+    case FORWARD: position_ += direction_ * velocity;
+      break;
+    case BACKWARD: position_ -= direction_ * velocity;
+      break;
+    case LEFT: position_ -= right_ * velocity;
+      break;
+    case RIGHT: position_ += right_ * velocity;
+      break;
+  }
 }
-void PerspectiveCamera::RecalculateViewMatrix() {
-  view = nf::math::LookAt(position_, position_ + direction_, vector_up_);
-  view_projection = projection * view;
+
+void Camera::ProcessMouseMovement(float x_offset, float y_offset, GLboolean constrain_pitch) {
+  x_offset *= mouse_sensitivity_;
+  y_offset *= mouse_sensitivity_;
+  yaw_ += x_offset;
+  pitch_ += y_offset;
+  if (constrain_pitch) {
+    pitch_ = std::min(pitch_, 89.0f);
+    pitch_ = std::max(pitch_, -89.0f);
+  }
+  UpdateCameraVectors();
 }
+
+void Camera::ProcessMouseScroll(float y_offset) {
+  if (fov_ >= 1.0f && fov_ <= 45.0f) fov_ -= y_offset;
+  if (fov_ <= 1.0f) fov_ = 1.0f;
+  if (fov_ >= 45.0f) fov_ = 45.0f;
+}
+
+void Camera::UpdateCameraVectors() {
+  using namespace nf::math;
+  Vector3f front;
+  front.x() = std::cos(radians(yaw_)) * std::cos(radians(pitch_));
+  front.y() = std::sin(radians(pitch_));
+  front.z() = std::sin(radians(yaw_)) * std::cos(pitch_);
+  direction_ = front.normalized();
+  right_ = direction_.cross(world_up_).normalized();
+  vector_up_ = right_.cross(direction_).normalized();
+}
+
 }

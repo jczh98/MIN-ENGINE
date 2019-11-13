@@ -22,31 +22,37 @@
 #pragma once
 
 #include "common.h"
+#include "time_step.h"
 
 namespace min::engine {
 
-class Camera {
- public:
-  void SetProjection(float left, float right, float bottom, float top);
-  void SetPosition(const Vector3f& pos) { position_ = pos; RecalculateViewMatrix(); }
-  void SetVectorUp(const Vector3f& up) { vector_up_ = up; RecalculateViewMatrix(); }
-  void SetDirection(const Vector3f& dir) { direction_ = dir; RecalculateViewMatrix(); }
-
-  Matrix4f projection;
-  Matrix4f view;
-  Matrix4f view_projection;
- protected:
-  Vector3f position_ = {0.0f, 0.0f, 0.0f};
-  Vector3f direction_ = {0.0f, 0.0f, 0.0f};
-  Vector3f vector_up_ = {0.0f, 1.0f, 0.0f};
- private:
-  virtual void RecalculateViewMatrix() = 0;
+enum Direction {
+  FORWARD,
+  BACKWARD,
+  LEFT,
+  RIGHT
 };
 
-class PerspectiveCamera : public Camera{
+class Camera {
  public:
-  PerspectiveCamera(float fov, float aspect, float z_near, float z_far);
-  void RecalculateViewMatrix() override ;
+  Camera(float aspect,
+         Vector3f pos = Vector3f(0.0f, 0.0f, 0.0f),
+         Vector3f up = Vector3f(0.0f, 1.0f, 0.0f),
+         float yaw = -90.0f, float pitch = 0.0f);
+
+  inline Matrix4f GetViewMatrix() { return nf::math::LookAt(position_, position_ + direction_, vector_up_); }
+  inline Matrix4f GetProjectionMatrix() { return nf::math::Perspective(fov_, aspect, z_near_, z_far_); }
+  void ProcessKeyboard(Direction direction, TimeStep ts);
+  void ProcessMouseMovement(float x_offset, float y_offset, GLboolean constrain_pitch = true);
+  void ProcessMouseScroll(float y_offset);
+  float aspect;
+ private:
+  void UpdateCameraVectors();
+  Vector3f position_, direction_, vector_up_, right_, world_up_;
+  float fov_;
+  float yaw_, pitch_;
+  float speed_, mouse_sensitivity_;
+  float z_near_ = 0.1f, z_far_ = 100.0f;
 };
 
 }

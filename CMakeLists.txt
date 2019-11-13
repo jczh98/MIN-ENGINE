@@ -40,6 +40,8 @@ file(GLOB ENGINE_SRC
         src/imgui_layer.cc
         src/application.cc
         src/renderer.cc
+        src/camera.cc
+        src/controller.cc
         src/main.cpp)
 
 file(COPY assets

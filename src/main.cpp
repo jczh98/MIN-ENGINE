@@ -1,14 +1,13 @@
 #include "application.h"
 #include "gl_shader.h"
-#include "camera_learn.h"
+#include "controller.h"
 
 using namespace min::engine;
 
 class SandBoxLayer : public Layer {
  public:
   SandBoxLayer() {
-    //controller_ = std::make_unique<Controller>(1280.0f/720.0f);
-    camera = Camera({0.0, 0.0, 6.0});
+    controller_ = std::make_unique<Controller>(1280.0f/720.0f);
   }
   void OnAttach() override {
     light_shader_ = std::make_shared<GLShader>("assets/shaders/colors.vs.glsl", "assets/shaders/colors.fs.glsl");
@@ -78,17 +77,15 @@ class SandBoxLayer : public Layer {
     glDeleteBuffers(1, &VBO);
   }
   void OnUpdate(TimeStep ts) override {
-    //controller_->OnUpdate(ts);
+    controller_->OnUpdate(ts);
     Renderer::SetClearColor({0.1, 0.1, 0.1, 1});
     Renderer::Clear();
     light_shader_->Use();
     light_shader_->UploadUniformFloat3("objectColor", {1.0f, 0.5f, 0.31f});
     light_shader_->UploadUniformFloat3("lightColor", {1.0f, 1.0f, 1.0f});
     // view/projection transformations
-    using namespace nf;
-    auto& window = Application::Get().GetWindow();
-    Matrix4f projection = math::Perspective(math::radians(camera.zoom), (float)window.GetWidth() / (float) window.GetHeight(), 0.1f, 100.0f);
-    Matrix4f view = camera.GetViewMatrix();//controller_->camera.view;
+    Matrix4f projection = controller_->camera.GetProjectionMatrix();
+    Matrix4f view = controller_->camera.GetViewMatrix();
     light_shader_->UploadUniformMat4("projection", projection);
     light_shader_->UploadUniformMat4("view", view);
 
@@ -115,12 +112,11 @@ class SandBoxLayer : public Layer {
   void OnImGuiRender() override {
   }
   void OnEvent(Event &event) override {
-    //controller_->OnEvent(event);
+    controller_->OnEvent(event);
   }
   unsigned int VBO, cubeVAO, lightVAO;
  private:
-  Camera camera;
-  //std::unique_ptr<Controller> controller_;
+  std::unique_ptr<Controller> controller_;
   std::shared_ptr<GLShader> light_shader_, lamp_shader_;
 };
 class SandBox : public Application {
