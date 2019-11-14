@@ -35,6 +35,7 @@ class GLShader {
   GLShader(const std::string &vert_path, const std::string &frag_path);
   virtual ~GLShader();
   virtual void Use();
+  void UploadUniformInt(const std::string &name, int value);
   void UploadUniformFloat(const std::string &name, float value);
   void UploadUniformFloat2(const std::string &name, const Vector2f &value);
   void UploadUniformFloat3(const std::string &name, const Vector3f &value);

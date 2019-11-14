@@ -74,6 +74,10 @@ void GLShader::Use() {
   glUseProgram(id_);
 }
 
+void GLShader::UploadUniformInt(const std::string &name, int value) {
+  glUniform1i(glGetUniformLocation(id_, name.c_str()), value);
+}
+
 void GLShader::UploadUniformFloat(const std::string &name, float value) {
   glUniform1f(glGetUniformLocation(id_, name.c_str()), value);
 }

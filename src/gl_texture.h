@@ -33,9 +33,9 @@ class GLTexture {
   virtual void SetData(void *data, uint size);
   virtual void Bind(uint slot = 0) const;
   uint width, height;
+  uint id;
  private:
   std::string path_;
-  uint id_;
   GLenum  internal_format_, data_format_;
 };
 }

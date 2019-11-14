@@ -29,38 +29,42 @@ GLTexture::GLTexture(const std::string &path) : path_(path){
   int width, height, channels;
   stbi_set_flip_vertically_on_load(1);
   stbi_uc* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
-
   this->width = width;
   this->height = height;
-  GLenum internal_format = 0, data_format = 0;
-  if (channels == 4) {
-    internal_format = GL_RGBA8;
-    data_format = GL_RGBA;
-  } else if (channels == 3) {
-    internal_format = GL_RGB8;
-    data_format = GL_RGB;
-  }
-  glCreateTextures(GL_TEXTURE_2D, 1, &id_);
-  glTextureStorage2D(id_, 1, internal_format, width, height);
-  glTextureParameteri(id_, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-  glTextureParameteri(id_, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+  glGenTextures(1, &id);
+  if (data) {
+    GLenum internal_format = 0, data_format = 0;
+    if (channels == 4) {
+      internal_format = GL_RGBA8;
+      data_format = GL_RGBA;
+    } else if (channels == 3) {
+      internal_format = GL_RGB8;
+      data_format = GL_RGB;
+    } else if (channels == 1) {
+      internal_format = GL_RED;
+      data_format = GL_RED;
+    }
+    glBindTexture(GL_TEXTURE_2D, id);
+    glTexImage2D(GL_TEXTURE_2D, 0, internal_format, width, height, 0, data_format, GL_UNSIGNED_BYTE, data);
+    glGenerateMipmap(GL_TEXTURE_2D);
 
-  glTextureSubImage2D(id_, 0, 0, 0, width, height, data_format, GL_UNSIGNED_BYTE, data);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+  } else {
+    log::Log("Texture failed to load at path {}", path);
+  }
   stbi_image_free(data);
 }
 GLTexture::~GLTexture() {
-  glDeleteTextures(1, &id_);
+  glDeleteTextures(1, &id);
 }
 void GLTexture::SetData(void *data, uint size) {
-  uint32_t bpp = data_format_ == GL_RGBA ? 4 : 3;
-  if (width * height * bpp != size) {
-    log::Log("Data must be entire texture!");
-    return;
-  }
-  glTextureSubImage2D(id_, 0, 0, 0, width, height, data_format_, GL_UNSIGNED_BYTE, data);
 }
 void GLTexture::Bind(uint slot) const {
-  glBindTextureUnit(slot, id_);
+  glActiveTexture(GL_TEXTURE0);
+  glBindTexture(GL_TEXTURE_2D, id);
 }
 
 }
