@@ -12,7 +12,7 @@ class SandBoxLayer : public Layer {
     controller_ = std::make_unique<Controller>(1280.0f / 720.0f);
   }
   void OnAttach() override {
-    light_shader_ = std::make_shared<GLShader>("assets/shaders/point_light.vs.glsl", "assets/shaders/point_light.fs.glsl");
+    light_shader_ = std::make_shared<GLShader>("assets/shaders/spot_light.vs.glsl", "assets/shaders/spot_light.fs.glsl");
     lamp_shader_ = std::make_shared<GLShader>("assets/shaders/lamp.vs.glsl", "assets/shaders/lamp.fs.glsl");
     diffuse_map_ = std::make_shared<GLTexture>("assets/textures/container2.png");
     specular_map_ = std::make_shared<GLTexture>("assets/textures/container2_specular.png");
@@ -100,18 +100,21 @@ class SandBoxLayer : public Layer {
     Vector3f light_pos = Vector3f(1.2f, 1.0f, 2.0f);
     light_shader_->Use();
     light_shader_->UploadUniformFloat("material.shininess", 32.0f);
-    light_shader_->UploadUniformFloat3("light.ambient", {0.2f, 0.2f, 0.2f});
-    light_shader_->UploadUniformFloat3("light.diffuse", {0.5f, 0.5f, 0.5f});
+    light_shader_->UploadUniformFloat3("light.ambient", {0.1f, 0.1f, 0.1f});
+    light_shader_->UploadUniformFloat3("light.diffuse", {0.8f, 0.8f, 0.8f});
     light_shader_->UploadUniformFloat3("light.specular", {1.0f, 1.0f, 1.0f});
-    light_shader_->UploadUniformFloat3("light.position", light_pos);
+    light_shader_->UploadUniformFloat3("light.position", controller_->camera.position());
+    light_shader_->UploadUniformFloat3("light.direction", controller_->camera.direction());
     light_shader_->UploadUniformFloat("light.constant", 1.0f);
     light_shader_->UploadUniformFloat("light.linear", 0.09f);
     light_shader_->UploadUniformFloat("light.quadratic", 0.032f);
+    light_shader_->UploadUniformFloat("light.cutOff", std::cos(nf::math::radians(12.5f)));
+    light_shader_->UploadUniformFloat("light.outerCutOff", std::cos(nf::math::radians(17.5)));
     Matrix4f projection = controller_->camera.GetProjectionMatrix();
     Matrix4f view = controller_->camera.GetViewMatrix();
     light_shader_->UploadUniformMat4("projection", projection);
     light_shader_->UploadUniformMat4("view", view);
-    light_shader_->UploadUniformFloat3("view_pos", controller_->camera.position());
+    light_shader_->UploadUniformFloat3("viewPos", controller_->camera.position());
     Matrix4f model = Matrix4f::Identity();
     light_shader_->UploadUniformMat4("model", model);
     diffuse_map_->Bind(GL_TEXTURE0);
@@ -126,18 +129,18 @@ class SandBoxLayer : public Layer {
       light_shader_->UploadUniformMat4("model", t.matrix());
       glDrawArrays(GL_TRIANGLES, 0, 36);
     }
-    lamp_shader_->Use();
-    lamp_shader_->UploadUniformMat4("projection", projection);
-    lamp_shader_->UploadUniformMat4("view", view);
-    model = Matrix4f::Identity();
-    Eigen::Affine3f t = Eigen::Affine3f::Identity();
-    t.translate(light_pos);
-    t.scale(0.2f);
-    model = t.matrix();
-    lamp_shader_->UploadUniformMat4("model", model);
+    //lamp_shader_->Use();
+    //lamp_shader_->UploadUniformMat4("projection", projection);
+    //lamp_shader_->UploadUniformMat4("view", view);
+    //model = Matrix4f::Identity();
+    //Eigen::Affine3f t = Eigen::Affine3f::Identity();
+    //t.translate(light_pos);
+    //t.scale(0.2f);
+    //model = t.matrix();
+    //lamp_shader_->UploadUniformMat4("model", model);
 
-    lamp_->Bind();
-    glDrawArrays(GL_TRIANGLES, 0, 36);
+    //lamp_->Bind();
+    //glDrawArrays(GL_TRIANGLES, 0, 36);
   }
   void OnImGuiRender() override {
   }
