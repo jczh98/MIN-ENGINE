@@ -19,28 +19,5 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
-#pragma once
-
-#include "common.h"
-#include "gl_buffer.h"
-
-namespace min::engine {
-
-class GLVertexArray {
-
- public:
-  GLVertexArray();
-  virtual ~GLVertexArray();
-  virtual void Bind() const;
-  virtual void Unbind() const;
-  void AddVertexBuffer(const std::shared_ptr<GLVertexBuffer>& vertex_buffer);
-  void SetIndexBuffer(const std::shared_ptr<GLIndexBuffer>& index_buffer);
- private:
-  uint vao_;
-  uint vertex_buffer_index_ = 0;
-  std::vector<std::shared_ptr<GLVertexBuffer>> vertex_buffers_;
-  std::shared_ptr<GLIndexBuffer> index_buffer_;
-};
-
-}
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"

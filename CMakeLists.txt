@@ -44,6 +44,8 @@ file(GLOB ENGINE_SRC
         src/controller.cc
         src/gl_buffer.cc
         src/gl_vertex_array.cc
+        src/stb_image.cc
+        src/gl_texture.cc
         src/main.cpp)
 
 file(COPY assets
@@ -56,6 +58,7 @@ set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
 
 target_include_directories(${PROJECT_NAME} PUBLIC external/imgui)
 target_include_directories(${PROJECT_NAME} PUBLIC ${OPENGL_INCLUDE_DIR})
+target_include_directories(${PROJECT_NAME} PUBLIC external/stb)
 
 target_link_libraries(${PROJECT_NAME} OpenGL::GL)
 target_link_libraries(${PROJECT_NAME} glfw)

@@ -23,24 +23,19 @@
 #pragma once
 
 #include "common.h"
-#include "gl_buffer.h"
 
 namespace min::engine {
 
-class GLVertexArray {
-
+class GLTexture {
  public:
-  GLVertexArray();
-  virtual ~GLVertexArray();
-  virtual void Bind() const;
-  virtual void Unbind() const;
-  void AddVertexBuffer(const std::shared_ptr<GLVertexBuffer>& vertex_buffer);
-  void SetIndexBuffer(const std::shared_ptr<GLIndexBuffer>& index_buffer);
+  GLTexture(const std::string& path);
+  virtual ~GLTexture();
+  virtual void SetData(void *data, uint size);
+  virtual void Bind(uint slot = 0) const;
+  uint width, height;
  private:
-  uint vao_;
-  uint vertex_buffer_index_ = 0;
-  std::vector<std::shared_ptr<GLVertexBuffer>> vertex_buffers_;
-  std::shared_ptr<GLIndexBuffer> index_buffer_;
+  std::string path_;
+  uint id_;
+  GLenum  internal_format_, data_format_;
 };
-
 }

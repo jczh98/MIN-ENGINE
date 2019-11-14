@@ -65,37 +65,12 @@ class SandBoxLayer : public Layer {
     };
     quad_->SetLayout(layout);
     light_->AddVertexBuffer(quad_);
-    layout = {
-        {ShaderDataType::Float3, "aPos"}
-    };
-    quad_->SetLayout(layout);
     lamp_->AddVertexBuffer(quad_);
-    //glGenVertexArrays(1, &cubeVAO);
-    //glGenBuffers(1, &VBO);
-    //glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    //glBindVertexArray(cubeVAO);
-    //// position attribute
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    //glEnableVertexAttribArray(0);
-    //// normal attribute
-    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    //glEnableVertexAttribArray(1);
-    //// second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
-    //glGenVertexArrays(1, &lightVAO);
-    //glBindVertexArray(lightVAO);
-    //// we only need to bind to the VBO (to link it with glVertexAttribPointer), no need to fill it; the VBO's data already contains all we need (it's already bound, but we do it again for educational purposes)
-    //glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    //glEnableVertexAttribArray(0);
   }
   void OnDetach() override {
-    //glDeleteVertexArrays(1, &cubeVAO);
-    //glDeleteVertexArrays(1, &lightVAO);
-    //glDeleteBuffers(1, &VBO);
-    //light_->Unbind();
-    //lamp_->Unbind();
-    //quad_->Unbind();
+    light_->Unbind();
+    lamp_->Unbind();
+    quad_->Unbind();
   }
   void OnUpdate(TimeStep ts) override {
     controller_->OnUpdate(ts);
@@ -121,7 +96,6 @@ class SandBoxLayer : public Layer {
     Matrix4f model = Matrix4f::Identity();
     light_shader_->UploadUniformMat4("model", model);
     // render the cube
-    //glBindVertexArray(cubeVAO);
     light_->Bind();
     glDrawArrays(GL_TRIANGLES, 0, 36);
     // also draw the lamp object
@@ -135,7 +109,6 @@ class SandBoxLayer : public Layer {
     model = t.matrix();
     lamp_shader_->UploadUniformMat4("model", model);
 
-    //glBindVertexArray(lightVAO);
     lamp_->Bind();
     glDrawArrays(GL_TRIANGLES, 0, 36);
   }
