@@ -62,8 +62,8 @@ GLTexture::~GLTexture() {
 }
 void GLTexture::SetData(void *data, uint size) {
 }
-void GLTexture::Bind(uint slot) const {
-  glActiveTexture(GL_TEXTURE0);
+void GLTexture::Bind(uint unit) const {
+  glActiveTexture(unit);
   glBindTexture(GL_TEXTURE_2D, id);
 }
 
