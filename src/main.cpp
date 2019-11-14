@@ -1,5 +1,6 @@
 #include "application.h"
 #include "gl_shader.h"
+#include "gl_vertex_array.h"
 #include "controller.h"
 
 using namespace min::engine;
@@ -55,29 +56,46 @@ class SandBoxLayer : public Layer {
         -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,
         -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f
     };
-    glGenVertexArrays(1, &cubeVAO);
-    glGenBuffers(1, &VBO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-    glBindVertexArray(cubeVAO);
-    // position attribute
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    // normal attribute
-    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-    // second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
-    glGenVertexArrays(1, &lightVAO);
-    glBindVertexArray(lightVAO);
-    // we only need to bind to the VBO (to link it with glVertexAttribPointer), no need to fill it; the VBO's data already contains all we need (it's already bound, but we do it again for educational purposes)
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
+    lamp_ = std::make_shared<GLVertexArray>();
+    light_ = std::make_shared<GLVertexArray>();
+    quad_ = std::make_shared<GLVertexBuffer>(vertices, sizeof(vertices));
+    BufferLayout layout = {
+        { ShaderDataType::Float3, "aPos"},
+        { ShaderDataType::Float3, "aNormal"}
+    };
+    quad_->SetLayout(layout);
+    light_->AddVertexBuffer(quad_);
+    layout = {
+        {ShaderDataType::Float3, "aPos"}
+    };
+    quad_->SetLayout(layout);
+    lamp_->AddVertexBuffer(quad_);
+    //glGenVertexArrays(1, &cubeVAO);
+    //glGenBuffers(1, &VBO);
+    //glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    //glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    //glBindVertexArray(cubeVAO);
+    //// position attribute
+    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    //glEnableVertexAttribArray(0);
+    //// normal attribute
+    //glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)(3 * sizeof(float)));
+    //glEnableVertexAttribArray(1);
+    //// second, configure the light's VAO (VBO stays the same; the vertices are the same for the light object which is also a 3D cube)
+    //glGenVertexArrays(1, &lightVAO);
+    //glBindVertexArray(lightVAO);
+    //// we only need to bind to the VBO (to link it with glVertexAttribPointer), no need to fill it; the VBO's data already contains all we need (it's already bound, but we do it again for educational purposes)
+    //glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    //glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+    //glEnableVertexAttribArray(0);
   }
   void OnDetach() override {
-    glDeleteVertexArrays(1, &cubeVAO);
-    glDeleteVertexArrays(1, &lightVAO);
-    glDeleteBuffers(1, &VBO);
+    //glDeleteVertexArrays(1, &cubeVAO);
+    //glDeleteVertexArrays(1, &lightVAO);
+    //glDeleteBuffers(1, &VBO);
+    //light_->Unbind();
+    //lamp_->Unbind();
+    //quad_->Unbind();
   }
   void OnUpdate(TimeStep ts) override {
     controller_->OnUpdate(ts);
@@ -98,7 +116,8 @@ class SandBoxLayer : public Layer {
     Matrix4f model = Matrix4f::Identity();
     light_shader_->UploadUniformMat4("model", model);
     // render the cube
-    glBindVertexArray(cubeVAO);
+    //glBindVertexArray(cubeVAO);
+    light_->Bind();
     glDrawArrays(GL_TRIANGLES, 0, 36);
     // also draw the lamp object
     lamp_shader_->Use();
@@ -111,7 +130,8 @@ class SandBoxLayer : public Layer {
     model = t.matrix();
     lamp_shader_->UploadUniformMat4("model", model);
 
-    glBindVertexArray(lightVAO);
+    //glBindVertexArray(lightVAO);
+    lamp_->Bind();
     glDrawArrays(GL_TRIANGLES, 0, 36);
   }
   void OnImGuiRender() override {
@@ -119,10 +139,11 @@ class SandBoxLayer : public Layer {
   void OnEvent(Event &event) override {
     controller_->OnEvent(event);
   }
-  unsigned int VBO, cubeVAO, lightVAO;
  private:
   std::unique_ptr<Controller> controller_;
   std::shared_ptr<GLShader> light_shader_, lamp_shader_;
+  std::shared_ptr<GLVertexArray> light_, lamp_;
+  std::shared_ptr<GLVertexBuffer> quad_;
 };
 class SandBox : public Application {
  public:

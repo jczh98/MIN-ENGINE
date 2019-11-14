@@ -42,6 +42,8 @@ file(GLOB ENGINE_SRC
         src/renderer.cc
         src/camera.cc
         src/controller.cc
+        src/gl_buffer.cc
+        src/gl_vertex_array.cc
         src/main.cpp)
 
 file(COPY assets
