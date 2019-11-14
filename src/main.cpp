@@ -102,15 +102,20 @@ class SandBoxLayer : public Layer {
     Renderer::SetClearColor({0.1, 0.1, 0.1, 1});
     Renderer::Clear();
     light_shader_->Use();
-    light_shader_->UploadUniformFloat3("objectColor", {1.0f, 0.5f, 0.31f});
-    light_shader_->UploadUniformFloat3("lightColor", {1.0f, 1.0f, 1.0f});
+    light_shader_->UploadUniformFloat3("material.ambient", {1.0f, 0.5f, 0.31f});
+    light_shader_->UploadUniformFloat3("material.diffuse", {1.0f, 0.5f, 0.31f});
+    light_shader_->UploadUniformFloat3("material.spcular", {0.5f, 0.5f, 0.5f});
+    light_shader_->UploadUniformFloat("material.shininess", 32.0f);
+    light_shader_->UploadUniformFloat3("light.ambient", {0.2f, 0.2f, 0.2f});
+    light_shader_->UploadUniformFloat3("light.diffuse", {0.5f, 0.5f, 0.5f});
+    light_shader_->UploadUniformFloat3("light.spcular", {1.0f, 1.0f, 1.0f});
     // view/projection transformations
     Matrix4f projection = controller_->camera.GetProjectionMatrix();
     Matrix4f view = controller_->camera.GetViewMatrix();
     light_shader_->UploadUniformMat4("projection", projection);
     light_shader_->UploadUniformMat4("view", view);
     Vector3f light_pos = Vector3f(1.2f, 1.0f, 2.0f);
-    light_shader_->UploadUniformFloat3("lightPos", light_pos);
+    light_shader_->UploadUniformFloat3("light.position", light_pos);
     light_shader_->UploadUniformFloat3("view_pos", controller_->camera.position());
     // world transformation
     Matrix4f model = Matrix4f::Identity();
