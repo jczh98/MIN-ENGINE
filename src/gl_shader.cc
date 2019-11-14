@@ -131,8 +131,11 @@ int GLShader::CheckCompileErrors(uint shader, CompileType type) {
     case CompileType::PROGRAM: {
       glGetProgramiv(shader, GL_LINK_STATUS, &success);
       if (!success) {
+        glGetProgramiv(shader, GL_INFO_LOG_LENGTH, &max_length);
+        info_log.resize(max_length);
         glGetProgramInfoLog(shader, max_length, &max_length, &info_log[0]);
         log::Log(info_log.data());
+        glDeleteProgram(shader);
       }
       break;
     }
