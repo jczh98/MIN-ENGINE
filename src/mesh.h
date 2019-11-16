@@ -19,24 +19,37 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
 #pragma once
 
 #include "common.h"
+#include "gl_vertex_array.h"
+#include "gl_shader.h"
+#include "gl_texture.h"
+#include "gl_render_command.h"
 
 namespace min::engine {
 
-class GLTexture {
- public:
-  GLTexture(const std::string& path);
-  virtual ~GLTexture();
-  virtual void SetData(void *data, uint size);
-  virtual void Bind(uint slot = 0) const;
-  static void BindInitialize() { glActiveTexture(GL_TEXTURE0); }
-  uint width, height;
-  uint id;
- private:
-  std::string path_;
-  GLenum  internal_format_, data_format_;
+struct Vertex {
+  Vector3f position, normal;
+  Vector2f tex_coords;
 };
+
+struct Texture {
+  std::string path;
+  std::string type;
+};
+
+class Mesh {
+ public:
+  Mesh(std::vector<Vertex> &vertices, std::vector<uint> &indices, std::vector<Texture> &textures);
+  void Draw(const std::shared_ptr<GLShader> &shader);
+ private:
+  std::vector<Vertex> vertices_;
+  std::vector<uint> indices_;
+  std::vector<Texture> textures_;
+  std::shared_ptr<GLVertexArray> vertex_array;
+  std::shared_ptr<GLVertexBuffer> vertex_buffer;
+  std::shared_ptr<GLIndexBuffer> index_buffer;
+};
+
 }

@@ -48,6 +48,7 @@ file(GLOB ENGINE_SRC
         src/stb_image.cc
         src/gl_texture.cc
         src/model.cc
+        src/mesh.cc
         src/main.cpp)
 
 file(COPY assets

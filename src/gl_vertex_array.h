@@ -36,11 +36,11 @@ class GLVertexArray {
   virtual void Unbind() const;
   void AddVertexBuffer(const std::shared_ptr<GLVertexBuffer>& vertex_buffer);
   void SetIndexBuffer(const std::shared_ptr<GLIndexBuffer>& index_buffer);
+  std::vector<std::shared_ptr<GLVertexBuffer>> vertex_buffers;
+  std::shared_ptr<GLIndexBuffer> index_buffer;
  private:
   uint vao_;
   uint vertex_buffer_index_ = 0;
-  std::vector<std::shared_ptr<GLVertexBuffer>> vertex_buffers_;
-  std::shared_ptr<GLIndexBuffer> index_buffer_;
 };
 
 }

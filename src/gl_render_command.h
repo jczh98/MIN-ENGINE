@@ -19,24 +19,19 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
 #pragma once
 
 #include "common.h"
+#include "gl_vertex_array.h"
 
 namespace min::engine {
 
-class GLTexture {
+class RenderCommand {
  public:
-  GLTexture(const std::string& path);
-  virtual ~GLTexture();
-  virtual void SetData(void *data, uint size);
-  virtual void Bind(uint slot = 0) const;
-  static void BindInitialize() { glActiveTexture(GL_TEXTURE0); }
-  uint width, height;
-  uint id;
- private:
-  std::string path_;
-  GLenum  internal_format_, data_format_;
+  inline static void DrawIndex(const std::shared_ptr<GLVertexArray>& vertex_array) {
+    glDrawElements(GL_TRIANGLES, vertex_array->index_buffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+    glBindTexture(GL_TEXTURE_2D, 0);
+  }
 };
+
 }
