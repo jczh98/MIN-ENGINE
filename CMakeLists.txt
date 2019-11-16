@@ -17,6 +17,7 @@ find_package(OpenGL REQUIRED)
 include(cmake/cmake-glfw)
 
 add_subdirectory(external/glad)
+add_subdirectory(external/assimp)
 add_subdirectory(external/fmt)
 add_subdirectory(external/nf)
 
@@ -46,6 +47,7 @@ file(GLOB ENGINE_SRC
         src/gl_vertex_array.cc
         src/stb_image.cc
         src/gl_texture.cc
+        src/model.cc
         src/main.cpp)
 
 file(COPY assets
@@ -58,11 +60,18 @@ set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
 
 target_include_directories(${PROJECT_NAME} PUBLIC external/imgui)
 target_include_directories(${PROJECT_NAME} PUBLIC ${OPENGL_INCLUDE_DIR})
-target_include_directories(${PROJECT_NAME} PUBLIC external/stb)
+target_include_directories(${PROJECT_NAME}
+        PUBLIC
+        external/stb
+        external/assimp/include
+        )
 
 target_link_libraries(${PROJECT_NAME} OpenGL::GL)
 target_link_libraries(${PROJECT_NAME} glfw)
 target_link_libraries(${PROJECT_NAME} glad)
 target_link_libraries(${PROJECT_NAME} ${OPENGL_gl_LIBRARY})
-target_link_libraries(${PROJECT_NAME} fmt::fmt)
+target_link_libraries(${PROJECT_NAME}
+        fmt::fmt
+        assimp
+        )
 target_link_libraries(${PROJECT_NAME} nf::math)

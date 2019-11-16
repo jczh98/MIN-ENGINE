@@ -57,9 +57,8 @@ struct BufferElement {
 
   BufferElement() = default;
 
-  BufferElement(ShaderDataType type, const std::string &name, bool normalized = false)
-      : name(name),
-        type(type),
+  BufferElement(ShaderDataType type, bool normalized = false)
+      : type(type),
         size(ShaderDataTypeSize(type)),
         offset(0),
         normalized(normalized) {}
@@ -110,7 +109,7 @@ class BufferLayout {
 
 class GLVertexBuffer {
  public:
-  GLVertexBuffer(float *vertices, uint size);
+  GLVertexBuffer(const std::vector<float> &vertices, uint size);
   virtual ~GLVertexBuffer();
   virtual void Bind() const;
   virtual void Unbind() const;
@@ -123,7 +122,7 @@ class GLVertexBuffer {
 
 class GLIndexBuffer {
  public:
-  GLIndexBuffer(uint *indices, uint count);
+  GLIndexBuffer(const std::vector<uint> &indices, uint count);
   virtual ~GLIndexBuffer();
   virtual void Bind() const;
   virtual void Unbind() const;

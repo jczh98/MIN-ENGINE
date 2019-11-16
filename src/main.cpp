@@ -16,7 +16,7 @@ class SandBoxLayer : public Layer {
     lamp_shader_ = std::make_shared<GLShader>("assets/shaders/lamp.vs.glsl", "assets/shaders/lamp.fs.glsl");
     diffuse_map_ = std::make_shared<GLTexture>("assets/textures/container2.png");
     specular_map_ = std::make_shared<GLTexture>("assets/textures/container2_specular.png");
-    float vertices[] = {
+    std::vector<float> vertices = {
         // positions          // normals           // texture coords
         -0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f,
         0.5f, -0.5f, -0.5f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f,
@@ -80,11 +80,11 @@ class SandBoxLayer : public Layer {
     };
     lamp_ = std::make_shared<GLVertexArray>();
     light_ = std::make_shared<GLVertexArray>();
-    quad_ = std::make_shared<GLVertexBuffer>(vertices, sizeof(vertices));
+    quad_ = std::make_shared<GLVertexBuffer>(vertices, vertices.size());
     BufferLayout layout = {
-        {ShaderDataType::Float3, "aPos"},
-        {ShaderDataType::Float3, "aNormal"},
-        {ShaderDataType::Float2, "aTexCoords"}
+        {ShaderDataType::Float3},
+        {ShaderDataType::Float3},
+        {ShaderDataType::Float2}
     };
     quad_->SetLayout(layout);
     light_->AddVertexBuffer(quad_);
