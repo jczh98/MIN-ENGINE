@@ -49,6 +49,7 @@ class Model {
   std::vector<Texture> LoadMaterialTextures(aiMaterial *material, aiTextureType type, std::string name);
 
   std::vector<Texture> textures_loaded_;
+  std::vector<GLTexture> gl_textures_loaded_;
   std::vector<Mesh> meshes_;
   std::string dir_;
   bool gamma_correction_;

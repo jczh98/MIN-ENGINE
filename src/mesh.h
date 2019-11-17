@@ -41,11 +41,12 @@ struct Texture {
 
 class Mesh {
  public:
-  Mesh(std::vector<Vertex> &vertices, std::vector<uint> &indices, std::vector<Texture> &textures);
+  Mesh(std::vector<Vertex> &vertices, std::vector<uint> &indices, std::vector<Texture> &textures, std::vector<GLTexture> &gl_textures);
   void Draw(const std::shared_ptr<GLShader> &shader);
  private:
   std::vector<Vertex> vertices_;
   std::vector<uint> indices_;
+  std::vector<GLTexture> gl_textures_;
   std::vector<Texture> textures_;
   std::shared_ptr<GLVertexArray> vertex_array;
   std::shared_ptr<GLVertexBuffer> vertex_buffer;

@@ -102,7 +102,7 @@ Mesh Model::ProcessMesh(aiMesh *mesh, const aiScene *scene) {
   std::vector<Texture> height_maps = LoadMaterialTextures(material, aiTextureType_AMBIENT, "texture_height");
   textures.insert(textures.end(), height_maps.begin(), height_maps.end());
 
-  return Mesh(vertices, indices, textures);
+  return Mesh(vertices, indices, textures, gl_textures_loaded_);
 }
 std::vector<Texture> Model::LoadMaterialTextures(aiMaterial *material, aiTextureType type, std::string name) {
   std::vector<Texture> textures;
@@ -119,10 +119,12 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial *material, aiTexture
       }
     }
     if (!skip) {
+      GLTexture gl_texture = GLTexture(this->dir_ + "/" + str.C_Str());
       Texture texture;
       texture.type = name;
-      texture.path = this->dir_ + str.C_Str();
+      texture.path = this->dir_ + "/" + str.C_Str();
       textures.emplace_back(texture);
+      gl_textures_loaded_.emplace_back(gl_texture);
       textures_loaded_.emplace_back(texture);
     }
   }
