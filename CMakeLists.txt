@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.14)
 
 project(min CXX)
 
+option(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
+option(ASSIMP_BUILD_SAMPLES OFF)
+option(ASSIMP_BUILD_TESTS OFF)
+option(ASSIMP_BUILD_M3D_IMPORTER OFF)
+option(ASSIMP_BUILD_M3D_EXPORTER OFF)
+
 set(CMAKE_CXX_STANDARD 17)
 
 if(MSVC)
@@ -49,6 +55,7 @@ file(GLOB ENGINE_SRC
         src/gl_texture.cc
         src/model.cc
         src/mesh.cc
+        src/example/model_loading.h
         src/main.cpp)
 
 file(COPY assets

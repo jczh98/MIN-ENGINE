@@ -22,11 +22,36 @@
 #pragma once
 
 #include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include "gl_shader.h"
+#include "mesh.h"
 
 namespace min::engine {
 
 class Model {
+ public:
+  explicit Model(const std::string &path, bool gamma = false) : gamma_correction_(gamma) {
+    LoadModel(path);
+  }
+  void Draw(const std::shared_ptr<GLShader>& shader) {
+    for (auto & meshe : meshes_) {
+      meshe.Draw(shader);
+    }
+  }
+ private:
+  void LoadModel(const std::string &path);
 
+  void ProcessNode(aiNode *node, const aiScene *scene);
+
+  Mesh ProcessMesh(aiMesh *mesh, const aiScene *scene);
+
+  std::vector<Texture> LoadMaterialTextures(aiMaterial *material, aiTextureType type, std::string name);
+
+  std::vector<Texture> textures_loaded_;
+  std::vector<Mesh> meshes_;
+  std::string dir_;
+  bool gamma_correction_;
 };
 
 }

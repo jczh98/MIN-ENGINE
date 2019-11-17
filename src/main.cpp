@@ -3,6 +3,7 @@
 #include "gl_vertex_array.h"
 #include "controller.h"
 #include "gl_texture.h"
+#include "example/model_loading.h"
 
 using namespace min::engine;
 
@@ -180,7 +181,7 @@ class SandBoxLayer : public Layer {
 class SandBox : public Application {
  public:
   SandBox() {
-    PushLayer(std::make_shared<SandBoxLayer>());
+    PushLayer(std::make_shared<ModelLoadingLayer>());
   }
 };
 int main() {

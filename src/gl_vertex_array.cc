@@ -77,7 +77,7 @@ void GLVertexArray::AddVertexBuffer(const std::shared_ptr<GLVertexBuffer> &verte
 void GLVertexArray::SetIndexBuffer(const std::shared_ptr<GLIndexBuffer> &index_buffer) {
   glBindVertexArray(vao_);
   index_buffer->Bind();
-  index_buffer = index_buffer;
+  this->index_buffer = index_buffer;
 }
 
 }
