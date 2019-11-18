@@ -32,25 +32,88 @@ namespace min::engine {
 struct Vertex {
   Vector3f position, normal;
   Vector2f tex_coords;
+  Vector3f tangent, bitangent;
 };
 
 struct Texture {
+  uint id;
   std::string path;
   std::string type;
 };
-
+/**
 class Mesh {
  public:
-  Mesh(std::vector<Vertex> &vertices, std::vector<uint> &indices, std::vector<Texture> &textures, std::vector<GLTexture> &gl_textures);
+  Mesh(std::vector<Vertex> &vertices, std::vector<uint> &indices, std::vector<Texture> &textures);
   void Draw(const std::shared_ptr<GLShader> &shader);
  private:
   std::vector<Vertex> vertices_;
   std::vector<uint> indices_;
-  std::vector<GLTexture> gl_textures_;
   std::vector<Texture> textures_;
   std::shared_ptr<GLVertexArray> vertex_array;
   std::shared_ptr<GLVertexBuffer> vertex_buffer;
   std::shared_ptr<GLIndexBuffer> index_buffer;
+};
+**/
+class Mesh {
+ public:
+  Mesh(std::vector<Vertex> vertices,
+       std::vector<unsigned int> indices,
+       std::vector<Texture> textures)
+      : vertices(vertices),
+        indices(indices),
+        textures(textures) {
+    SetUpMesh();
+  }
+
+  void Draw(const std::shared_ptr<GLShader> shader) {
+    uint diffuse_nr = 1;
+    uint specular_nr = 1;
+    uint normal_nr = 1;
+    uint height_nr = 1;
+    for (uint i = 0; i < textures.size(); i++) {
+      glActiveTexture(GL_TEXTURE0 + i);
+      std::string number, name = textures[i].type;
+      if (name == "texture_diffuse") number = std::to_string(diffuse_nr++);
+      else if (name == "texture_specular") number = std::to_string(specular_nr++);
+      else if (name == "texture_normal") number = std::to_string(normal_nr++);
+      else if (name == "texture_height") number = std::to_string(height_nr++);
+      shader->UploadUniformInt(name+number, i);
+      glBindTexture(GL_TEXTURE_2D, textures[i].id);
+    }
+    glBindVertexArray(VAO);
+    glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+    glBindVertexArray(0);
+    glActiveTexture(GL_TEXTURE0);
+  }
+  unsigned int VAO;
+  std::vector<Vertex> vertices;
+  std::vector<unsigned int> indices;
+  std::vector<Texture> textures;
+ private:
+  void SetUpMesh() {
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO_);
+    glGenBuffers(1, &EBO_);
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO_);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(Vertex), &vertices[0], GL_STATIC_DRAW);
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO_);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), &indices[0], GL_STATIC_DRAW);
+
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, normal));
+    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tex_coords));
+    glEnableVertexAttribArray(3);
+    glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, tangent));
+    glEnableVertexAttribArray(4);
+    glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, bitangent));
+    glBindVertexArray(0);
+  }
+  unsigned VBO_, EBO_;
 };
 
 }

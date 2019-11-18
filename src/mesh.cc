@@ -23,11 +23,10 @@
 
 namespace min::engine {
 
-Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<uint> &indices, std::vector<Texture> &textures, std::vector<GLTexture> &gl_textures)
+Mesh::Mesh(std::vector<Vertex> &vertices, std::vector<uint> &indices, std::vector<Texture> &textures)
     : vertices_(vertices),
       indices_(indices),
-      textures_(textures),
-      gl_textures_(gl_textures) {
+      textures_(textures) {
   vertex_array = std::make_shared<GLVertexArray>();
   std::vector<float> datas;
   for (auto vert : vertices) {
@@ -59,13 +58,12 @@ void Mesh::Draw(const std::shared_ptr<GLShader> &shader) {
   uint height_nr = 1;
   for (uint i = 0; i < textures_.size(); i++) {
     std::string name = textures_[i].type, number;
-    std::cout << name << std::endl;
     if (name == "texture_diffuse") number = std::to_string(diffuse_nr++);
     else if (name == "texture_specular") number = std::to_string(specular_nr++);
     else if (name == "texture_normal") number = std::to_string(normal_nr++);
     else if (name == "texture_height") number = std::to_string(height_nr++);
     shader->UploadUniformInt(name+number, i);
-    gl_textures_[i].Bind(GL_TEXTURE0 + i);
+    GLTexture::Bind(GL_TEXTURE0 + i, textures_[i].id);
   }
   vertex_array->Bind();
   RenderCommand::DrawIndex(vertex_array);

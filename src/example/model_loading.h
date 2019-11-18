@@ -42,7 +42,7 @@ class ModelLoadingLayer : public Layer {
   }
   void OnUpdate(TimeStep ts) override {
     controller_->OnUpdate(ts);
-    Renderer::SetClearColor({0.1, 0.1, 0.1, 1});
+    Renderer::SetClearColor({0.05f, 0.05f, 0.05f, 1});
     Renderer::Clear();
     shader_->Use();
     Matrix4f projection = controller_->camera.GetProjectionMatrix();

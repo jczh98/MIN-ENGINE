@@ -5,8 +5,12 @@ project(min CXX)
 option(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
 option(ASSIMP_BUILD_SAMPLES OFF)
 option(ASSIMP_BUILD_TESTS OFF)
-option(ASSIMP_BUILD_M3D_IMPORTER OFF)
-option(ASSIMP_BUILD_M3D_EXPORTER OFF)
+set(ASSIMP_BUILD_ALL_IMPORTERS_BY_DEFAULT OFF)
+set(ASSIMP_BUILD_ALL_EXPORTERS_BY_DEFAULT OFF)
+set(ASSIMP_BUILD_OBJ_IMPORTER ON)
+set(ASSIMP_BUILD_STL_IMPORTER ON)
+set(ASSIMP_BUILD_PLY_IMPORTER ON)
+set(ASSIMP_BUILD_OBJ_EXPORTER ON)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -54,7 +58,6 @@ file(GLOB ENGINE_SRC
         src/stb_image.cc
         src/gl_texture.cc
         src/model.cc
-        src/mesh.cc
         src/example/model_loading.h
         src/main.cpp)
 

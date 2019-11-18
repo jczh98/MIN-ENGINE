@@ -66,5 +66,9 @@ void GLTexture::Bind(uint unit) const {
   glActiveTexture(unit);
   glBindTexture(GL_TEXTURE_2D, id);
 }
+void GLTexture::Bind(uint slot, GLint id) {
+  glActiveTexture(slot);
+  glBindTexture(GL_TEXTURE_2D, id);
+}
 
 }
