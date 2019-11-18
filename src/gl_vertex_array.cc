@@ -72,12 +72,12 @@ void GLVertexArray::AddVertexBuffer(const std::shared_ptr<GLVertexBuffer> &verte
                           (const void *) element.offset);
     vertex_buffer_index_++;
   }
-  vertex_buffers_.emplace_back(vertex_buffer);
+  vertex_buffers.emplace_back(vertex_buffer);
 }
 void GLVertexArray::SetIndexBuffer(const std::shared_ptr<GLIndexBuffer> &index_buffer) {
   glBindVertexArray(vao_);
   index_buffer->Bind();
-  index_buffer_ = index_buffer;
+  this->index_buffer = index_buffer;
 }
 
 }

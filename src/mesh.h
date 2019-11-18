@@ -19,39 +19,38 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#pragma once
 
-#include "gl_buffer.h"
+#include "common.h"
+#include "gl_vertex_array.h"
+#include "gl_shader.h"
+#include "gl_texture.h"
+#include "gl_render_command.h"
 
 namespace min::engine {
 
-GLVertexBuffer::GLVertexBuffer(const std::vector<float> &vertices, uint size) {
-  glGenBuffers(1, &vbo_);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-  glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), &vertices[0], GL_STATIC_DRAW);
-}
-GLVertexBuffer::~GLVertexBuffer() {
-  glDeleteBuffers(1, &vbo_);
-}
-void GLVertexBuffer::Bind() const {
-  glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-}
-void GLVertexBuffer::Unbind() const {
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
+struct Vertex {
+  Vector3f position, normal;
+  Vector2f tex_coords;
+};
 
-GLIndexBuffer::GLIndexBuffer(const std::vector<uint> &indices, uint count) {
-  glGenBuffers(1, &ebo_);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint), &indices[0], GL_STATIC_DRAW);
-}
-GLIndexBuffer::~GLIndexBuffer() {
-  glDeleteBuffers(1, &ebo_);
-}
-void GLIndexBuffer::Bind() const {
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_);
-}
-void GLIndexBuffer::Unbind() const {
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
+struct Texture {
+  std::string path;
+  std::string type;
+};
+
+class Mesh {
+ public:
+  Mesh(std::vector<Vertex> &vertices, std::vector<uint> &indices, std::vector<Texture> &textures, std::vector<GLTexture> &gl_textures);
+  void Draw(const std::shared_ptr<GLShader> &shader);
+ private:
+  std::vector<Vertex> vertices_;
+  std::vector<uint> indices_;
+  std::vector<GLTexture> gl_textures_;
+  std::vector<Texture> textures_;
+  std::shared_ptr<GLVertexArray> vertex_array;
+  std::shared_ptr<GLVertexBuffer> vertex_buffer;
+  std::shared_ptr<GLIndexBuffer> index_buffer;
+};
 
 }

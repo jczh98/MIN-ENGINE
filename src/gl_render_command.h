@@ -19,39 +19,19 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#pragma once
 
-#include "gl_buffer.h"
+#include "common.h"
+#include "gl_vertex_array.h"
 
 namespace min::engine {
 
-GLVertexBuffer::GLVertexBuffer(const std::vector<float> &vertices, uint size) {
-  glGenBuffers(1, &vbo_);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-  glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), &vertices[0], GL_STATIC_DRAW);
-}
-GLVertexBuffer::~GLVertexBuffer() {
-  glDeleteBuffers(1, &vbo_);
-}
-void GLVertexBuffer::Bind() const {
-  glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-}
-void GLVertexBuffer::Unbind() const {
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
-
-GLIndexBuffer::GLIndexBuffer(const std::vector<uint> &indices, uint count) {
-  glGenBuffers(1, &ebo_);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint), &indices[0], GL_STATIC_DRAW);
-}
-GLIndexBuffer::~GLIndexBuffer() {
-  glDeleteBuffers(1, &ebo_);
-}
-void GLIndexBuffer::Bind() const {
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_);
-}
-void GLIndexBuffer::Unbind() const {
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
+class RenderCommand {
+ public:
+  inline static void DrawIndex(const std::shared_ptr<GLVertexArray>& vertex_array) {
+    glDrawElements(GL_TRIANGLES, vertex_array->index_buffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+    glBindTexture(GL_TEXTURE_2D, 0);
+  }
+};
 
 }

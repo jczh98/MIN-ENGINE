@@ -32,6 +32,7 @@ class GLTexture {
   virtual ~GLTexture();
   virtual void SetData(void *data, uint size);
   virtual void Bind(uint slot = 0) const;
+  static void BindInitialize() { glActiveTexture(GL_TEXTURE0); }
   uint width, height;
   uint id;
  private:

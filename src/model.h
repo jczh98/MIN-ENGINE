@@ -19,39 +19,40 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+#pragma once
 
-#include "gl_buffer.h"
+#include <assimp/Importer.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
+#include "gl_shader.h"
+#include "mesh.h"
 
 namespace min::engine {
 
-GLVertexBuffer::GLVertexBuffer(const std::vector<float> &vertices, uint size) {
-  glGenBuffers(1, &vbo_);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-  glBufferData(GL_ARRAY_BUFFER, size * sizeof(float), &vertices[0], GL_STATIC_DRAW);
-}
-GLVertexBuffer::~GLVertexBuffer() {
-  glDeleteBuffers(1, &vbo_);
-}
-void GLVertexBuffer::Bind() const {
-  glBindBuffer(GL_ARRAY_BUFFER, vbo_);
-}
-void GLVertexBuffer::Unbind() const {
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-}
+class Model {
+ public:
+  explicit Model(const std::string &path, bool gamma = false) : gamma_correction_(gamma) {
+    LoadModel(path);
+  }
+  void Draw(const std::shared_ptr<GLShader>& shader) {
+    for (auto & meshe : meshes_) {
+      meshe.Draw(shader);
+    }
+  }
+ private:
+  void LoadModel(const std::string &path);
 
-GLIndexBuffer::GLIndexBuffer(const std::vector<uint> &indices, uint count) {
-  glGenBuffers(1, &ebo_);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint), &indices[0], GL_STATIC_DRAW);
-}
-GLIndexBuffer::~GLIndexBuffer() {
-  glDeleteBuffers(1, &ebo_);
-}
-void GLIndexBuffer::Bind() const {
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_);
-}
-void GLIndexBuffer::Unbind() const {
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-}
+  void ProcessNode(aiNode *node, const aiScene *scene);
+
+  Mesh ProcessMesh(aiMesh *mesh, const aiScene *scene);
+
+  std::vector<Texture> LoadMaterialTextures(aiMaterial *material, aiTextureType type, std::string name);
+
+  std::vector<Texture> textures_loaded_;
+  std::vector<GLTexture> gl_textures_loaded_;
+  std::vector<Mesh> meshes_;
+  std::string dir_;
+  bool gamma_correction_;
+};
 
 }
