@@ -59,6 +59,7 @@ file(GLOB ENGINE_SRC
         src/gl_texture.cc
         src/model.cc
         src/example/model_loading.h
+        src/example/shadow_map.h
         src/main.cpp)
 
 file(COPY assets
