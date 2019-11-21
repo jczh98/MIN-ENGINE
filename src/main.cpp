@@ -4,6 +4,7 @@
 #include "controller.h"
 #include "gl_texture.h"
 #include "example/model_loading.h"
+#include "example/shadow_map.h"
 
 using namespace min::engine;
 
@@ -181,7 +182,7 @@ class SandBoxLayer : public Layer {
 class SandBox : public Application {
  public:
   SandBox() {
-    PushLayer(std::make_shared<ModelLoadingLayer>());
+    PushLayer(std::make_shared<ShadowMap>());
   }
 };
 int main() {
