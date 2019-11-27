@@ -7,7 +7,9 @@
     <mapping directory="$PROJECT_DIR$/external/fmt" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/imgui" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/nf" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/external/nf/3rdparty/cereal" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/nf/3rdparty/eigen3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/external/nf/3rdparty/json" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/external/stb" vcs="Git" />
   </component>
 </project>

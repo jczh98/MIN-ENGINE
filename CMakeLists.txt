@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.14)
 
 project(min CXX)
 
+set(ENGINE_NAME min-engine)
+set(TRACER_NAME min-tracer)
+
 option(ASSIMP_BUILD_ASSIMP_TOOLS OFF)
 option(ASSIMP_BUILD_SAMPLES OFF)
 option(ASSIMP_BUILD_TESTS OFF)
@@ -38,6 +41,9 @@ file(GLOB IMGUI_SRC
         external/imgui/*.h
         )
 
+file(GLOB TRACER_SRC
+        src/tracer/core/parallel.cc)
+
 file(GLOB ENGINE_SRC
         src/common.h
         src/log.h
@@ -65,25 +71,26 @@ file(GLOB ENGINE_SRC
 file(COPY assets
         DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/bin)
 
-add_executable(${PROJECT_NAME} ${ENGINE_SRC} ${IMGUI_SRC})
+add_executable(${ENGINE_NAME} ${ENGINE_SRC} ${IMGUI_SRC})
+add_executable(${TRACER_NAME} ${TRACER_SRC})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
+set_target_properties(${ENGINE_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY
         "${CMAKE_CURRENT_BINARY_DIR}/bin")
 
-target_include_directories(${PROJECT_NAME} PUBLIC external/imgui)
-target_include_directories(${PROJECT_NAME} PUBLIC ${OPENGL_INCLUDE_DIR})
-target_include_directories(${PROJECT_NAME}
+target_include_directories(${ENGINE_NAME}
         PUBLIC
+        external/imgui
+        ${OPENGL_INCLUDE_DIR}
         external/stb
         external/assimp/include
         )
 
-target_link_libraries(${PROJECT_NAME} OpenGL::GL)
-target_link_libraries(${PROJECT_NAME} glfw)
-target_link_libraries(${PROJECT_NAME} glad)
-target_link_libraries(${PROJECT_NAME} ${OPENGL_gl_LIBRARY})
-target_link_libraries(${PROJECT_NAME}
+target_link_libraries(${ENGINE_NAME}
+        glfw
+        glad
+        ${OPENGL_gl_LIBRARY}
+        OpenGL::GL
         fmt::fmt
         assimp
+        nf::math
         )
-target_link_libraries(${PROJECT_NAME} nf::math)
